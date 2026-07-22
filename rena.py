@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import math
 from dataclasses import dataclass
 from pathlib import Path
@@ -224,6 +225,17 @@ def group_points(ena_set: ENASet, metadata_key: str, group_value: str) -> np.nda
     return ena_set.points[np.asarray(mask, dtype=bool)]
 
 
+def group_mask(ena_set: ENASet, metadata_key: str, group_value: str) -> np.ndarray:
+    return np.asarray(
+        [meta[metadata_key] == group_value for meta in ena_set.enadata.unit_metadata],
+        dtype=bool,
+    )
+
+
+def group_network(ena_set: ENASet, metadata_key: str, group_value: str) -> np.ndarray:
+    return mean_network(ena_set, group_mask(ena_set, metadata_key, group_value))
+
+
 def welch_ttest(x: np.ndarray, y: np.ndarray) -> dict[str, float | list[float]]:
     from scipy import stats
 
@@ -284,6 +296,25 @@ def mann_whitney(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
         "n_x": int(len(x)),
         "n_y": int(len(y)),
         "effect_r_approx": float(effect_r),
+    }
+
+
+def summarize_group_point_tests(
+    first_points: np.ndarray,
+    second_points: np.ndarray,
+    test_labels: tuple[str, str] = ("dimension_1", "dimension_2"),
+) -> dict[str, dict[str, dict[str, float | list[float]]]]:
+    first_points = np.asarray(first_points, dtype=float)
+    second_points = np.asarray(second_points, dtype=float)
+    return {
+        "welch_t_test": {
+            test_labels[0]: welch_ttest(first_points[:, 0], second_points[:, 0]),
+            test_labels[1]: welch_ttest(first_points[:, 1], second_points[:, 1]),
+        },
+        "mann_whitney_u": {
+            test_labels[0]: mann_whitney(first_points[:, 0], second_points[:, 0]),
+            test_labels[1]: mann_whitney(first_points[:, 1], second_points[:, 1]),
+        },
     }
 
 
@@ -349,11 +380,299 @@ def plot_point_set(
         )
 
 
+def _apply_reference_axes(ax) -> None:
+    ax.axhline(0, color="#cccccc", linewidth=0.8)
+    ax.axvline(0, color="#cccccc", linewidth=0.8)
+
+
+def create_points_ci_plot(
+    points: np.ndarray,
+    color: str,
+    label: str,
+    title: str,
+    figsize: tuple[float, float] = (6, 6),
+):
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=figsize)
+    plot_points_with_ci(ax, points, color, label)
+    ax.set_title(title)
+    _apply_reference_axes(ax)
+    ax.legend()
+    return fig, ax
+
+
+def create_points_ci_overlay_plot(
+    point_groups: Sequence[tuple[np.ndarray, str, str]],
+    title: str,
+    figsize: tuple[float, float] = (7, 6),
+):
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=figsize)
+    for points, color, label in point_groups:
+        plot_points_with_ci(ax, points, color, label)
+    ax.set_title(title)
+    _apply_reference_axes(ax)
+    ax.legend()
+    return fig, ax
+
+
+def create_network_plot(
+    ena_set: ENASet,
+    network: np.ndarray,
+    title: str,
+    figsize: tuple[float, float] = (7, 6),
+):
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=figsize)
+    plot_network(ena_set, network, title=title, ax=ax)
+    return fig, ax
+
+
+def create_network_with_point_groups_plot(
+    ena_set: ENASet,
+    network: np.ndarray,
+    point_groups: Sequence[dict[str, object]],
+    title: str,
+    figsize: tuple[float, float] = (7, 6),
+    show_legend: bool = False,
+):
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=figsize)
+    plot_network(ena_set, network, title=title, ax=ax)
+    for group in point_groups:
+        plot_point_set(
+            ax,
+            np.asarray(group["points"], dtype=float),
+            str(group["color"]),
+            label=str(group["label"]) if group.get("label") is not None else None,
+            alpha=float(group.get("alpha", 0.65)),
+            size=float(group.get("size", 25.0)),
+            show_mean=bool(group.get("show_mean", True)),
+            mean_size=float(group.get("mean_size", 100.0)),
+            zorder=int(group.get("zorder", 4)),
+        )
+    if show_legend:
+        ax.legend()
+    return fig, ax
+
+
+def create_individual_network_plot(
+    ena_set: ENASet,
+    network: np.ndarray,
+    point: np.ndarray,
+    point_color: str,
+    title: str,
+    point_label: str | None = None,
+    figsize: tuple[float, float] = (7, 6),
+    point_size: float = 80.0,
+    show_legend: bool = False,
+):
+    return create_network_with_point_groups_plot(
+        ena_set=ena_set,
+        network=network,
+        point_groups=[
+            {
+                "points": point,
+                "color": point_color,
+                "label": point_label,
+                "size": point_size,
+                "show_mean": False,
+                "zorder": 5,
+            }
+        ],
+        title=title,
+        figsize=figsize,
+        show_legend=show_legend,
+    )
+
+
 def save_figure(fig, path: str | Path) -> None:
     import matplotlib.pyplot as plt
 
     fig.savefig(path, dpi=200, bbox_inches="tight")
     plt.close(fig)
+
+
+def generate_example_outputs(
+    ena_set: ENASet,
+    output_dir: str | Path,
+    first_group: str = "FirstGame",
+    second_group: str = "SecondGame",
+    group_column: str = "Condition",
+    first_color: str = "#ff0000",
+    second_color: str = "#0000ff",
+    first_unit: str = "FirstGame::steven z",
+    second_unit: str = "SecondGame::samuel o",
+    individual_subtract_multiplier: float = 5.0,
+) -> dict[str, object]:
+    output_dir = Path(output_dir)
+    output_dir.mkdir(exist_ok=True)
+
+    first_network = group_network(ena_set, group_column, first_group)
+    second_network = group_network(ena_set, group_column, second_group)
+    diff_network = subtract_networks(first_network, second_network)
+    first_points = group_points(ena_set, group_column, first_group)
+    second_points = group_points(ena_set, group_column, second_group)
+
+    unit_labels = ena_set.unit_labels
+    first_unit_index = find_unit_index(unit_labels, first_unit)
+    second_unit_index = find_unit_index(unit_labels, second_unit)
+
+    first_unit_label = unit_labels[first_unit_index]
+    second_unit_label = unit_labels[second_unit_index]
+    first_unit_network = ena_set.line_weights[first_unit_index]
+    second_unit_network = ena_set.line_weights[second_unit_index]
+    first_unit_point = ena_set.points[first_unit_index:first_unit_index + 1]
+    second_unit_point = ena_set.points[second_unit_index:second_unit_index + 1]
+    diff_unit_network = subtract_networks(first_unit_network, second_unit_network) * individual_subtract_multiplier
+
+    stats_summary = summarize_group_point_tests(first_points, second_points)
+
+    figures: list[tuple[object, Path]] = []
+    figures.append((
+        create_network_plot(ena_set, first_network, title=f"{first_group} Mean Network")[0],
+        output_dir / f"{first_group.lower()}_mean_network.png",
+    ))
+    figures.append((
+        create_network_plot(ena_set, second_network, title=f"{second_group} Mean Network")[0],
+        output_dir / f"{second_group.lower()}_mean_network.png",
+    ))
+    figures.append((
+        create_network_plot(
+            ena_set,
+            diff_network,
+            title=f"Subtracted Mean Network: {first_group} - {second_group}",
+        )[0],
+        output_dir / "subtracted_mean_network.png",
+    ))
+    figures.append((
+        create_points_ci_plot(
+            first_points,
+            first_color,
+            first_group,
+            f"{first_group} Points, Mean, and 95% CI",
+        )[0],
+        output_dir / f"{first_group.lower()}_points_ci.png",
+    ))
+    figures.append((
+        create_points_ci_plot(
+            second_points,
+            second_color,
+            second_group,
+            f"{second_group} Points, Mean, and 95% CI",
+        )[0],
+        output_dir / f"{second_group.lower()}_points_ci.png",
+    ))
+    figures.append((
+        create_points_ci_overlay_plot(
+            [
+                (first_points, first_color, first_group),
+                (second_points, second_color, second_group),
+            ],
+            title=f"{first_group} vs {second_group} Points, Means, and 95% CI",
+        )[0],
+        output_dir / "group_points_overlay.png",
+    ))
+    figures.append((
+        create_network_with_point_groups_plot(
+            ena_set,
+            first_network,
+            point_groups=[{"points": first_points, "color": first_color}],
+            title=f"{first_group} Mean Network and Points",
+        )[0],
+        output_dir / f"{first_group.lower()}_network_with_points.png",
+    ))
+    figures.append((
+        create_network_with_point_groups_plot(
+            ena_set,
+            second_network,
+            point_groups=[{"points": second_points, "color": second_color}],
+            title=f"{second_group} Mean Network and Points",
+        )[0],
+        output_dir / f"{second_group.lower()}_network_with_points.png",
+    ))
+    figures.append((
+        create_network_with_point_groups_plot(
+            ena_set,
+            diff_network,
+            point_groups=[
+                {"points": first_points, "color": first_color, "label": first_group, "alpha": 0.55},
+                {"points": second_points, "color": second_color, "label": second_group, "alpha": 0.55},
+            ],
+            title="Subtracted Mean Network with Group Points",
+            show_legend=True,
+        )[0],
+        output_dir / "subtracted_network_with_points.png",
+    ))
+    figures.append((
+        create_individual_network_plot(
+            ena_set,
+            first_unit_network,
+            first_unit_point,
+            first_color,
+            title=f"Individual Network: {first_unit_label}",
+        )[0],
+        output_dir / f"individual_{first_group.lower()}_network.png",
+    ))
+    figures.append((
+        create_individual_network_plot(
+            ena_set,
+            second_unit_network,
+            second_unit_point,
+            second_color,
+            title=f"Individual Network: {second_unit_label}",
+        )[0],
+        output_dir / f"individual_{second_group.lower()}_network.png",
+    ))
+    figures.append((
+        create_network_with_point_groups_plot(
+            ena_set,
+            diff_unit_network,
+            point_groups=[
+                {
+                    "points": first_unit_point,
+                    "color": first_color,
+                    "label": first_unit_label,
+                    "size": 80,
+                    "show_mean": False,
+                    "zorder": 5,
+                },
+                {
+                    "points": second_unit_point,
+                    "color": second_color,
+                    "label": second_unit_label,
+                    "size": 80,
+                    "show_mean": False,
+                    "zorder": 5,
+                },
+            ],
+            title=f"Subtracted network: {first_unit_label} (red) - {second_unit_label} (blue)",
+            show_legend=True,
+        )[0],
+        output_dir / "subtracted_individual_network.png",
+    ))
+
+    for fig, path in figures:
+        save_figure(fig, path)
+
+    summary_path = output_dir / "statistical_summary.json"
+    summary_path.write_text(json.dumps(stats_summary, indent=2), encoding="utf-8")
+
+    return {
+        "stats_summary": stats_summary,
+        "first_points": first_points,
+        "second_points": second_points,
+        "first_network": first_network,
+        "second_network": second_network,
+        "diff_network": diff_network,
+        "first_unit_label": first_unit_label,
+        "second_unit_label": second_unit_label,
+        "generated_files": sorted(path.name for _, path in figures) + [summary_path.name],
+    }
 
 
 def accumulate_data(
@@ -778,6 +1097,5 @@ def plot_network(
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlim(x_min - x_pad, x_max + x_pad)
     ax.set_ylim(y_min - y_pad, y_max + y_pad)
-    ax.axhline(0, color="#cccccc", linewidth=0.8)
-    ax.axvline(0, color="#cccccc", linewidth=0.8)
+    _apply_reference_axes(ax)
     return ax
