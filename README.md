@@ -256,48 +256,12 @@ SecondGame,B,G2,1,1,0,1
 
 ## Skill
 
-A reusable Codex skill named `interpret-ena-results` has been created at:
+A reusable Codex skill named `interpret-ena-results` is included in this repository:
 
-- [tool/pyENA/skills/interpret-ena-results/SKILL.md](/Users/owen/Library/CloudStorage/GoogleDrive-cfleu198@gmail.com/我的雲端硬碟/Academia/論文 - 編寫中/topic - ENA/tool/pyENA/skills/interpret-ena-results/SKILL.md)
+- `skills/interpret-ena-results/`
 
-This skill is designed to explain ENA outputs using the interpretive logic shown in:
+To install it for Codex, copy or symlink that folder into your local Codex skills directory:
 
-- Shaffer, Collier, and Ruis (2016), *A Tutorial on Epistemic Network Analysis*
-- Shaffer and Ruis (2017), *Epistemic Network Analysis: A Worked Example of Theory-Based Learning Analytics*
-
-It focuses on how to interpret:
-
-- ENA point distributions
-- confidence intervals
-- Welch t-tests and Mann-Whitney U tests
-- mean networks
-- subtracted networks
-- paper-ready ENA results sections
-
-### Usage
-
-If you want Codex to auto-discover the repo copy of this skill, place or symlink the `interpret-ena-results` folder into `~/.codex/skills/`.
-
-In Codex, invoke it explicitly with prompts such as:
-
-```text
-Use $interpret-ena-results to explain tool/pyENA/outputs/statistical_summary.json in paper-ready Chinese.
+```bash
+ln -s "$(pwd)/skills/interpret-ena-results" ~/.codex/skills/interpret-ena-results
 ```
-
-```text
-Use $interpret-ena-results to interpret the FirstGame vs SecondGame ENA plots and write a results section.
-```
-
-```text
-Use $interpret-ena-results to explain which edges in the subtracted network are driving the group difference.
-```
-
-### Recommended Inputs
-
-The skill works best when you provide one or more of the following:
-
-- `outputs/statistical_summary.json`
-- mean network plots
-- subtracted network plots
-- point plots with confidence intervals
-- original coded text or excerpts for closing the interpretive loop
