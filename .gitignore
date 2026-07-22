@@ -5,8 +5,10 @@ __pycache__/
 .venv/
 .pytest_cache/
 .mypy_cache/
+build/
+dist/
+*.egg-info/
 
 outputs/
 *.png
 *.pdf
-

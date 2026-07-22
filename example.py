@@ -3,9 +3,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from rena import (
+from pyena import (
     ena,
-    generate_example_outputs,
+    generate_analysis_outputs,
     validate_rs_data,
 )
 
@@ -43,16 +43,16 @@ def main() -> None:
         groups=("FirstGame", "SecondGame"),
     )
 
-    outputs = generate_example_outputs(
+    outputs = generate_analysis_outputs(
         ena_set=ena_set,
         output_dir=output_dir,
-        first_group="FirstGame",
-        second_group="SecondGame",
+        group_a_label="FirstGame",
+        group_b_label="SecondGame",
         group_column="Condition",
-        first_color=FIRST_COLOR,
-        second_color=SECOND_COLOR,
-        first_unit="FirstGame::steven z",
-        second_unit="SecondGame::samuel o",
+        group_a_color=FIRST_COLOR,
+        group_b_color=SECOND_COLOR,
+        focus_unit_a="FirstGame::steven z",
+        focus_unit_b="SecondGame::samuel o",
     )
     stats_summary = outputs["stats_summary"]
 

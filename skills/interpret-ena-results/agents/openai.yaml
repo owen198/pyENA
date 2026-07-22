@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interpret ENA Results"
+  short_description: "Explain ENA outputs with Shaffer-style logic"
+  default_prompt: "Use $interpret-ena-results to explain ENA points, mean networks, subtracted networks, and statistical tests in a paper-ready style."

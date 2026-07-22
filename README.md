@@ -16,21 +16,35 @@ It currently supports:
 
 ## Files
 
-- `rena.py`: core ENA implementation
+- `src/pyena/rena.py`: core ENA implementation
+- `src/pyena/__init__.py`: public package API
 - `example.py`: end-to-end example using `RS.data.csv`
 - `RS.data.csv`: handbook example dataset exported from `rENA::RS.data`
-- `requirements.txt`: Python dependencies
+- `pyproject.toml`: package metadata for `pip install git+...`
+- `requirements.txt`: optional local dependency list
 
 ## Requirements
 
 - Python 3.10+
 
-Install dependencies with:
+Install from GitHub with:
+
+```bash
+pip install git+https://github.com/owen198/pyENA.git
+```
+
+Then import it in any Python project with:
+
+```python
+from pyena import ena, generate_analysis_outputs
+```
+
+For local development, you can still create a virtual environment and install in editable mode:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ## Quick Start
@@ -39,15 +53,20 @@ Run the example:
 
 ```bash
 source .venv/bin/activate
+pip install -e .
 python3 example.py
 ```
+
+`example.py` now assumes that `pyENA` has already been installed into the active environment. This keeps the script simple and avoids manual `sys.path` manipulation.
+
+If you already installed `pyENA` from GitHub into another project, you do not need this repository layout. The `example.py` file is mainly for reproducing the handbook workflow from this repo.
 
 The script will:
 
 - read `RS.data.csv`
 - build an ENA model with `MovingStanzaWindow`
 - rotate the space using the means of `FirstGame` and `SecondGame`
-- call `generate_example_outputs(...)` to generate mean networks, subtracted networks, point plots, and individual comparison plots
+- call `generate_analysis_outputs(...)` to generate mean networks, subtracted networks, point plots, and individual comparison plots
 - save all outputs to `outputs/`
 - print the statistical summary to the terminal
 
@@ -68,7 +87,7 @@ Running `example.py` will generate files such as:
 ```python
 from pathlib import Path
 
-from rena import ena, generate_example_outputs
+from pyena import ena, generate_analysis_outputs
 
 data_path = Path("RS.data.csv")
 
@@ -95,16 +114,16 @@ ena_set = ena(
     groups=("FirstGame", "SecondGame"),
 )
 
-outputs = generate_example_outputs(
+outputs = generate_analysis_outputs(
     ena_set=ena_set,
     output_dir=Path("outputs"),
-    first_group="FirstGame",
-    second_group="SecondGame",
+    group_a_label="FirstGame",
+    group_b_label="SecondGame",
     group_column="Condition",
-    first_color="#ff0000",
-    second_color="#0000ff",
-    first_unit="FirstGame::steven z",
-    second_unit="SecondGame::samuel o",
+    group_a_color="#ff0000",
+    group_b_color="#0000ff",
+    focus_unit_a="FirstGame::steven z",
+    focus_unit_b="SecondGame::samuel o",
 )
 
 print(outputs["stats_summary"])
@@ -160,7 +179,7 @@ Returns `network_a - network_b`.
 
 Draws an ENA network using the node positions stored in the `ENASet`.
 
-### `generate_example_outputs(...)`
+### `generate_analysis_outputs(...)`
 
 Generates the full set of handbook-style example plots and the `statistical_summary.json` file from an existing `ENASet`.
 
@@ -231,4 +250,54 @@ SecondGame,B,G2,1,1,0,1
 
 - `example.py` is the recommended place to start.
 - Most reusable helper functions have been moved into `rena.py`.
+- The installable package lives under `src/pyena/`.
+- `example.py` assumes `pyENA` has already been installed into the current environment.
 - The current plotting layer is designed to match the handbook examples closely enough for analysis and replication, while remaining simple to modify.
+
+## Skill
+
+A reusable Codex skill named `interpret-ena-results` has been created at:
+
+- [tool/pyENA/skills/interpret-ena-results/SKILL.md](/Users/owen/Library/CloudStorage/GoogleDrive-cfleu198@gmail.com/我的雲端硬碟/Academia/論文 - 編寫中/topic - ENA/tool/pyENA/skills/interpret-ena-results/SKILL.md)
+
+This skill is designed to explain ENA outputs using the interpretive logic shown in:
+
+- Shaffer, Collier, and Ruis (2016), *A Tutorial on Epistemic Network Analysis*
+- Shaffer and Ruis (2017), *Epistemic Network Analysis: A Worked Example of Theory-Based Learning Analytics*
+
+It focuses on how to interpret:
+
+- ENA point distributions
+- confidence intervals
+- Welch t-tests and Mann-Whitney U tests
+- mean networks
+- subtracted networks
+- paper-ready ENA results sections
+
+### Usage
+
+If you want Codex to auto-discover the repo copy of this skill, place or symlink the `interpret-ena-results` folder into `~/.codex/skills/`.
+
+In Codex, invoke it explicitly with prompts such as:
+
+```text
+Use $interpret-ena-results to explain tool/pyENA/outputs/statistical_summary.json in paper-ready Chinese.
+```
+
+```text
+Use $interpret-ena-results to interpret the FirstGame vs SecondGame ENA plots and write a results section.
+```
+
+```text
+Use $interpret-ena-results to explain which edges in the subtracted network are driving the group difference.
+```
+
+### Recommended Inputs
+
+The skill works best when you provide one or more of the following:
+
+- `outputs/statistical_summary.json`
+- mean network plots
+- subtracted network plots
+- point plots with confidence intervals
+- original coded text or excerpts for closing the interpretive loop
