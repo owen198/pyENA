@@ -526,11 +526,12 @@ def create_network_plot(
     network: np.ndarray,
     title: str,
     figsize: tuple[float, float] = (7, 6),
+    line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
 ):
     import matplotlib.pyplot as plt
 
     fig, ax = plt.subplots(figsize=figsize)
-    plot_network(ena_set, network, title=title, ax=ax)
+    plot_network(ena_set, network, title=title, ax=ax, colors=line_colors)
     return fig, ax
 
 
@@ -541,11 +542,12 @@ def create_network_with_point_groups_plot(
     title: str,
     figsize: tuple[float, float] = (7, 6),
     show_legend: bool = False,
+    line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
 ):
     import matplotlib.pyplot as plt
 
     fig, ax = plt.subplots(figsize=figsize)
-    plot_network(ena_set, network, title=title, ax=ax)
+    plot_network(ena_set, network, title=title, ax=ax, colors=line_colors)
     for group in point_groups:
         plot_point_set(
             ax,
@@ -573,6 +575,7 @@ def create_individual_network_plot(
     figsize: tuple[float, float] = (7, 6),
     point_size: float = 80.0,
     show_legend: bool = False,
+    line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
 ):
     return create_network_with_point_groups_plot(
         ena_set=ena_set,
@@ -590,6 +593,7 @@ def create_individual_network_plot(
         title=title,
         figsize=figsize,
         show_legend=show_legend,
+        line_colors=line_colors,
     )
 
 
@@ -609,6 +613,9 @@ def generate_analysis_outputs(
     group_column: str = "Condition",
     group_a_color: str = "#ff0000",
     group_b_color: str = "#0000ff",
+    group_a_line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
+    group_b_line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
+    subtracted_line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
     focus_unit_a: str = "FirstGame::steven z",
     focus_unit_b: str = "SecondGame::samuel o",
     individual_subtracted_network_multiplier: float = 5.0,
@@ -651,11 +658,21 @@ def generate_analysis_outputs(
 
     figures: list[tuple[object, Path]] = []
     figures.append((
-        create_network_plot(ena_set, group_a_network, title=f"{group_a_label} Mean Network")[0],
+        create_network_plot(
+            ena_set,
+            group_a_network,
+            title=f"{group_a_label} Mean Network",
+            line_colors=group_a_line_colors,
+        )[0],
         output_dir / f"{group_a_label.lower()}_mean_network.png",
     ))
     figures.append((
-        create_network_plot(ena_set, group_b_network, title=f"{group_b_label} Mean Network")[0],
+        create_network_plot(
+            ena_set,
+            group_b_network,
+            title=f"{group_b_label} Mean Network",
+            line_colors=group_b_line_colors,
+        )[0],
         output_dir / f"{group_b_label.lower()}_mean_network.png",
     ))
     figures.append((
@@ -663,6 +680,7 @@ def generate_analysis_outputs(
             ena_set,
             subtracted_mean_network,
             title=f"Subtracted Mean Network: {group_a_label} - {group_b_label}",
+            line_colors=subtracted_line_colors,
         )[0],
         output_dir / "subtracted_mean_network.png",
     ))
@@ -700,6 +718,7 @@ def generate_analysis_outputs(
             group_a_network,
             point_groups=[{"points": group_a_points, "color": group_a_color}],
             title=f"{group_a_label} Mean Network and Points",
+            line_colors=group_a_line_colors,
         )[0],
         output_dir / f"{group_a_label.lower()}_network_with_points.png",
     ))
@@ -709,6 +728,7 @@ def generate_analysis_outputs(
             group_b_network,
             point_groups=[{"points": group_b_points, "color": group_b_color}],
             title=f"{group_b_label} Mean Network and Points",
+            line_colors=group_b_line_colors,
         )[0],
         output_dir / f"{group_b_label.lower()}_network_with_points.png",
     ))
@@ -722,6 +742,7 @@ def generate_analysis_outputs(
             ],
             title="Subtracted Mean Network with Group Points",
             show_legend=True,
+            line_colors=subtracted_line_colors,
         )[0],
         output_dir / "subtracted_network_with_points.png",
     ))
@@ -732,6 +753,7 @@ def generate_analysis_outputs(
             focus_unit_a_point,
             group_a_color,
             title=f"Individual Network: {focus_unit_a_label}",
+            line_colors=group_a_line_colors,
         )[0],
         output_dir / f"individual_{group_a_label.lower()}_network.png",
     ))
@@ -742,6 +764,7 @@ def generate_analysis_outputs(
             focus_unit_b_point,
             group_b_color,
             title=f"Individual Network: {focus_unit_b_label}",
+            line_colors=group_b_line_colors,
         )[0],
         output_dir / f"individual_{group_b_label.lower()}_network.png",
     ))
@@ -769,6 +792,7 @@ def generate_analysis_outputs(
             ],
             title=f"Subtracted network: {focus_unit_a_label} (red) - {focus_unit_b_label} (blue)",
             show_legend=True,
+            line_colors=subtracted_line_colors,
         )[0],
         output_dir / "subtracted_individual_network.png",
     ))

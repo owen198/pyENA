@@ -18,8 +18,11 @@ It currently supports:
 
 - `src/pyena/rena.py`: core ENA implementation
 - `src/pyena/__init__.py`: public package API
-- `example.py`: end-to-end example using `RS.data.csv`
-- `RS.data.csv`: handbook example dataset exported from `rENA::RS.data`
+- `example.py`: end-to-end handbook example using `datasets/RS.data.csv`
+- `example_leet.py`: end-to-end example using `datasets/leet.csv`
+- `datasets/`: example datasets used by the repository
+- `datasets/RS.data.csv`: handbook example dataset exported from `rENA::RS.data`
+- `datasets/leet.csv`: reflection dataset for the Leet-style example
 - `pyproject.toml`: package metadata for `pip install git+...`
 - `requirements.txt`: optional local dependency list
 
@@ -49,7 +52,7 @@ pip install -e .
 
 ## Quick Start
 
-Run the example:
+Run the handbook example:
 
 ```bash
 source .venv/bin/activate
@@ -57,17 +60,33 @@ pip install -e .
 python3 example.py
 ```
 
-`example.py` now assumes that `pyENA` has already been installed into the active environment. This keeps the script simple and avoids manual `sys.path` manipulation.
+Run the Leet example:
+
+```bash
+source .venv/bin/activate
+pip install -e .
+python3 example_leet.py
+```
 
 If you already installed `pyENA` from GitHub into another project, you do not need this repository layout. The `example.py` file is mainly for reproducing the handbook workflow from this repo.
 
-The script will:
+`example.py` will:
 
-- read `RS.data.csv`
+- read `datasets/RS.data.csv`
 - build an ENA model with `MovingStanzaWindow`
 - rotate the space using the means of `FirstGame` and `SecondGame`
 - call `generate_analysis_outputs(...)` to generate mean networks, subtracted networks, point plots, and individual comparison plots
 - save all outputs to `outputs/`
+- print the statistical summary to the terminal
+
+`example_leet.py` will:
+
+- read `datasets/leet.csv`
+- use `units = ["Condition", "UserName"]`
+- use `conversation = ["Condition", "ActivityNumber"]`
+- use the code columns `data.pandas`, `list.set`, `loop.loops`, and `statement.conditions`
+- compare the groups `HDSE` and `LDSE`
+- save all outputs to `outputs_leet/`
 - print the statistical summary to the terminal
 
 ## Output Files
@@ -82,6 +101,16 @@ Running `example.py` will generate files such as:
 - `outputs/subtracted_individual_network.png`
 - `outputs/statistical_summary.json`
 
+Running `example_leet.py` will generate the same style of outputs under `outputs_leet/`, including:
+
+- `outputs_leet/hdse_mean_network.png`
+- `outputs_leet/ldse_mean_network.png`
+- `outputs_leet/subtracted_mean_network.png`
+- `outputs_leet/group_points_overlay.png`
+- `outputs_leet/subtracted_network_with_points.png`
+- `outputs_leet/subtracted_individual_network.png`
+- `outputs_leet/statistical_summary.json`
+
 ## Minimal Usage Example
 
 ```python
@@ -89,7 +118,7 @@ from pathlib import Path
 
 from pyena import ena, generate_analysis_outputs
 
-data_path = Path("RS.data.csv")
+data_path = Path("datasets/RS.data.csv")
 
 codes = [
     "Data",
@@ -122,6 +151,9 @@ outputs = generate_analysis_outputs(
     group_column="Condition",
     group_a_color="#ff0000",
     group_b_color="#0000ff",
+    group_a_line_colors=("#ff0000", "#ff0000"),
+    group_b_line_colors=("#0000ff", "#0000ff"),
+    subtracted_line_colors=("#ff0000", "#0000ff"),
     focus_unit_a="FirstGame::steven z",
     focus_unit_b="SecondGame::samuel o",
 )
@@ -248,10 +280,12 @@ SecondGame,B,G2,1,1,0,1
 
 ## Notes
 
-- `example.py` is the recommended place to start.
+- `example.py` is the recommended place to start for the handbook dataset.
+- `example_leet.py` shows how to adapt the same workflow to a different CSV schema.
+- Repository datasets now live under `datasets/`.
 - Most reusable helper functions have been moved into `rena.py`.
 - The installable package lives under `src/pyena/`.
-- `example.py` assumes `pyENA` has already been installed into the current environment.
+- Both example scripts assume `pyENA` has already been installed into the current environment.
 - The current plotting layer is designed to match the handbook examples closely enough for analysis and replication, while remaining simple to modify.
 
 ## Skill
