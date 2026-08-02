@@ -111,6 +111,14 @@ Running `example_leet.py` will generate the same style of outputs under `outputs
 - `outputs_leet/subtracted_individual_network.png`
 - `outputs_leet/statistical_summary.json`
 
+Example visual outputs from `example.py`:
+
+![FirstGame Network With Points](outputs/firstgame_network_with_points.png)
+
+![SecondGame Network With Points](outputs/secondgame_network_with_points.png)
+
+![Subtracted Mean Network](outputs/subtracted_mean_network.png)
+
 ## `statistical_summary.json`
 
 The `statistical_summary.json` file is the main machine-readable summary produced by `generate_analysis_outputs(...)`.
