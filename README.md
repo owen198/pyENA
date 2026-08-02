@@ -12,7 +12,7 @@ It currently supports:
 - SVD rotation and mean rotation
 - point projection, mean networks, and subtracted networks
 - matplotlib-based ENA network plots
-- Welch t-test and Mann-Whitney / Wilcoxon-style summaries used in the examples
+- Welch t-test, Mann-Whitney / Wilcoxon-style summaries, ANOVA, chi-square summaries, and goodness-of-fit reporting used in the examples
 
 ## Files
 
@@ -110,6 +110,59 @@ Running `example_leet.py` will generate the same style of outputs under `outputs
 - `outputs_leet/subtracted_network_with_points.png`
 - `outputs_leet/subtracted_individual_network.png`
 - `outputs_leet/statistical_summary.json`
+
+## `statistical_summary.json`
+
+The `statistical_summary.json` file is the main machine-readable summary produced by `generate_analysis_outputs(...)`.
+
+At a high level, it contains:
+
+- `groups`: the grouping column and the two group labels being compared
+- `model`: core model metadata such as number of units, number of edges, codes, eigenvalues, and explained variance ratios
+- `points`: group-level point summaries in the ENA space
+- `statistics`: inferential statistics and fit summaries
+- `axis_interpretation`: heuristic summaries of what each ENA dimension appears to distinguish
+- `networks`: mean networks, the subtracted mean network, and the strongest positive and negative edge differences
+
+### Included indicators
+
+The JSON currently reports the following indicators and related descriptions.
+
+| Indicator | JSON location | What it means |
+| --- | --- | --- |
+| Mean point | `points.group_a.mean_point`, `points.group_b.mean_point` | The average projected ENA location for each group. This is the group centroid in the plotted ENA space. |
+| Median point | `points.group_a.median_point`, `points.group_b.median_point` | The median projected ENA location for each group on the two plotted dimensions. Useful when point distributions are skewed. |
+| 95% confidence interval for group points | `points.group_a.confidence_interval_95`, `points.group_b.confidence_interval_95` | The uncertainty interval around each group's mean point on each ENA dimension. |
+| Welch t-test | `statistics.welch_t_test.dimension_1`, `statistics.welch_t_test.dimension_2` | Tests whether the two groups differ in their projected ENA coordinates on each dimension without assuming equal variance. |
+| `t_statistic` | inside `welch_t_test` | The Welch t statistic for a dimension-level group comparison. |
+| `p_value` | inside `welch_t_test`, `mann_whitney_u`, `anova`, and `chi_square` | The probability of observing a result at least this extreme under the null hypothesis. |
+| Degrees of freedom | `statistics.welch_t_test.*.degrees_of_freedom` | The Welch-Satterthwaite degrees of freedom used for the t-test. |
+| Mean and SD by group | `statistics.welch_t_test.*.mean_x`, `mean_y`, `sd_x`, `sd_y` | Descriptive statistics for the two groups on each ENA dimension. |
+| Cohen's d | `statistics.welch_t_test.*.cohens_d` | Standardized group difference size for each ENA dimension. |
+| 95% confidence interval for mean difference | `statistics.welch_t_test.*.confidence_interval_95` | Confidence interval for the difference between group means on each dimension. |
+| Mann-Whitney U | `statistics.mann_whitney_u.dimension_1`, `statistics.mann_whitney_u.dimension_2` | Non-parametric test of whether the two groups differ in their projected ENA coordinates on each dimension. |
+| U statistic | `statistics.mann_whitney_u.*.u_statistic` | The Mann-Whitney U value for the dimension-level comparison. |
+| Median by group | `statistics.mann_whitney_u.*.median_x`, `median_y` | The two group medians used in the non-parametric summary. |
+| Approximate effect size `r` | `statistics.mann_whitney_u.*.effect_r_approx` | Approximate effect size derived from the Mann-Whitney result. |
+| One-way ANOVA | `statistics.anova.dimension_1`, `statistics.anova.dimension_2` | Parametric between-group comparison of projected ENA coordinates on each dimension. In a two-group setting, this is a companion summary to the t-test. |
+| F statistic | `statistics.anova.*.f_statistic` | The ANOVA F value for the group comparison on a given ENA dimension. |
+| Chi-square | `statistics.chi_square` | Frequency-based comparison of binary code presence across the two groups. This is separate from ENA point-space tests and focuses on code occurrence counts. |
+| Overall chi-square | `statistics.chi_square.overall` | Chi-square test over the two-by-code contingency table. |
+| Per-code chi-square | `statistics.chi_square.per_code` | Separate chi-square summaries for each code, including group counts, rates, and expected values. |
+| Goodness of fit | `statistics.goodness_of_fit` | Co-registration fit between the visualized ENA point space and the underlying network centroids reconstructed from node positions. |
+| Co-registration correlations | `statistics.goodness_of_fit.co_registration_correlations` | Pearson and Spearman correlations for each ENA dimension between observed points and fitted centroids. Higher values indicate a closer match between the visualization and the original model geometry. |
+| Explained variance ratio | `model.explained_variance_ratio` | The proportion of retained variance captured by each plotted dimension. |
+| Mean network | `networks.group_a_mean_network`, `networks.group_b_mean_network` | Average edge weights for each group. These show the representative co-occurrence structure for the group. |
+| Subtracted mean network | `networks.subtracted_mean_network` | Edge-by-edge difference computed as `group_a_mean_network - group_b_mean_network`. Positive values indicate stronger edges for group A, negative values indicate stronger edges for group B. |
+| Top edge differences | `networks.subtracted_mean_network_top_edges` | The strongest positive and negative edges in the subtraction network. |
+| Axis interpretation | `axis_interpretation.dimension_1`, `axis_interpretation.dimension_2` | Heuristic interpretation of each ENA dimension based on the most positive and most negative node coordinates in the co-registered space. |
+
+### Notes on interpretation
+
+- The ENA point-space tests such as Welch t-test, Mann-Whitney U, and ANOVA evaluate differences in projected ENA positions. They do not test whether a single edge is independently significant.
+- The chi-square summary is intentionally different from the ENA point-space tests. It operates on binary code presence counts in the original coded rows and is best interpreted as a frequency-based companion analysis.
+- The goodness-of-fit summary is related to the quality of the visualization, not the size of the group separation. A strong visual gap between groups does not by itself imply a strong goodness of fit.
+- The axis interpretation block is heuristic. It is designed to help orient interpretation, but it should be read together with the mean networks and subtracted network rather than treated as a standalone substantive conclusion.
 
 ## Minimal Usage Example
 

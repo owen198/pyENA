@@ -318,6 +318,186 @@ def summarize_group_point_tests(
     }
 
 
+def one_way_anova(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
+    from scipy import stats
+
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+    result = stats.f_oneway(x, y)
+    return {
+        "f_statistic": float(result.statistic),
+        "p_value": float(result.pvalue),
+        "mean_x": float(x.mean()),
+        "mean_y": float(y.mean()),
+        "n_x": int(len(x)),
+        "n_y": int(len(y)),
+    }
+
+
+def _pearson_correlation(x: np.ndarray, y: np.ndarray) -> float:
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+    if x.size == 0 or y.size == 0:
+        return 0.0
+    if np.allclose(x, x[0]) or np.allclose(y, y[0]):
+        return 0.0
+    return float(np.corrcoef(x, y)[0, 1])
+
+
+def _rankdata_average(values: np.ndarray) -> np.ndarray:
+    values = np.asarray(values, dtype=float)
+    order = np.argsort(values, kind="mergesort")
+    ranks = np.empty(len(values), dtype=float)
+    sorted_values = values[order]
+    idx = 0
+    while idx < len(values):
+        end = idx + 1
+        while end < len(values) and sorted_values[end] == sorted_values[idx]:
+            end += 1
+        average_rank = (idx + 1 + end) / 2.0
+        ranks[order[idx:end]] = average_rank
+        idx = end
+    return ranks
+
+
+def _spearman_correlation(x: np.ndarray, y: np.ndarray) -> float:
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+    if x.size == 0 or y.size == 0:
+        return 0.0
+    return _pearson_correlation(_rankdata_average(x), _rankdata_average(y))
+
+
+def summarize_goodness_of_fit(ena_set: ENASet) -> dict[str, object]:
+    non_zero_mask = np.linalg.norm(ena_set.line_weights, axis=1) > 0
+    if not np.any(non_zero_mask):
+        return {
+            "n_non_zero_units": 0,
+            "co_registration_correlations": {},
+            "summary": "No non-zero line weights were available to estimate co-registration fit.",
+        }
+
+    _, centroids = _least_squares_node_positions(
+        ena_set.line_weights[non_zero_mask],
+        ena_set.points[non_zero_mask],
+        len(ena_set.enadata.codes),
+    )
+    centroid_mean = centroids.mean(axis=0)
+    centered_centroids = centroids - centroid_mean
+    observed_points = ena_set.points[non_zero_mask]
+
+    correlations: dict[str, dict[str, float]] = {}
+    for dim_idx in range(observed_points.shape[1]):
+        key = f"dimension_{dim_idx + 1}"
+        observed = observed_points[:, dim_idx]
+        fitted = centered_centroids[:, dim_idx]
+        correlations[key] = {
+            "pearson": _pearson_correlation(observed, fitted),
+            "spearman": _spearman_correlation(observed, fitted),
+        }
+
+    strong_fit = all(
+        values["pearson"] > 0.9 and values["spearman"] > 0.9
+        for values in correlations.values()
+    )
+    summary = (
+        "Strong goodness of fit between the visualization and the original model."
+        if strong_fit
+        else "Co-registration fit is mixed; inspect dimension-level correlations before interpreting the visualization strongly."
+    )
+    return {
+        "n_non_zero_units": int(np.sum(non_zero_mask)),
+        "co_registration_correlations": correlations,
+        "summary": summary,
+    }
+
+
+def summarize_chi_square(
+    ena_set: ENASet,
+    group_column: str,
+    group_a_label: str,
+    group_b_label: str,
+) -> dict[str, object]:
+    from scipy import stats
+
+    records = ena_set.enadata.records
+    codes = ena_set.enadata.codes
+    group_a_rows = [row for row in records if row.get(group_column) == group_a_label]
+    group_b_rows = [row for row in records if row.get(group_column) == group_b_label]
+
+    group_a_counts = np.array(
+        [sum(1 for row in group_a_rows if _coerce_code_value(row.get(code, 0.0)) > 0) for code in codes],
+        dtype=float,
+    )
+    group_b_counts = np.array(
+        [sum(1 for row in group_b_rows if _coerce_code_value(row.get(code, 0.0)) > 0) for code in codes],
+        dtype=float,
+    )
+
+    contingency = np.vstack([group_a_counts, group_b_counts])
+    chi2, p_value, dof, expected = stats.chi2_contingency(contingency)
+
+    per_code = []
+    total_a = max(len(group_a_rows), 1)
+    total_b = max(len(group_b_rows), 1)
+    for idx, code in enumerate(codes):
+        present_a = int(group_a_counts[idx])
+        present_b = int(group_b_counts[idx])
+        absent_a = int(total_a - present_a)
+        absent_b = int(total_b - present_b)
+        code_table = np.array([[present_a, absent_a], [present_b, absent_b]], dtype=float)
+        code_chi2, code_p, code_dof, code_expected = stats.chi2_contingency(code_table)
+        per_code.append(
+            {
+                "code": str(code),
+                "group_a_present": present_a,
+                "group_b_present": present_b,
+                "group_a_rate": float(present_a / total_a),
+                "group_b_rate": float(present_b / total_b),
+                "chi_square": float(code_chi2),
+                "p_value": float(code_p),
+                "degrees_of_freedom": int(code_dof),
+                "expected": code_expected.tolist(),
+            }
+        )
+
+    return {
+        "basis": "Binary code presence counts per row within each group.",
+        "group_a_rows": int(len(group_a_rows)),
+        "group_b_rows": int(len(group_b_rows)),
+        "overall": {
+            "chi_square": float(chi2),
+            "p_value": float(p_value),
+            "degrees_of_freedom": int(dof),
+            "observed": contingency.tolist(),
+            "expected": expected.tolist(),
+        },
+        "per_code": per_code,
+    }
+
+
+def summarize_axis_interpretation(ena_set: ENASet, top_n: int = 3) -> dict[str, object]:
+    coords = np.asarray(ena_set.node_positions, dtype=float)
+    codes = ena_set.enadata.codes
+    interpretations: dict[str, object] = {}
+    for dim_idx in range(coords.shape[1]):
+        dim_values = coords[:, dim_idx]
+        pos_idx = np.argsort(dim_values)[::-1][:top_n]
+        neg_idx = np.argsort(dim_values)[:top_n]
+        interpretations[f"dimension_{dim_idx + 1}"] = {
+            "basis": "Heuristic summary based on node positions in the co-registered ENA space.",
+            "positive_pole_codes": [
+                {"code": str(codes[idx]), "coordinate": float(dim_values[idx])}
+                for idx in pos_idx
+            ],
+            "negative_pole_codes": [
+                {"code": str(codes[idx]), "coordinate": float(dim_values[idx])}
+                for idx in neg_idx
+            ],
+        }
+    return interpretations
+
+
 def _mean_point_and_ci(points: np.ndarray) -> dict[str, list[float] | int]:
     from scipy import stats
 
@@ -407,7 +587,21 @@ def summarize_ena_results(
             "group_a": _mean_point_and_ci(group_a_points),
             "group_b": _mean_point_and_ci(group_b_points),
         },
-        "statistics": summarize_group_point_tests(group_a_points, group_b_points),
+        "statistics": {
+            **summarize_group_point_tests(group_a_points, group_b_points),
+            "anova": {
+                "dimension_1": one_way_anova(group_a_points[:, 0], group_b_points[:, 0]),
+                "dimension_2": one_way_anova(group_a_points[:, 1], group_b_points[:, 1]),
+            },
+            "chi_square": summarize_chi_square(
+                ena_set,
+                group_column=group_column,
+                group_a_label=group_a_label,
+                group_b_label=group_b_label,
+            ),
+            "goodness_of_fit": summarize_goodness_of_fit(ena_set),
+        },
+        "axis_interpretation": summarize_axis_interpretation(ena_set),
         "networks": {
             "group_a_mean_network": _edge_weight_table(ena_set.edge_labels, group_a_network),
             "group_b_mean_network": _edge_weight_table(ena_set.edge_labels, group_b_network),

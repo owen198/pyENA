@@ -10,5 +10,8 @@ dist/
 *.egg-info/
 
 outputs/
+outputs_leet/
 *.png
 *.pdf
+
+datasets/leet.csv
