@@ -60,6 +60,14 @@ pip install -e .
 python3 example.py
 ```
 
+Run the handbook example in summary-only mode:
+
+```bash
+source .venv/bin/activate
+pip install -e .
+python3 example.py --summary-only
+```
+
 Run the Leet example:
 
 ```bash
@@ -77,6 +85,14 @@ If you already installed `pyENA` from GitHub into another project, you do not ne
 - rotate the space using the means of `FirstGame` and `SecondGame`
 - call `generate_analysis_outputs(...)` to generate mean networks, subtracted networks, point plots, and individual comparison plots
 - save all outputs to `outputs/`
+- print the statistical summary to the terminal
+
+`example.py --summary-only` will:
+
+- read `datasets/RS.data.csv`
+- build the same ENA model and group comparison
+- call `summarize_ena_results(...)` directly instead of generating figures
+- write only `outputs/statistical_summary.json`
 - print the statistical summary to the terminal
 
 `example_leet.py` will:
@@ -99,6 +115,10 @@ Running `example.py` will generate files such as:
 - `outputs/group_points_overlay.png`
 - `outputs/subtracted_network_with_points.png`
 - `outputs/subtracted_individual_network.png`
+- `outputs/statistical_summary.json`
+
+Running `example.py --summary-only` will generate:
+
 - `outputs/statistical_summary.json`
 
 Running `example_leet.py` will generate the same style of outputs under `outputs_leet/`, including:
@@ -177,7 +197,7 @@ The JSON currently reports the following indicators and related descriptions.
 ```python
 from pathlib import Path
 
-from pyena import ena, generate_analysis_outputs
+from pyena import ena, generate_analysis_outputs, group_network, group_points, summarize_ena_results
 
 data_path = Path("datasets/RS.data.csv")
 
@@ -221,6 +241,69 @@ outputs = generate_analysis_outputs(
 
 print(outputs["stats_summary"])
 print(outputs["generated_files"])
+```
+
+Summary-only example:
+
+```python
+from pathlib import Path
+import json
+
+from pyena import ena, group_network, group_points, summarize_ena_results
+
+data_path = Path("datasets/RS.data.csv")
+output_dir = Path("outputs")
+output_dir.mkdir(exist_ok=True)
+
+codes = [
+    "Data",
+    "Technical.Constraints",
+    "Performance.Parameters",
+    "Client.and.Consultant.Requests",
+    "Design.Reasoning",
+    "Collaboration",
+]
+
+group_column = "Condition"
+group_a_label = "FirstGame"
+group_b_label = "SecondGame"
+
+ena_set = ena(
+    data=data_path,
+    units=["Condition", "UserName"],
+    conversation=["Condition", "GroupName"],
+    metadata=["Condition", "GroupName"],
+    codes=codes,
+    model="EndPoint",
+    window="MovingStanzaWindow",
+    window_size_back=4,
+    rotation="mean",
+    group_column=group_column,
+    groups=(group_a_label, group_b_label),
+)
+
+group_a_network = group_network(ena_set, group_column, group_a_label)
+group_b_network = group_network(ena_set, group_column, group_b_label)
+group_a_points = group_points(ena_set, group_column, group_a_label)
+group_b_points = group_points(ena_set, group_column, group_b_label)
+
+summary = summarize_ena_results(
+    ena_set=ena_set,
+    group_a_label=group_a_label,
+    group_b_label=group_b_label,
+    group_column=group_column,
+    group_a_points=group_a_points,
+    group_b_points=group_b_points,
+    group_a_network=group_a_network,
+    group_b_network=group_b_network,
+    subtracted_mean_network=group_a_network - group_b_network,
+)
+
+summary_path = output_dir / "statistical_summary.json"
+summary_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+
+print(summary_path)
+print(summary["statistics"])
 ```
 
 ## Main API

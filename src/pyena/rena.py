@@ -132,6 +132,63 @@ def sphere_normalize(matrix: np.ndarray) -> np.ndarray:
     return matrix / norms
 
 
+def _build_node_weights(line_weights: np.ndarray, code_count: int) -> np.ndarray:
+    node_weights = np.zeros((line_weights.shape[0], code_count), dtype=float)
+    for row_idx in range(line_weights.shape[0]):
+        z = 0
+        for x in range(code_count - 1):
+            for y in range(x + 1):
+                node_weights[row_idx, x + 1] += 0.5 * line_weights[row_idx, z]
+                node_weights[row_idx, y] += 0.5 * line_weights[row_idx, z]
+                z += 1
+
+    lengths = np.abs(node_weights).sum(axis=1, keepdims=True)
+    lengths[lengths < 1e-4] = 1e-4
+    return node_weights / lengths
+
+
+def _format_singular_matrix_diagnostics(
+    *,
+    enadata: "ENAData",
+    line_weights: np.ndarray,
+    non_zero_mask: np.ndarray,
+) -> str:
+    active_line_weights = line_weights[non_zero_mask]
+    code_count = len(enadata.codes)
+    node_weights = _build_node_weights(active_line_weights, code_count)
+    ss_a = node_weights.T @ node_weights
+    node_rank = int(np.linalg.matrix_rank(node_weights))
+    ss_a_rank = int(np.linalg.matrix_rank(ss_a))
+    code_activity = np.abs(node_weights).sum(axis=0)
+    inactive_codes = [
+        code for code, activity in zip(enadata.codes, code_activity, strict=False) if activity < 1e-10
+    ]
+    low_variance_codes = [
+        code
+        for code, variance in zip(enadata.codes, np.var(node_weights, axis=0), strict=False)
+        if variance < 1e-12
+    ]
+
+    details = [
+        "Failed to estimate ENA node positions because the node-position least-squares matrix is singular.",
+        f"codes={code_count}, total_units={line_weights.shape[0]}, active_units={active_line_weights.shape[0]}",
+        f"node_weight_rank={node_rank}, system_rank={ss_a_rank}",
+    ]
+    if active_line_weights.shape[0] < code_count:
+        details.append(
+            "There are fewer active units than codes, so the system is underdetermined."
+        )
+    if inactive_codes:
+        details.append("Inactive codes after accumulation: " + ", ".join(inactive_codes))
+    if low_variance_codes and len(low_variance_codes) < code_count:
+        details.append("Near-constant code columns: " + ", ".join(low_variance_codes))
+    details.append(
+        "This usually means some codes never appear, always co-occur in fixed proportions, "
+        "or too few units remain after filtering zero line weights."
+    )
+    return "\n".join(details)
+
+
 def svd_rotation(points_for_projection: np.ndarray, dimensions: int = 2) -> tuple[np.ndarray, np.ndarray]:
     _, singular_values, vt = np.linalg.svd(points_for_projection, full_matrices=False)
     dims = min(dimensions, vt.shape[0])
@@ -1164,19 +1221,7 @@ def accumulate_data(
 
 def _least_squares_node_positions(line_weights: np.ndarray, points: np.ndarray, code_count: int) -> np.ndarray:
     dims = points.shape[1]
-
-    node_weights = np.zeros((line_weights.shape[0], code_count), dtype=float)
-    for row_idx in range(line_weights.shape[0]):
-        z = 0
-        for x in range(code_count - 1):
-            for y in range(x + 1):
-                node_weights[row_idx, x + 1] += 0.5 * line_weights[row_idx, z]
-                node_weights[row_idx, y] += 0.5 * line_weights[row_idx, z]
-                z += 1
-
-    lengths = np.abs(node_weights).sum(axis=1, keepdims=True)
-    lengths[lengths < 1e-4] = 1e-4
-    node_weights = node_weights / lengths
+    node_weights = _build_node_weights(line_weights, code_count)
 
     ss_a = node_weights.T @ node_weights
     ss_x = np.zeros((dims, code_count), dtype=float)
@@ -1237,11 +1282,20 @@ def make_set(
 
     non_zero_mask = np.linalg.norm(line_weights, axis=1) > 0
     if np.any(non_zero_mask):
-        node_positions, centroids = _least_squares_node_positions(
-            line_weights[non_zero_mask],
-            points[non_zero_mask],
-            len(enadata.codes),
-        )
+        try:
+            node_positions, centroids = _least_squares_node_positions(
+                line_weights[non_zero_mask],
+                points[non_zero_mask],
+                len(enadata.codes),
+            )
+        except np.linalg.LinAlgError as exc:
+            raise ValueError(
+                _format_singular_matrix_diagnostics(
+                    enadata=enadata,
+                    line_weights=line_weights,
+                    non_zero_mask=non_zero_mask,
+                )
+            ) from exc
         centroid_mean = centroids.mean(axis=0)
         node_positions = node_positions - centroid_mean
     else:
