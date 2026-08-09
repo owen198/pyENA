@@ -194,6 +194,8 @@ The JSON currently reports the following indicators and related descriptions.
 
 ## Troubleshooting
 
+The two cases below are surfaced as `ValueError` with explanatory messages. If you wrap `pyENA` in your own script or CLI, catch `ValueError` and print the message directly.
+
 ### Singular matrix while estimating node positions
 
 If ENA set construction fails with a message such as:
@@ -225,7 +227,7 @@ If summary generation fails with a message such as:
 Welch t-test requires at least 2 points per group, but received n_x=1 and n_y=12.
 ```
 
-then one of your groups has fewer than two projected ENA points. Welch's t-test and one-way ANOVA both require at least two observations per group to estimate within-group variance.
+then one of your groups has fewer than two projected ENA points. Welch's t-test and one-way ANOVA both require at least two observations per group to estimate within-group variance, and `pyENA` raises this as a `ValueError` before the lower-level calculation can fail.
 
 In practice, this usually means:
 
@@ -233,7 +235,7 @@ In practice, this usually means:
 - filtering left one group with only one valid point
 - the grouping variable produced an extremely unbalanced split
 
-When this happens, check the size of each group before running inferential summaries. The descriptive ENA outputs may still be meaningful, but group-comparison tests that rely on within-group variance are not defined for `n < 2`.
+When this happens, check the size of each group before running inferential summaries. Descriptive outputs such as point locations, mean networks, and subtracted networks may still be meaningful, but inferential group-comparison tests that rely on within-group variance are not defined for `n < 2`.
 
 ## Minimal Usage Example
 
