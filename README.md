@@ -194,7 +194,7 @@ The JSON currently reports the following indicators and related descriptions.
 
 ## Troubleshooting
 
-The two cases below are surfaced as `ValueError` with explanatory messages. If you wrap `pyENA` in your own script or CLI, catch `ValueError` and print the message directly.
+The cases below are surfaced as `ValueError` with explanatory messages. If you wrap `pyENA` in your own script or CLI, catch `ValueError` and print the message directly.
 
 ### Singular matrix while estimating node positions
 
@@ -236,6 +236,24 @@ In practice, this usually means:
 - the grouping variable produced an extremely unbalanced split
 
 When this happens, check the size of each group before running inferential summaries. Descriptive outputs such as point locations, mean networks, and subtracted networks may still be meaningful, but inferential group-comparison tests that rely on within-group variance are not defined for `n < 2`.
+
+### Welch t-test is undefined because both groups have zero variance
+
+If summary generation fails with a message such as:
+
+```text
+Welch t-test is undefined because both groups have zero variance on this ENA dimension.
+```
+
+then both groups contain at least two points, but every point in each group has the same coordinate value on the tested ENA dimension. In that case, the Welch-Satterthwaite degrees-of-freedom formula collapses and the t-test is not defined.
+
+In practice, this usually means:
+
+- all units in group A have the same coordinate on that dimension
+- all units in group B also have the same coordinate on that dimension
+- the projected ENA space has collapsed on that dimension for the subset being compared
+
+When this happens, the issue is not sample size but lack of within-group variation. Descriptive outputs may still be useful, but inferential comparison on that dimension is not defined until the data contain non-zero variance in at least one group.
 
 ## Minimal Usage Example
 

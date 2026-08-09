@@ -303,17 +303,27 @@ def _validate_minimum_group_sizes(x: np.ndarray, y: np.ndarray, *, test_name: st
         )
 
 
+def _validate_welch_variance(x: np.ndarray, y: np.ndarray) -> None:
+    var_x = float(np.var(x, ddof=1))
+    var_y = float(np.var(y, ddof=1))
+    if var_x == 0.0 and var_y == 0.0:
+        raise ValueError(
+            "Welch t-test is undefined because both groups have zero variance on this ENA dimension."
+        )
+
+
 def welch_ttest(x: np.ndarray, y: np.ndarray) -> dict[str, float | list[float]]:
     from scipy import stats
 
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
     _validate_minimum_group_sizes(x, y, test_name="Welch t-test", min_n=2)
+    var_x = float(np.var(x, ddof=1))
+    var_y = float(np.var(y, ddof=1))
+    _validate_welch_variance(x, y)
     result = stats.ttest_ind(x, y, equal_var=False)
 
     mean_diff = float(x.mean() - y.mean())
-    var_x = float(np.var(x, ddof=1))
-    var_y = float(np.var(y, ddof=1))
     n_x = len(x)
     n_y = len(y)
     se = np.sqrt(var_x / n_x + var_y / n_y)
