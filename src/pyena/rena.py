@@ -293,11 +293,22 @@ def group_network(ena_set: ENASet, metadata_key: str, group_value: str) -> np.nd
     return mean_network(ena_set, group_mask(ena_set, metadata_key, group_value))
 
 
+def _validate_minimum_group_sizes(x: np.ndarray, y: np.ndarray, *, test_name: str, min_n: int) -> None:
+    n_x = len(x)
+    n_y = len(y)
+    if n_x < min_n or n_y < min_n:
+        raise ValueError(
+            f"{test_name} requires at least {min_n} points per group, "
+            f"but received n_x={n_x} and n_y={n_y}."
+        )
+
+
 def welch_ttest(x: np.ndarray, y: np.ndarray) -> dict[str, float | list[float]]:
     from scipy import stats
 
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
+    _validate_minimum_group_sizes(x, y, test_name="Welch t-test", min_n=2)
     result = stats.ttest_ind(x, y, equal_var=False)
 
     mean_diff = float(x.mean() - y.mean())
@@ -337,6 +348,7 @@ def mann_whitney(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
 
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
+    _validate_minimum_group_sizes(x, y, test_name="Mann-Whitney U test", min_n=1)
     result = stats.mannwhitneyu(x, y, alternative="two-sided", method="exact")
     u_stat = float(result.statistic)
     u_complement = float(len(x) * len(y) - u_stat)
@@ -380,6 +392,7 @@ def one_way_anova(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
 
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
+    _validate_minimum_group_sizes(x, y, test_name="One-way ANOVA", min_n=2)
     result = stats.f_oneway(x, y)
     return {
         "f_statistic": float(result.statistic),
