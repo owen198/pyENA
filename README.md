@@ -192,6 +192,49 @@ The JSON currently reports the following indicators and related descriptions.
 - The goodness-of-fit summary is related to the quality of the visualization, not the size of the group separation. A strong visual gap between groups does not by itself imply a strong goodness of fit.
 - The axis interpretation block is heuristic. It is designed to help orient interpretation, but it should be read together with the mean networks and subtracted network rather than treated as a standalone substantive conclusion.
 
+## Troubleshooting
+
+### Singular matrix while estimating node positions
+
+If ENA set construction fails with a message such as:
+
+```text
+Failed to estimate ENA node positions because the node-position least-squares matrix is singular.
+```
+
+this means the node-position system is rank-deficient. In practice, this usually happens when:
+
+- some codes never appear after accumulation
+- some codes always co-occur in nearly fixed proportions
+- too few active units remain after zero line weights are filtered out
+
+`pyENA` now raises a readable error message instead of exposing a raw `numpy.linalg.LinAlgError`. The message includes:
+
+- total units and active units
+- the rank of the node-weight matrix
+- inactive codes after accumulation
+- near-constant code columns
+
+These diagnostics help you identify whether the issue comes from sparse coding, collapsed group structure, or overly aggressive filtering.
+
+### Welch t-test requires at least two points per group
+
+If summary generation fails with a message such as:
+
+```text
+Welch t-test requires at least 2 points per group, but received n_x=1 and n_y=12.
+```
+
+then one of your groups has fewer than two projected ENA points. Welch's t-test and one-way ANOVA both require at least two observations per group to estimate within-group variance.
+
+In practice, this usually means:
+
+- one group only contains a single unit
+- filtering left one group with only one valid point
+- the grouping variable produced an extremely unbalanced split
+
+When this happens, check the size of each group before running inferential summaries. The descriptive ENA outputs may still be meaningful, but group-comparison tests that rely on within-group variance are not defined for `n < 2`.
+
 ## Minimal Usage Example
 
 ```python
