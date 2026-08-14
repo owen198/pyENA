@@ -800,12 +800,22 @@ def create_network_plot(
     network: np.ndarray,
     title: str,
     figsize: tuple[float, float] = (7, 6),
+    show_legend: bool = False,
+    legend_labels: tuple[str, str] = ("Positive edges", "Negative edges"),
     line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
 ):
     import matplotlib.pyplot as plt
 
     fig, ax = plt.subplots(figsize=figsize)
-    plot_network(ena_set, network, title=title, ax=ax, colors=line_colors)
+    plot_network(
+        ena_set,
+        network,
+        title=title,
+        ax=ax,
+        colors=line_colors,
+        show_legend=show_legend,
+        legend_labels=legend_labels,
+    )
     return fig, ax
 
 
@@ -875,7 +885,7 @@ def save_figure(fig, path: str | Path) -> None:
     import matplotlib.pyplot as plt
 
     fig.tight_layout()
-    fig.savefig(path, dpi=200, bbox_inches="tight")
+    fig.savefig(path, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -954,6 +964,11 @@ def generate_analysis_outputs(
             ena_set,
             subtracted_mean_network,
             title=f"Subtracted Mean Network: {group_a_label} - {group_b_label}",
+            show_legend=True,
+            legend_labels=(
+                f"Stronger in {group_a_label}",
+                f"Stronger in {group_b_label}",
+            ),
             line_colors=subtracted_line_colors,
         )[0],
         output_dir / "subtracted_mean_network.png",
@@ -1418,6 +1433,8 @@ def plot_network(
     title: str | None = None,
     ax=None,
     colors: tuple[str, str] = ("#ff0000", "#0000ff"),
+    show_legend: bool = False,
+    legend_labels: tuple[str, str] = ("Positive edges", "Negative edges"),
     thickness: tuple[float, float] = (0.25, 2.25),
     saturation: tuple[float, float] = (0.15, 1.0),
     opacity: tuple[float, float] = (0.15, 0.95),
@@ -1435,6 +1452,15 @@ def plot_network(
 
     if ax is None:
         _, ax = plt.subplots(figsize=(6, 6))
+
+    legend_handles = None
+    if show_legend:
+        from matplotlib.lines import Line2D
+
+        legend_handles = [
+            Line2D([0], [0], color=colors[0], lw=2.5, label=legend_labels[0]),
+            Line2D([0], [0], color=colors[1], lw=2.5, label=legend_labels[1]),
+        ]
 
     adjacency = _vector_to_adjacency(network, ena_set.enadata.codes)
     coords = ena_set.node_positions
@@ -1511,4 +1537,6 @@ def plot_network(
     ax.set_xlim(x_min - x_pad, x_max + x_pad)
     ax.set_ylim(y_min - y_pad, y_max + y_pad)
     _apply_reference_axes(ax)
+    if legend_handles is not None:
+        ax.legend(handles=legend_handles)
     return ax
