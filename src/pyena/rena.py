@@ -11,6 +11,7 @@ import numpy as np
 
 
 Record = Mapping[str, object]
+DEFAULT_FIGSIZE = (7, 7)
 
 
 def read_csv_records(path: str | Path) -> list[dict[str, object]]:
@@ -767,7 +768,7 @@ def create_points_ci_plot(
     color: str,
     label: str,
     title: str,
-    figsize: tuple[float, float] = (6, 6),
+    figsize: tuple[float, float] = DEFAULT_FIGSIZE,
 ):
     import matplotlib.pyplot as plt
 
@@ -782,7 +783,7 @@ def create_points_ci_plot(
 def create_points_ci_overlay_plot(
     point_groups: Sequence[tuple[np.ndarray, str, str]],
     title: str,
-    figsize: tuple[float, float] = (7, 6),
+    figsize: tuple[float, float] = DEFAULT_FIGSIZE,
 ):
     import matplotlib.pyplot as plt
 
@@ -799,7 +800,7 @@ def create_network_plot(
     ena_set: ENASet,
     network: np.ndarray,
     title: str,
-    figsize: tuple[float, float] = (7, 6),
+    figsize: tuple[float, float] = DEFAULT_FIGSIZE,
     show_legend: bool = False,
     legend_labels: tuple[str, str] = ("Positive edges", "Negative edges"),
     line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
@@ -824,7 +825,7 @@ def create_network_with_point_groups_plot(
     network: np.ndarray,
     point_groups: Sequence[dict[str, object]],
     title: str,
-    figsize: tuple[float, float] = (7, 6),
+    figsize: tuple[float, float] = DEFAULT_FIGSIZE,
     show_legend: bool = False,
     line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
 ):
@@ -856,7 +857,7 @@ def create_individual_network_plot(
     point_color: str,
     title: str,
     point_label: str | None = None,
-    figsize: tuple[float, float] = (7, 6),
+    figsize: tuple[float, float] = DEFAULT_FIGSIZE,
     point_size: float = 80.0,
     show_legend: bool = False,
     line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
@@ -885,7 +886,7 @@ def save_figure(fig, path: str | Path) -> None:
     import matplotlib.pyplot as plt
 
     fig.tight_layout()
-    fig.savefig(path, dpi=300, bbox_inches="tight")
+    fig.savefig(path, dpi=300)
     plt.close(fig)
 
 
@@ -1451,7 +1452,7 @@ def plot_network(
         ) from exc
 
     if ax is None:
-        _, ax = plt.subplots(figsize=(6, 6))
+        _, ax = plt.subplots(figsize=DEFAULT_FIGSIZE)
 
     legend_handles = None
     if show_legend:
