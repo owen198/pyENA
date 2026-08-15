@@ -763,6 +763,22 @@ def _apply_reference_axes(ax) -> None:
     ax.axvline(0, color="#cccccc", linewidth=0.8)
 
 
+def _set_square_axis_limits(
+    ax,
+    x_min: float,
+    x_max: float,
+    y_min: float,
+    y_max: float,
+    pad_ratio: float = 0.3,
+) -> None:
+    x_center = (x_min + x_max) / 2.0
+    y_center = (y_min + y_max) / 2.0
+    square_span = max(x_max - x_min, y_max - y_min, 1e-9)
+    padded_half_span = square_span * (1.0 + pad_ratio) / 2.0
+    ax.set_xlim(x_center - padded_half_span, x_center + padded_half_span)
+    ax.set_ylim(y_center - padded_half_span, y_center + padded_half_span)
+
+
 def create_points_ci_plot(
     points: np.ndarray,
     color: str,
@@ -1528,15 +1544,10 @@ def plot_network(
     x_max = float(np.max(coords[:, 0]))
     y_min = float(np.min(coords[:, 1]))
     y_max = float(np.max(coords[:, 1]))
-    x_span = max(x_max - x_min, 1e-9)
-    y_span = max(y_max - y_min, 1e-9)
-    x_pad = x_span * 0.3
-    y_pad = y_span * 0.3
 
     ax.set_title(title or "ENA Network")
     ax.set_aspect("equal", adjustable="box")
-    ax.set_xlim(x_min - x_pad, x_max + x_pad)
-    ax.set_ylim(y_min - y_pad, y_max + y_pad)
+    _set_square_axis_limits(ax, x_min, x_max, y_min, y_max)
     _apply_reference_axes(ax)
     if legend_handles is not None:
         ax.legend(handles=legend_handles)
