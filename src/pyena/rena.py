@@ -790,7 +790,6 @@ def create_points_ci_plot(
 
     fig, ax = plt.subplots(figsize=figsize)
     plot_points_with_ci(ax, points, color, label)
-    ax.set_title(title)
     _apply_reference_axes(ax)
     ax.legend()
     return fig, ax
@@ -806,7 +805,6 @@ def create_points_ci_overlay_plot(
     fig, ax = plt.subplots(figsize=figsize)
     for points, color, label in point_groups:
         plot_points_with_ci(ax, points, color, label)
-    ax.set_title(title)
     _apply_reference_axes(ax)
     ax.legend()
     return fig, ax
@@ -1545,7 +1543,6 @@ def plot_network(
     y_min = float(np.min(coords[:, 1]))
     y_max = float(np.max(coords[:, 1]))
 
-    ax.set_title(title or "ENA Network")
     ax.set_aspect("equal", adjustable="box")
     _set_square_axis_limits(ax, x_min, x_max, y_min, y_max)
     _apply_reference_axes(ax)
