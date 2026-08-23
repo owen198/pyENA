@@ -12,6 +12,10 @@ It currently supports:
 - SVD rotation and mean rotation
 - point projection, mean networks, and subtracted networks
 - matplotlib-based ENA network plots
+- `summary-only` execution for statistics-only runs without figure generation
+- machine-readable ENA reporting written to `statistical_summary.json`
+- an `interpret-ena-results` Codex skill for report interpretation
+- automatic Mann-Whitney U method selection: `exact` at `300` rows or fewer per group, `asymptotic` above `300`
 - Welch t-test, Mann-Whitney / Wilcoxon-style summaries, ANOVA, chi-square summaries, and goodness-of-fit reporting used in the examples
 
 ## Files
@@ -104,6 +108,29 @@ If you already installed `pyENA` from GitHub into another project, you do not ne
 - compare the groups `HDSE` and `LDSE`
 - save all outputs to `outputs_leet/`
 - print the statistical summary to the terminal
+
+## Additional Features
+
+### Summary-only mode
+
+Use `example.py --summary-only` when you want the statistical outputs without generating any figures. This mode runs the ENA model, computes the same group-comparison summaries, writes `statistical_summary.json`, and skips the plotting stage.
+
+### `statistical_summary.json`
+
+Generated statistical results are written to `statistical_summary.json`. The structure and contents of this file are documented below in the `Included indicators` section, including group summaries, inferential statistics, goodness-of-fit, axis interpretation, and network differences.
+
+### `interpret-ena-results` Codex skill
+
+This repository includes a reusable Codex skill named `interpret-ena-results` under `skills/interpret-ena-results/`. It is intended to help interpret `statistical_summary.json` and related ENA outputs in report-ready language.
+
+### Automatic Mann-Whitney U method selection
+
+`pyENA` automatically chooses the Mann-Whitney U computation method based on group size:
+
+- if both groups have `300` rows or fewer, it uses `method="exact"`
+- if either group has more than `300` rows, it uses `method="asymptotic"`
+
+This keeps small-sample analyses exact while preventing large-sample runs from becoming impractically slow.
 
 ## Output Files
 

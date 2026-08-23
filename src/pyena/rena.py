@@ -360,7 +360,8 @@ def mann_whitney(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
     _validate_minimum_group_sizes(x, y, test_name="Mann-Whitney U test", min_n=1)
-    result = stats.mannwhitneyu(x, y, alternative="two-sided", method="exact")
+    method = "asymptotic" if max(len(x), len(y)) > 300 else "exact"
+    result = stats.mannwhitneyu(x, y, alternative="two-sided", method=method)
     u_stat = float(result.statistic)
     u_complement = float(len(x) * len(y) - u_stat)
     w_stat = min(u_stat, u_complement)
