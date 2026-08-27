@@ -17,6 +17,7 @@ dependencies = [
   "numpy>=1.26",
   "matplotlib>=3.8",
   "scipy>=1.13",
+  "plotly>=6.0"
 ]
 keywords = ["ENA", "epistemic network analysis", "learning analytics", "quantitative ethnography"]
 classifiers = [

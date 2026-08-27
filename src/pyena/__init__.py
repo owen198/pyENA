@@ -31,6 +31,14 @@ from .rena import (
     welch_ttest,
 )
 
+from .plot3d import (
+    generate_analysis_outputs_3d,
+    plot_network_3d,
+    plot_network_with_points_3d, 
+    save_figure_html,
+)
+
+
 __all__ = [
     "ENAData",
     "ENASet",
@@ -62,4 +70,10 @@ __all__ = [
     "svd_rotation",
     "validate_rs_data",
     "welch_ttest",
+
+    # 3D
+    "generate_analysis_outputs_3d",
+    "plot_network_3d",
+    "plot_network_with_points_3d",
+    "save_figure_html",
 ]
