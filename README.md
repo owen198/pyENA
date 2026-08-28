@@ -12,8 +12,10 @@ It currently supports:
 - SVD rotation and mean rotation
 - point projection, mean networks, and subtracted networks
 - matplotlib-based ENA network plots
+- Plotly-based interactive 3D ENA network, point, and confidence-interval plots
 - `summary-only` execution for statistics-only runs without figure generation
 - machine-readable ENA reporting written to `statistical_summary.json`
+- dimension-generic statistical reporting for every retained ENA dimension
 - an `interpret-ena-results` Codex skill for report interpretation
 - automatic Mann-Whitney U method selection: `exact` at `300` rows or fewer per group, `asymptotic` above `300`
 - Welch t-test, Mann-Whitney / Wilcoxon-style summaries, ANOVA, chi-square summaries, and goodness-of-fit reporting used in the examples
@@ -21,8 +23,10 @@ It currently supports:
 ## Files
 
 - `src/pyena/rena.py`: core ENA implementation
+- `src/pyena/plot3d.py`: interactive 3D plotting and full 3D output workflow
 - `src/pyena/__init__.py`: public package API
 - `example.py`: end-to-end handbook example using `datasets/RS.data.csv`
+- `example_3d.py`: 3D counterpart of the handbook example
 - `example_leet.py`: end-to-end example using `datasets/leet.csv`
 - `datasets/`: example datasets used by the repository
 - `datasets/RS.data.csv`: handbook example dataset exported from `rENA::RS.data`
@@ -46,13 +50,20 @@ Then import it in any Python project with:
 from pyena import ena, generate_analysis_outputs
 ```
 
-For local development, you can still create a virtual environment and install in editable mode:
+After cloning the repository, create a virtual environment, install the complete
+dependency list (including Plotly), and install pyENA:
 
 ```bash
+git clone https://github.com/owen198/pyENA.git
+cd pyENA
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -e .
+pip install -r requirements.txt
+pip install .
 ```
+
+If you are actively changing pyENA source code, use `pip install -e .` instead
+of `pip install .` for an editable development install.
 
 ## Quick Start
 
@@ -60,7 +71,6 @@ Run the handbook example:
 
 ```bash
 source .venv/bin/activate
-pip install -e .
 python3 example.py
 ```
 
@@ -68,15 +78,24 @@ Run the handbook example in summary-only mode:
 
 ```bash
 source .venv/bin/activate
-pip install -e .
 python3 example.py --summary-only
 ```
+
+Run the complete interactive 3D counterpart:
+
+```bash
+source .venv/bin/activate
+python3 example_3d.py
+```
+
+`example_3d.py` requires Plotly. It is listed in both `requirements.txt` and
+the package dependencies in `pyproject.toml`; the explicit requirements step
+above keeps the local dependency list visible and reproducible.
 
 Run the Leet example:
 
 ```bash
 source .venv/bin/activate
-pip install -e .
 python3 example_leet.py
 ```
 
@@ -98,6 +117,16 @@ If you already installed `pyENA` from GitHub into another project, you do not ne
 - call `summarize_ena_results(...)` directly instead of generating figures
 - write only `outputs/statistical_summary.json`
 - print the statistical summary to the terminal
+
+`example_3d.py` will:
+
+- build the same handbook ENA comparison with `dimensions=3`
+- call `generate_analysis_outputs_3d(...)` to generate the full 3D counterpart
+  of the 2D output workflow
+- save 12 self-contained interactive HTML visualizations and one
+  `statistical_summary.json` file under `outputs_3d/`
+- report Dimension 1, Dimension 2, and Dimension 3 throughout the point
+  summaries and dimension-level statistics
 
 `example_leet.py` will:
 
@@ -134,15 +163,30 @@ This keeps small-sample analyses exact while preventing large-sample runs from b
 
 ## Output Files
 
-Running `example.py` will generate files such as:
+The complete 2D and 3D examples each generate exactly 13 files: 12
+visualizations plus the shared machine-readable statistical summary. The 3D
+workflow mirrors every 2D analytical view and changes only the visualization
+format from a static PNG to an interactive HTML file.
 
-- `outputs/firstgame_mean_network.png`
-- `outputs/secondgame_mean_network.png`
-- `outputs/subtracted_mean_network.png`
-- `outputs/group_points_overlay.png`
-- `outputs/subtracted_network_with_points.png`
-- `outputs/subtracted_individual_network.png`
-- `outputs/statistical_summary.json`
+| 2D output under `outputs/` | 3D counterpart under `outputs_3d/` |
+| --- | --- |
+| `firstgame_mean_network.png` | `firstgame_mean_network.html` |
+| `firstgame_network_with_points.png` | `firstgame_network_with_points.html` |
+| `firstgame_points_ci.png` | `firstgame_points_ci.html` |
+| `group_points_overlay.png` | `group_points_overlay.html` |
+| `individual_firstgame_network.png` | `individual_firstgame_network.html` |
+| `individual_secondgame_network.png` | `individual_secondgame_network.html` |
+| `secondgame_mean_network.png` | `secondgame_mean_network.html` |
+| `secondgame_network_with_points.png` | `secondgame_network_with_points.html` |
+| `secondgame_points_ci.png` | `secondgame_points_ci.html` |
+| `subtracted_individual_network.png` | `subtracted_individual_network.html` |
+| `subtracted_mean_network.png` | `subtracted_mean_network.html` |
+| `subtracted_network_with_points.png` | `subtracted_network_with_points.html` |
+| `statistical_summary.json` | `statistical_summary.json` |
+
+The 3D confidence-interval views draw the independent 95% confidence interval
+for each retained axis through the group mean point. They do not imply a joint
+3D confidence ellipsoid.
 
 Running `example.py --summary-only` will generate:
 
@@ -168,7 +212,8 @@ Example visual outputs from `example.py`:
 
 ## `statistical_summary.json`
 
-The `statistical_summary.json` file is the main machine-readable summary produced by `generate_analysis_outputs(...)`.
+The `statistical_summary.json` file is the main machine-readable summary produced
+by both `generate_analysis_outputs(...)` and `generate_analysis_outputs_3d(...)`.
 
 At a high level, it contains:
 
@@ -179,6 +224,12 @@ At a high level, it contains:
 - `axis_interpretation`: heuristic summaries of what each ENA dimension appears to distinguish
 - `networks`: mean networks, the subtracted mean network, and the strongest positive and negative edge differences
 
+Dimension-level fields are generated from the actual number of columns in the
+ENA point space. A 2D model therefore keeps the existing `dimension_1` and
+`dimension_2` structure unchanged, while a 3D model also reports
+`dimension_3` for group point means, medians, confidence intervals, Welch
+t-tests, Mann-Whitney U tests, ANOVA, goodness-of-fit, and axis interpretation.
+
 ### Included indicators
 
 The JSON currently reports the following indicators and related descriptions.
@@ -186,20 +237,20 @@ The JSON currently reports the following indicators and related descriptions.
 | Indicator | JSON location | What it means |
 | --- | --- | --- |
 | Mean point | `points.group_a.mean_point`, `points.group_b.mean_point` | The average projected ENA location for each group. This is the group centroid in the plotted ENA space. |
-| Median point | `points.group_a.median_point`, `points.group_b.median_point` | The median projected ENA location for each group on the two plotted dimensions. Useful when point distributions are skewed. |
+| Median point | `points.group_a.median_point`, `points.group_b.median_point` | The median projected ENA location for each group on every retained dimension. Useful when point distributions are skewed. |
 | 95% confidence interval for group points | `points.group_a.confidence_interval_95`, `points.group_b.confidence_interval_95` | The uncertainty interval around each group's mean point on each ENA dimension. |
-| Welch t-test | `statistics.welch_t_test.dimension_1`, `statistics.welch_t_test.dimension_2` | Tests whether the two groups differ in their projected ENA coordinates on each dimension without assuming equal variance. |
+| Welch t-test | `statistics.welch_t_test.dimension_*` | Tests whether the two groups differ in their projected ENA coordinates on each retained dimension without assuming equal variance. |
 | `t_statistic` | inside `welch_t_test` | The Welch t statistic for a dimension-level group comparison. |
 | `p_value` | inside `welch_t_test`, `mann_whitney_u`, `anova`, and `chi_square` | The probability of observing a result at least this extreme under the null hypothesis. |
 | Degrees of freedom | `statistics.welch_t_test.*.degrees_of_freedom` | The Welch-Satterthwaite degrees of freedom used for the t-test. |
 | Mean and SD by group | `statistics.welch_t_test.*.mean_x`, `mean_y`, `sd_x`, `sd_y` | Descriptive statistics for the two groups on each ENA dimension. |
 | Cohen's d | `statistics.welch_t_test.*.cohens_d` | Standardized group difference size for each ENA dimension. |
 | 95% confidence interval for mean difference | `statistics.welch_t_test.*.confidence_interval_95` | Confidence interval for the difference between group means on each dimension. |
-| Mann-Whitney U | `statistics.mann_whitney_u.dimension_1`, `statistics.mann_whitney_u.dimension_2` | Non-parametric test of whether the two groups differ in their projected ENA coordinates on each dimension. |
+| Mann-Whitney U | `statistics.mann_whitney_u.dimension_*` | Non-parametric test of whether the two groups differ in their projected ENA coordinates on each retained dimension. |
 | U statistic | `statistics.mann_whitney_u.*.u_statistic` | The Mann-Whitney U value for the dimension-level comparison. |
 | Median by group | `statistics.mann_whitney_u.*.median_x`, `median_y` | The two group medians used in the non-parametric summary. |
 | Approximate effect size `r` | `statistics.mann_whitney_u.*.effect_r_approx` | Approximate effect size derived from the Mann-Whitney result. |
-| One-way ANOVA | `statistics.anova.dimension_1`, `statistics.anova.dimension_2` | Parametric between-group comparison of projected ENA coordinates on each dimension. In a two-group setting, this is a companion summary to the t-test. |
+| One-way ANOVA | `statistics.anova.dimension_*` | Parametric between-group comparison of projected ENA coordinates on each retained dimension. In a two-group setting, this is a companion summary to the t-test. |
 | F statistic | `statistics.anova.*.f_statistic` | The ANOVA F value for the group comparison on a given ENA dimension. |
 | Chi-square | `statistics.chi_square` | Frequency-based comparison of binary code presence across the two groups. This is separate from ENA point-space tests and focuses on code occurrence counts. |
 | Overall chi-square | `statistics.chi_square.overall` | Chi-square test over the two-by-code contingency table. |
@@ -210,7 +261,7 @@ The JSON currently reports the following indicators and related descriptions.
 | Mean network | `networks.group_a_mean_network`, `networks.group_b_mean_network` | Average edge weights for each group. These show the representative co-occurrence structure for the group. |
 | Subtracted mean network | `networks.subtracted_mean_network` | Edge-by-edge difference computed as `group_a_mean_network - group_b_mean_network`. Positive values indicate stronger edges for group A, negative values indicate stronger edges for group B. |
 | Top edge differences | `networks.subtracted_mean_network_top_edges` | The strongest positive and negative edges in the subtraction network. |
-| Axis interpretation | `axis_interpretation.dimension_1`, `axis_interpretation.dimension_2` | Heuristic interpretation of each ENA dimension based on the most positive and most negative node coordinates in the co-registered space. |
+| Axis interpretation | `axis_interpretation.dimension_*` | Heuristic interpretation of each retained ENA dimension based on the most positive and most negative node coordinates in the co-registered space. |
 
 ### Notes on interpretation
 
@@ -449,6 +500,20 @@ Draws an ENA network using the node positions stored in the `ENASet`.
 
 Generates the full set of handbook-style example plots and the `statistical_summary.json` file from an existing `ENASet`.
 
+### `generate_analysis_outputs_3d(...)`
+
+Generates the same 13-output analytical workflow as
+`generate_analysis_outputs(...)`, using interactive HTML visualizations for a
+model built with `dimensions=3`. The `groups`, `group_colors`, and focus-unit
+arguments control the same two-group comparison and individual examples as in
+the 2D workflow.
+
+### `plot_network_3d(...)`, `plot_network_with_points_3d(...)`, and `plot_points_with_ci_3d(...)`
+
+Build individual interactive 3D network, network-with-points, and
+points-with-confidence-interval figures when the full output workflow is not
+needed.
+
 ## Relationship to `rENA`
 
 This project is intended as a practical Python port of the most commonly used `rENA` workflow, not a full one-to-one reimplementation of every feature in the R package.
@@ -519,7 +584,7 @@ SecondGame,B,G2,1,1,0,1
 - Repository datasets now live under `datasets/`.
 - Most reusable helper functions have been moved into `rena.py`.
 - The installable package lives under `src/pyena/`.
-- Both example scripts assume `pyENA` has already been installed into the current environment.
+- All example scripts assume `pyENA` has already been installed into the current environment.
 - The current plotting layer is designed to match the handbook examples closely enough for analysis and replication, while remaining simple to modify.
 
 ## Skill
