@@ -34,7 +34,8 @@ from .rena import (
 from .plot3d import (
     generate_analysis_outputs_3d,
     plot_network_3d,
-    plot_network_with_points_3d, 
+    plot_network_with_points_3d,
+    plot_points_with_ci_3d,
     save_figure_html,
 )
 
@@ -75,5 +76,6 @@ __all__ = [
     "generate_analysis_outputs_3d",
     "plot_network_3d",
     "plot_network_with_points_3d",
+    "plot_points_with_ci_3d",
     "save_figure_html",
 ]
