@@ -1,0 +1,714 @@
+{
+  "groups": {
+    "group_column": "Condition",
+    "group_a_label": "FirstGame",
+    "group_b_label": "SecondGame"
+  },
+  "model": {
+    "units": 48,
+    "edges": 15,
+    "codes": [
+      "Data",
+      "Technical.Constraints",
+      "Performance.Parameters",
+      "Client.and.Consultant.Requests",
+      "Design.Reasoning",
+      "Collaboration"
+    ],
+    "rotation_dimensions": 3,
+    "eigenvalues": [
+      0.03742524691286972,
+      0.845288653718348,
+      0.6214611576188666
+    ],
+    "explained_variance_ratio": [
+      0.024880911771272964,
+      0.5619616208114323,
+      0.4131574674172947
+    ]
+  },
+  "points": {
+    "group_a": {
+      "n": 26,
+      "mean_point": [
+        -0.08866736055157334,
+        -1.6546593155471083e-17,
+        -1.014146032109518e-17
+      ],
+      "median_point": [
+        -0.0825600769029207,
+        -0.006516767438946372,
+        -0.014061772627970395
+      ],
+      "confidence_interval_95": {
+        "dimension_1": [
+          -0.13412780559748388,
+          -0.043206915505662816
+        ],
+        "dimension_2": [
+          -0.05237743174971527,
+          0.05237743174971524
+        ],
+        "dimension_3": [
+          -0.04417707810037439,
+          0.04417707810037438
+        ]
+      }
+    },
+    "group_b": {
+      "n": 22,
+      "mean_point": [
+        0.10478869883367753,
+        1.261617073437678e-18,
+        2.0816681711721685e-17
+      ],
+      "median_point": [
+        0.14363815083767337,
+        -0.03137236781910695,
+        0.020484401038810385
+      ],
+      "confidence_interval_95": {
+        "dimension_1": [
+          0.04876537570050555,
+          0.16081202196684952
+        ],
+        "dimension_2": [
+          -0.06306663751668969,
+          0.06306663751668969
+        ],
+        "dimension_3": [
+          -0.05493583928657907,
+          0.054935839286579115
+        ]
+      }
+    }
+  },
+  "statistics": {
+    "welch_t_test": {
+      "dimension_1": {
+        "t_statistic": -5.554707888469296,
+        "p_value": 1.6675032026732437e-06,
+        "degrees_of_freedom": 42.55183770987087,
+        "mean_x": -0.08866736055157334,
+        "mean_y": 0.10478869883367753,
+        "sd_x": 0.11255127808888213,
+        "sd_y": 0.12635647642359288,
+        "n_x": 26,
+        "n_y": 22,
+        "confidence_interval_95": [
+          -0.26371361332252585,
+          -0.12319850544797586
+        ],
+        "cohens_d": -1.624965521456542
+      },
+      "dimension_2": {
+        "t_statistic": -4.3033250226835985e-16,
+        "p_value": 0.9999999999999997,
+        "degrees_of_freedom": 43.041617611419944,
+        "mean_x": -2.0816681711721685e-17,
+        "mean_y": -3.784851220313033e-18,
+        "sd_x": 0.12967640067073988,
+        "sd_y": 0.1422421529253131,
+        "n_x": 26,
+        "n_y": 22,
+        "confidence_interval_95": [
+          -0.07981502464893457,
+          0.07981502464893454
+        ],
+        "cohens_d": -1.2564283355544823e-16
+      },
+      "dimension_3": {
+        "t_statistic": -7.101385368499252e-16,
+        "p_value": 0.9999999999999994,
+        "degrees_of_freedom": 42.35475160475866,
+        "mean_x": -5.871371764844578e-18,
+        "mean_y": 1.829344756484633e-17,
+        "sd_x": 0.10937390950326349,
+        "sd_y": 0.12390373675485856,
+        "n_x": 26,
+        "n_y": 22,
+        "confidence_interval_95": [
+          -0.06865488785454213,
+          0.06865488785454207
+        ],
+        "cohens_d": -2.0790047110447567e-16
+      }
+    },
+    "mann_whitney_u": {
+      "dimension_1": {
+        "u_statistic": 69.0,
+        "u_complement": 503.0,
+        "w_statistic_r_style": 69.0,
+        "p_value": 1.4997635286819895e-06,
+        "median_x": -0.0825600769029207,
+        "median_y": 0.14363815083767337,
+        "n_x": 26,
+        "n_y": 22,
+        "effect_r_approx": 0.6944466034643625
+      },
+      "dimension_2": {
+        "u_statistic": 296.0,
+        "u_complement": 276.0,
+        "w_statistic_r_style": 276.0,
+        "p_value": 0.8456154633192885,
+        "median_x": -0.006516767438946372,
+        "median_y": -0.03137236781910695,
+        "n_x": 26,
+        "n_y": 22,
+        "effect_r_approx": 0.028104800965008697
+      },
+      "dimension_3": {
+        "u_statistic": 255.0,
+        "u_complement": 317.0,
+        "w_statistic_r_style": 255.0,
+        "p_value": 0.5314190545102824,
+        "median_x": -0.014061772627970395,
+        "median_y": 0.020484401038810385,
+        "n_x": 26,
+        "n_y": 22,
+        "effect_r_approx": 0.09033240748837591
+      }
+    },
+    "anova": {
+      "dimension_1": {
+        "f_statistic": 31.46611260557683,
+        "p_value": 1.1099810622527933e-06,
+        "mean_x": -0.08866736055157334,
+        "mean_y": 0.10478869883367753,
+        "n_x": 26,
+        "n_y": 22
+      },
+      "dimension_2": {
+        "f_statistic": 2.4690891211775303e-31,
+        "p_value": 0.9999999999999996,
+        "mean_x": -2.0816681711721685e-17,
+        "mean_y": -3.784851220313033e-18,
+        "n_x": 26,
+        "n_y": 22
+      },
+      "dimension_3": {
+        "f_statistic": 6.748852591926797e-31,
+        "p_value": 0.9999999999999993,
+        "mean_x": -5.871371764844578e-18,
+        "mean_y": 1.829344756484633e-17,
+        "n_x": 26,
+        "n_y": 22
+      }
+    },
+    "chi_square": {
+      "basis": "Binary code presence counts per row within each group.",
+      "group_a_rows": 2309,
+      "group_b_rows": 1515,
+      "overall": {
+        "chi_square": 28.87375482244235,
+        "p_value": 2.4548013363438492e-05,
+        "degrees_of_freedom": 5,
+        "observed": [
+          [
+            481.0,
+            727.0,
+            401.0,
+            149.0,
+            709.0,
+            175.0
+          ],
+          [
+            253.0,
+            462.0,
+            284.0,
+            91.0,
+            448.0,
+            53.0
+          ]
+        ],
+        "expected": [
+          [
+            458.1214268840066,
+            742.1067800614221,
+            427.5383888495157,
+            149.79447200566975,
+            722.1341837939996,
+            142.30474840538625
+          ],
+          [
+            275.8785731159934,
+            446.89321993857783,
+            257.4616111504843,
+            90.20552799433027,
+            434.8658162060005,
+            85.69525159461375
+          ]
+        ]
+      },
+      "per_code": [
+        {
+          "code": "Data",
+          "group_a_present": 481,
+          "group_b_present": 253,
+          "group_a_rate": 0.20831528800346472,
+          "group_b_rate": 0.166996699669967,
+          "chi_square": 9.804471385375246,
+          "p_value": 0.0017408806963969377,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              443.2024058577406,
+              1865.7975941422594
+            ],
+            [
+              290.7975941422594,
+              1224.2024058577406
+            ]
+          ]
+        },
+        {
+          "code": "Technical.Constraints",
+          "group_a_present": 727,
+          "group_b_present": 462,
+          "group_a_rate": 0.3148549155478562,
+          "group_b_rate": 0.30495049504950494,
+          "chi_square": 0.3738897283440386,
+          "p_value": 0.5408916297163279,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              717.9395920502092,
+              1591.0604079497907
+            ],
+            [
+              471.0604079497908,
+              1043.9395920502093
+            ]
+          ]
+        },
+        {
+          "code": "Performance.Parameters",
+          "group_a_present": 401,
+          "group_b_present": 284,
+          "group_a_rate": 0.1736682546556951,
+          "group_b_rate": 0.18745874587458747,
+          "chi_square": 1.091202325834512,
+          "p_value": 0.2962049658253379,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              413.61532426778246,
+              1895.3846757322176
+            ],
+            [
+              271.38467573221754,
+              1243.6153242677824
+            ]
+          ]
+        },
+        {
+          "code": "Client.and.Consultant.Requests",
+          "group_a_present": 149,
+          "group_b_present": 91,
+          "group_a_rate": 0.06453009961022088,
+          "group_b_rate": 0.06006600660066007,
+          "chi_square": 0.23866941854118665,
+          "p_value": 0.6251687867054128,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              144.9163179916318,
+              2164.083682008368
+            ],
+            [
+              95.0836820083682,
+              1419.9163179916318
+            ]
+          ]
+        },
+        {
+          "code": "Design.Reasoning",
+          "group_a_present": 709,
+          "group_b_present": 448,
+          "group_a_rate": 0.30705933304460803,
+          "group_b_rate": 0.2957095709570957,
+          "chi_square": 0.5059431395389765,
+          "p_value": 0.4769003333437376,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              698.6174163179917,
+              1610.3825836820083
+            ],
+            [
+              458.3825836820084,
+              1056.6174163179917
+            ]
+          ]
+        },
+        {
+          "code": "Collaboration",
+          "group_a_present": 175,
+          "group_b_present": 53,
+          "group_a_rate": 0.075790385448246,
+          "group_b_rate": 0.03498349834983498,
+          "chi_square": 26.445644247606523,
+          "p_value": 2.7105900854338603e-07,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              137.6705020920502,
+              2171.3294979079496
+            ],
+            [
+              90.32949790794979,
+              1424.6705020920501
+            ]
+          ]
+        }
+      ]
+    },
+    "goodness_of_fit": {
+      "n_non_zero_units": 48,
+      "co_registration_correlations": {
+        "dimension_1": {
+          "pearson": 0.9963250360059343,
+          "spearman": 0.9951150673035171
+        },
+        "dimension_2": {
+          "pearson": 0.984671352231478,
+          "spearman": 0.9826313504125054
+        },
+        "dimension_3": {
+          "pearson": 0.9827872536634187,
+          "spearman": 0.9697134172818063
+        }
+      },
+      "summary": "Strong goodness of fit between the visualization and the original model."
+    }
+  },
+  "axis_interpretation": {
+    "dimension_1": {
+      "basis": "Heuristic summary based on node positions in the co-registered ENA space.",
+      "positive_pole_codes": [
+        {
+          "code": "Performance.Parameters",
+          "coordinate": 1.5057338550458095
+        },
+        {
+          "code": "Design.Reasoning",
+          "coordinate": 1.3659177260761248
+        },
+        {
+          "code": "Client.and.Consultant.Requests",
+          "coordinate": -0.20076551953951532
+        }
+      ],
+      "negative_pole_codes": [
+        {
+          "code": "Technical.Constraints",
+          "coordinate": -1.8963650800150025
+        },
+        {
+          "code": "Collaboration",
+          "coordinate": -1.7125963314182855
+        },
+        {
+          "code": "Data",
+          "coordinate": -0.3134391226842199
+        }
+      ]
+    },
+    "dimension_2": {
+      "basis": "Heuristic summary based on node positions in the co-registered ENA space.",
+      "positive_pole_codes": [
+        {
+          "code": "Technical.Constraints",
+          "coordinate": 1.7726617720612718
+        },
+        {
+          "code": "Design.Reasoning",
+          "coordinate": 1.0516906435968953
+        },
+        {
+          "code": "Data",
+          "coordinate": -0.8601432421134356
+        }
+      ],
+      "negative_pole_codes": [
+        {
+          "code": "Collaboration",
+          "coordinate": -1.811372565041527
+        },
+        {
+          "code": "Client.and.Consultant.Requests",
+          "coordinate": -1.4956534956652139
+        },
+        {
+          "code": "Performance.Parameters",
+          "coordinate": -1.4185801483119396
+        }
+      ]
+    },
+    "dimension_3": {
+      "basis": "Heuristic summary based on node positions in the co-registered ENA space.",
+      "positive_pole_codes": [
+        {
+          "code": "Client.and.Consultant.Requests",
+          "coordinate": 1.944494936649791
+        },
+        {
+          "code": "Technical.Constraints",
+          "coordinate": 0.7738811874080562
+        },
+        {
+          "code": "Design.Reasoning",
+          "coordinate": 0.5785648386758674
+        }
+      ],
+      "negative_pole_codes": [
+        {
+          "code": "Data",
+          "coordinate": -2.5801750375042336
+        },
+        {
+          "code": "Collaboration",
+          "coordinate": 0.016359280179652214
+        },
+        {
+          "code": "Performance.Parameters",
+          "coordinate": 0.30018337168168346
+        }
+      ]
+    }
+  },
+  "networks": {
+    "group_a_mean_network": [
+      {
+        "edge": "Data__Technical.Constraints",
+        "weight": 0.4032830261845686
+      },
+      {
+        "edge": "Data__Performance.Parameters",
+        "weight": 0.27885635339155856
+      },
+      {
+        "edge": "Technical.Constraints__Performance.Parameters",
+        "weight": 0.3479090671376733
+      },
+      {
+        "edge": "Data__Client.and.Consultant.Requests",
+        "weight": 0.08888452555502457
+      },
+      {
+        "edge": "Technical.Constraints__Client.and.Consultant.Requests",
+        "weight": 0.10970647102238867
+      },
+      {
+        "edge": "Performance.Parameters__Client.and.Consultant.Requests",
+        "weight": 0.0925315939164758
+      },
+      {
+        "edge": "Data__Design.Reasoning",
+        "weight": 0.3475824950682894
+      },
+      {
+        "edge": "Technical.Constraints__Design.Reasoning",
+        "weight": 0.5025362490813242
+      },
+      {
+        "edge": "Performance.Parameters__Design.Reasoning",
+        "weight": 0.3169237609973011
+      },
+      {
+        "edge": "Client.and.Consultant.Requests__Design.Reasoning",
+        "weight": 0.11732680809068771
+      },
+      {
+        "edge": "Data__Collaboration",
+        "weight": 0.10301530671592142
+      },
+      {
+        "edge": "Technical.Constraints__Collaboration",
+        "weight": 0.15047913111721464
+      },
+      {
+        "edge": "Performance.Parameters__Collaboration",
+        "weight": 0.08811443141382093
+      },
+      {
+        "edge": "Client.and.Consultant.Requests__Collaboration",
+        "weight": 0.028185704988150644
+      },
+      {
+        "edge": "Design.Reasoning__Collaboration",
+        "weight": 0.12351321989881756
+      }
+    ],
+    "group_b_mean_network": [
+      {
+        "edge": "Data__Technical.Constraints",
+        "weight": 0.3263767752271402
+      },
+      {
+        "edge": "Data__Performance.Parameters",
+        "weight": 0.3198383099687661
+      },
+      {
+        "edge": "Technical.Constraints__Performance.Parameters",
+        "weight": 0.3274353148608833
+      },
+      {
+        "edge": "Data__Client.and.Consultant.Requests",
+        "weight": 0.08801366097921161
+      },
+      {
+        "edge": "Technical.Constraints__Client.and.Consultant.Requests",
+        "weight": 0.07239016195725798
+      },
+      {
+        "edge": "Performance.Parameters__Client.and.Consultant.Requests",
+        "weight": 0.1060930002152971
+      },
+      {
+        "edge": "Data__Design.Reasoning",
+        "weight": 0.3883492288251933
+      },
+      {
+        "edge": "Technical.Constraints__Design.Reasoning",
+        "weight": 0.479255322261991
+      },
+      {
+        "edge": "Performance.Parameters__Design.Reasoning",
+        "weight": 0.4199834413805593
+      },
+      {
+        "edge": "Client.and.Consultant.Requests__Design.Reasoning",
+        "weight": 0.13012107043656773
+      },
+      {
+        "edge": "Data__Collaboration",
+        "weight": 0.0533254897987446
+      },
+      {
+        "edge": "Technical.Constraints__Collaboration",
+        "weight": 0.04836316248423604
+      },
+      {
+        "edge": "Performance.Parameters__Collaboration",
+        "weight": 0.05503481896513896
+      },
+      {
+        "edge": "Client.and.Consultant.Requests__Collaboration",
+        "weight": 0.029972381105521327
+      },
+      {
+        "edge": "Design.Reasoning__Collaboration",
+        "weight": 0.09432962552913166
+      }
+    ],
+    "subtracted_mean_network": [
+      {
+        "edge": "Data__Technical.Constraints",
+        "weight": 0.07690625095742842
+      },
+      {
+        "edge": "Data__Performance.Parameters",
+        "weight": -0.040981956577207546
+      },
+      {
+        "edge": "Technical.Constraints__Performance.Parameters",
+        "weight": 0.02047375227678999
+      },
+      {
+        "edge": "Data__Client.and.Consultant.Requests",
+        "weight": 0.0008708645758129657
+      },
+      {
+        "edge": "Technical.Constraints__Client.and.Consultant.Requests",
+        "weight": 0.0373163090651307
+      },
+      {
+        "edge": "Performance.Parameters__Client.and.Consultant.Requests",
+        "weight": -0.013561406298821313
+      },
+      {
+        "edge": "Data__Design.Reasoning",
+        "weight": -0.04076673375690387
+      },
+      {
+        "edge": "Technical.Constraints__Design.Reasoning",
+        "weight": 0.023280926819333192
+      },
+      {
+        "edge": "Performance.Parameters__Design.Reasoning",
+        "weight": -0.10305968038325825
+      },
+      {
+        "edge": "Client.and.Consultant.Requests__Design.Reasoning",
+        "weight": -0.01279426234588002
+      },
+      {
+        "edge": "Data__Collaboration",
+        "weight": 0.04968981691717682
+      },
+      {
+        "edge": "Technical.Constraints__Collaboration",
+        "weight": 0.1021159686329786
+      },
+      {
+        "edge": "Performance.Parameters__Collaboration",
+        "weight": 0.03307961244868197
+      },
+      {
+        "edge": "Client.and.Consultant.Requests__Collaboration",
+        "weight": -0.0017866761173706835
+      },
+      {
+        "edge": "Design.Reasoning__Collaboration",
+        "weight": 0.0291835943696859
+      }
+    ],
+    "subtracted_mean_network_top_edges": {
+      "group_a_stronger": [
+        {
+          "edge": "Technical.Constraints__Collaboration",
+          "weight": 0.1021159686329786
+        },
+        {
+          "edge": "Data__Technical.Constraints",
+          "weight": 0.07690625095742842
+        },
+        {
+          "edge": "Data__Collaboration",
+          "weight": 0.04968981691717682
+        },
+        {
+          "edge": "Technical.Constraints__Client.and.Consultant.Requests",
+          "weight": 0.0373163090651307
+        },
+        {
+          "edge": "Performance.Parameters__Collaboration",
+          "weight": 0.03307961244868197
+        }
+      ],
+      "group_b_stronger": [
+        {
+          "edge": "Performance.Parameters__Design.Reasoning",
+          "weight": -0.10305968038325825
+        },
+        {
+          "edge": "Data__Performance.Parameters",
+          "weight": -0.040981956577207546
+        },
+        {
+          "edge": "Data__Design.Reasoning",
+          "weight": -0.04076673375690387
+        },
+        {
+          "edge": "Performance.Parameters__Client.and.Consultant.Requests",
+          "weight": -0.013561406298821313
+        },
+        {
+          "edge": "Client.and.Consultant.Requests__Design.Reasoning",
+          "weight": -0.01279426234588002
+        }
+      ]
+    }
+  }
+}
