@@ -383,18 +383,39 @@ def mann_whitney(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
 def summarize_group_point_tests(
     group_a_points: np.ndarray,
     group_b_points: np.ndarray,
-    test_labels: tuple[str, str] = ("dimension_1", "dimension_2"),
+    test_labels: Sequence[str] | None = None,
 ) -> dict[str, dict[str, dict[str, float | list[float]]]]:
     group_a_points = np.asarray(group_a_points, dtype=float)
     group_b_points = np.asarray(group_b_points, dtype=float)
+
+    if group_a_points.ndim != 2 or group_b_points.ndim != 2:
+        raise ValueError("Group point arrays must both be two-dimensional.")
+    if group_a_points.shape[1] != group_b_points.shape[1]:
+        raise ValueError(
+            "Group point arrays must have the same number of ENA dimensions, "
+            f"but received {group_a_points.shape[1]} and {group_b_points.shape[1]}."
+        )
+    if group_a_points.shape[1] == 0:
+        raise ValueError("Group point arrays must contain at least one ENA dimension.")
+
+    if test_labels is None:
+        labels = [f"dimension_{dim_idx + 1}" for dim_idx in range(group_a_points.shape[1])]
+    else:
+        labels = list(test_labels)
+        if len(labels) != group_a_points.shape[1]:
+            raise ValueError(
+                "test_labels must contain one label per ENA dimension, "
+                f"but received {len(labels)} labels for {group_a_points.shape[1]} dimensions."
+            )
+
     return {
         "welch_t_test": {
-            test_labels[0]: welch_ttest(group_a_points[:, 0], group_b_points[:, 0]),
-            test_labels[1]: welch_ttest(group_a_points[:, 1], group_b_points[:, 1]),
+            label: welch_ttest(group_a_points[:, dim_idx], group_b_points[:, dim_idx])
+            for dim_idx, label in enumerate(labels)
         },
         "mann_whitney_u": {
-            test_labels[0]: mann_whitney(group_a_points[:, 0], group_b_points[:, 0]),
-            test_labels[1]: mann_whitney(group_a_points[:, 1], group_b_points[:, 1]),
+            label: mann_whitney(group_a_points[:, dim_idx], group_b_points[:, dim_idx])
+            for dim_idx, label in enumerate(labels)
         },
     }
 
@@ -584,21 +605,41 @@ def _mean_point_and_ci(points: np.ndarray) -> dict[str, list[float] | int]:
     from scipy import stats
 
     points = np.asarray(points, dtype=float)
+    if points.ndim != 2:
+        raise ValueError("Group points must be a two-dimensional array.")
+    if points.shape[0] == 0:
+        raise ValueError("Group points must contain at least one point.")
+    if points.shape[1] == 0:
+        raise ValueError("Group points must contain at least one ENA dimension.")
+
     mean = points.mean(axis=0)
-    if len(points) > 1:
-        ci_x = stats.t.interval(0.95, len(points) - 1, loc=mean[0], scale=stats.sem(points[:, 0]))
-        ci_y = stats.t.interval(0.95, len(points) - 1, loc=mean[1], scale=stats.sem(points[:, 1]))
-    else:
-        ci_x = (mean[0], mean[0])
-        ci_y = (mean[1], mean[1])
+    median = np.median(points, axis=0)
+    confidence_intervals: dict[str, list[float]] = {}
+    for dim_idx in range(points.shape[1]):
+        dimension_mean = float(mean[dim_idx])
+        if len(points) > 1:
+            standard_error = float(stats.sem(points[:, dim_idx]))
+            if np.isfinite(standard_error) and not math.isclose(standard_error, 0.0):
+                ci = stats.t.interval(
+                    0.95,
+                    len(points) - 1,
+                    loc=dimension_mean,
+                    scale=standard_error,
+                )
+            else:
+                ci = (dimension_mean, dimension_mean)
+        else:
+            ci = (dimension_mean, dimension_mean)
+        confidence_intervals[f"dimension_{dim_idx + 1}"] = [
+            float(ci[0]),
+            float(ci[1]),
+        ]
+
     return {
         "n": int(len(points)),
-        "mean_point": [float(mean[0]), float(mean[1])],
-        "median_point": [float(np.median(points[:, 0])), float(np.median(points[:, 1]))],
-        "confidence_interval_95": {
-            "dimension_1": [float(ci_x[0]), float(ci_x[1])],
-            "dimension_2": [float(ci_y[0]), float(ci_y[1])],
-        },
+        "mean_point": [float(value) for value in mean],
+        "median_point": [float(value) for value in median],
+        "confidence_interval_95": confidence_intervals,
     }
 
 
@@ -672,8 +713,11 @@ def summarize_ena_results(
         "statistics": {
             **summarize_group_point_tests(group_a_points, group_b_points),
             "anova": {
-                "dimension_1": one_way_anova(group_a_points[:, 0], group_b_points[:, 0]),
-                "dimension_2": one_way_anova(group_a_points[:, 1], group_b_points[:, 1]),
+                f"dimension_{dim_idx + 1}": one_way_anova(
+                    group_a_points[:, dim_idx],
+                    group_b_points[:, dim_idx],
+                )
+                for dim_idx in range(group_a_points.shape[1])
             },
             "chi_square": summarize_chi_square(
                 ena_set,
