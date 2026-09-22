@@ -22,11 +22,14 @@ It currently supports:
 
 - `src/pyena/rena.py`: core ENA implementation
 - `src/pyena/__init__.py`: public package API
-- `example.py`: end-to-end handbook example using `datasets/RS.data.csv`
-- `example_leet.py`: end-to-end example using `datasets/leet.csv`
-- `datasets/`: example datasets used by the repository
-- `datasets/RS.data.csv`: handbook example dataset exported from `rENA::RS.data`
-- `datasets/leet.csv`: reflection dataset for the Leet-style example
+- `examples/rs/example.py`: end-to-end handbook example using `examples/rs/datasets/RS.data.csv`
+- `examples/rs/example_3d.py`: 3D handbook example with interactive HTML outputs in `examples/rs/outputs_3d/`
+- `examples/leet_dse/example_leet.py`: end-to-end example using `examples/leet_dse/datasets/leet.csv`
+- `examples/gender_ena/`: synthetic gender education cases
+- See [the examples index](examples/README.md) for case descriptions and run commands.
+- Each case under `examples/` contains its own scripts, `datasets/`, and output folders.
+- `examples/rs/datasets/RS.data.csv`: handbook example dataset exported from `rENA::RS.data`
+- `examples/leet_dse/datasets/leet.csv`: reflection dataset for the Leet-style example (provide locally; not included in version control)
 - `pyproject.toml`: package metadata for `pip install git+...`
 - `requirements.txt`: optional local dependency list
 
@@ -61,7 +64,7 @@ Run the handbook example:
 ```bash
 source .venv/bin/activate
 pip install -e .
-python3 example.py
+python3 examples/rs/example.py
 ```
 
 Run the handbook example in summary-only mode:
@@ -69,7 +72,7 @@ Run the handbook example in summary-only mode:
 ```bash
 source .venv/bin/activate
 pip install -e .
-python3 example.py --summary-only
+python3 examples/rs/example.py --summary-only
 ```
 
 Run the Leet example:
@@ -77,43 +80,43 @@ Run the Leet example:
 ```bash
 source .venv/bin/activate
 pip install -e .
-python3 example_leet.py
+python3 examples/leet_dse/example_leet.py
 ```
 
-If you already installed `pyENA` from GitHub into another project, you do not need this repository layout. The `example.py` file is mainly for reproducing the handbook workflow from this repo.
+If you already installed `pyENA` from GitHub into another project, you do not need this repository layout. The `examples/rs/example.py` file is mainly for reproducing the handbook workflow from this repo.
 
-`example.py` will:
+`examples/rs/example.py` will:
 
-- read `datasets/RS.data.csv`
+- read `examples/rs/datasets/RS.data.csv`
 - build an ENA model with `MovingStanzaWindow`
 - rotate the space using the means of `FirstGame` and `SecondGame`
 - call `generate_analysis_outputs(...)` to generate mean networks, subtracted networks, point plots, and individual comparison plots
-- save all outputs to `outputs/`
+- save all outputs to `examples/rs/outputs/`
 - print the statistical summary to the terminal
 
-`example.py --summary-only` will:
+`examples/rs/example.py --summary-only` will:
 
-- read `datasets/RS.data.csv`
+- read `examples/rs/datasets/RS.data.csv`
 - build the same ENA model and group comparison
 - call `summarize_ena_results(...)` directly instead of generating figures
-- write only `outputs/statistical_summary.json`
+- write only `examples/rs/outputs/statistical_summary.json`
 - print the statistical summary to the terminal
 
-`example_leet.py` will:
+`examples/leet_dse/example_leet.py` will:
 
-- read `datasets/leet.csv`
+- read `examples/leet_dse/datasets/leet.csv`
 - use `units = ["Condition", "UserName"]`
 - use `conversation = ["Condition", "ActivityNumber"]`
 - use the code columns `data.pandas`, `list.set`, `loop.loops`, and `statement.conditions`
 - compare the groups `HDSE` and `LDSE`
-- save all outputs to `outputs_leet/`
+- save all outputs to `examples/leet_dse/outputs/`
 - print the statistical summary to the terminal
 
 ## Additional Features
 
 ### Summary-only mode
 
-Use `example.py --summary-only` when you want the statistical outputs without generating any figures. This mode runs the ENA model, computes the same group-comparison summaries, writes `statistical_summary.json`, and skips the plotting stage.
+Use `examples/rs/example.py --summary-only` when you want the statistical outputs without generating any figures. This mode runs the ENA model, computes the same group-comparison summaries, writes `statistical_summary.json`, and skips the plotting stage.
 
 ### `statistical_summary.json`
 
@@ -134,37 +137,37 @@ This keeps small-sample analyses exact while preventing large-sample runs from b
 
 ## Output Files
 
-Running `example.py` will generate files such as:
+Running `examples/rs/example.py` will generate files such as:
 
-- `outputs/firstgame_mean_network.png`
-- `outputs/secondgame_mean_network.png`
-- `outputs/subtracted_mean_network.png`
-- `outputs/group_points_overlay.png`
-- `outputs/subtracted_network_with_points.png`
-- `outputs/subtracted_individual_network.png`
-- `outputs/statistical_summary.json`
+- `examples/rs/outputs/firstgame_mean_network.png`
+- `examples/rs/outputs/secondgame_mean_network.png`
+- `examples/rs/outputs/subtracted_mean_network.png`
+- `examples/rs/outputs/group_points_overlay.png`
+- `examples/rs/outputs/subtracted_network_with_points.png`
+- `examples/rs/outputs/subtracted_individual_network.png`
+- `examples/rs/outputs/statistical_summary.json`
 
-Running `example.py --summary-only` will generate:
+Running `examples/rs/example.py --summary-only` will generate:
 
-- `outputs/statistical_summary.json`
+- `examples/rs/outputs/statistical_summary.json`
 
-Running `example_leet.py` will generate the same style of outputs under `outputs_leet/`, including:
+Running `examples/leet_dse/example_leet.py` will generate the same style of outputs under `examples/leet_dse/outputs/`, including:
 
-- `outputs_leet/hdse_mean_network.png`
-- `outputs_leet/ldse_mean_network.png`
-- `outputs_leet/subtracted_mean_network.png`
-- `outputs_leet/group_points_overlay.png`
-- `outputs_leet/subtracted_network_with_points.png`
-- `outputs_leet/subtracted_individual_network.png`
-- `outputs_leet/statistical_summary.json`
+- `examples/leet_dse/outputs/hdse_mean_network.png`
+- `examples/leet_dse/outputs/ldse_mean_network.png`
+- `examples/leet_dse/outputs/subtracted_mean_network.png`
+- `examples/leet_dse/outputs/group_points_overlay.png`
+- `examples/leet_dse/outputs/subtracted_network_with_points.png`
+- `examples/leet_dse/outputs/subtracted_individual_network.png`
+- `examples/leet_dse/outputs/statistical_summary.json`
 
-Example visual outputs from `example.py`:
+Example visual outputs from `examples/rs/example.py`:
 
-![FirstGame Network With Points](outputs/firstgame_network_with_points.png)
+![FirstGame Network With Points](examples/rs/outputs/firstgame_network_with_points.png)
 
-![SecondGame Network With Points](outputs/secondgame_network_with_points.png)
+![SecondGame Network With Points](examples/rs/outputs/secondgame_network_with_points.png)
 
-![Subtracted Mean Network](outputs/subtracted_mean_network.png)
+![Subtracted Mean Network](examples/rs/outputs/subtracted_mean_network.png)
 
 ## `statistical_summary.json`
 
@@ -289,7 +292,7 @@ from pathlib import Path
 
 from pyena import ena, generate_analysis_outputs, group_network, group_points, summarize_ena_results
 
-data_path = Path("datasets/RS.data.csv")
+data_path = Path("examples/rs/datasets/RS.data.csv")
 
 codes = [
     "Data",
@@ -316,7 +319,7 @@ ena_set = ena(
 
 outputs = generate_analysis_outputs(
     ena_set=ena_set,
-    output_dir=Path("outputs"),
+    output_dir=Path("examples/rs/outputs"),
     group_a_label="FirstGame",
     group_b_label="SecondGame",
     group_column="Condition",
@@ -341,8 +344,8 @@ import json
 
 from pyena import ena, group_network, group_points, summarize_ena_results
 
-data_path = Path("datasets/RS.data.csv")
-output_dir = Path("outputs")
+data_path = Path("examples/rs/datasets/RS.data.csv")
+output_dir = Path("examples/rs/outputs")
 output_dir.mkdir(exist_ok=True)
 
 codes = [
@@ -514,12 +517,12 @@ SecondGame,B,G2,1,1,0,1
 
 ## Notes
 
-- `example.py` is the recommended place to start for the handbook dataset.
-- `example_leet.py` shows how to adapt the same workflow to a different CSV schema.
-- Repository datasets now live under `datasets/`.
+- `examples/rs/example.py` is the recommended place to start for the handbook dataset.
+- `examples/leet_dse/example_leet.py` shows how to adapt the same workflow to a different CSV schema.
+- Repository datasets live under each case’s `datasets/` folder in `examples/`.
 - Most reusable helper functions have been moved into `rena.py`.
 - The installable package lives under `src/pyena/`.
-- Both example scripts assume `pyENA` has already been installed into the current environment.
+- The example scripts assume `pyENA` has already been installed into the current environment.
 - The current plotting layer is designed to match the handbook examples closely enough for analysis and replication, while remaining simple to modify.
 
 ## Skill

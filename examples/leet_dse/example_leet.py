@@ -15,7 +15,7 @@ SECOND_COLOR = "#ff0000"
 def main() -> None:
     base_dir = Path(__file__).resolve().parent
     data_path = base_dir / "datasets" / "leet.csv"
-    output_dir = base_dir / "outputs_leet"
+    output_dir = base_dir / "outputs"
     output_dir.mkdir(exist_ok=True)
 
     codes = [

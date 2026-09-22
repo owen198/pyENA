@@ -10,8 +10,16 @@ dist/
 *.egg-info/
 
 outputs/
-outputs_leet/
 *.png
 *.pdf
 
-datasets/leet.csv
+/examples/leet_dse/datasets/leet.csv
+# Keep previously versioned RS preview images and the empty Leet output folder.
+!/examples/rs/outputs/
+/examples/rs/outputs/*
+!/examples/rs/outputs/firstgame_network_with_points.png
+!/examples/rs/outputs/secondgame_network_with_points.png
+!/examples/rs/outputs/subtracted_mean_network.png
+!/examples/leet_dse/outputs/
+/examples/leet_dse/outputs/*
+!/examples/leet_dse/outputs/.gitkeep
