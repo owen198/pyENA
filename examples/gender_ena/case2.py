@@ -1,15 +1,11 @@
-"""案例二：主題代碼逐段 0／1 編碼 → ENA。
+"""案例二：依 codebook.csv 分析 15 個主題的二元編碼。
 
-執行：python3 case2.py
-為便於教學，選用截圖中六個代碼；不是完整編碼表。
-資料全為模擬，沒有自動判讀原始文字。
-
-預設讀取 datasets 中的 CSV；--regenerate-data 重新產生模擬資料。
+執行 python3 case2.py；僅需統計與表格時加 --summary-only。
+請先準備 datasets/case2/binary_input.csv。
 """
 from pathlib import Path
-import csv
 import argparse
-from random import Random
+import csv
 import json
 import os
 import tempfile
@@ -23,59 +19,56 @@ from pyena import (accumulate_data, ena, create_network_plot, generate_analysis_
                    group_network, group_points, summarize_ena_results)
 
 
+# 常用設定：資料、輸出、群組、共現視窗與編碼表。
+BASE = Path(__file__).resolve().parent
+DATA = BASE / "datasets" / "case2"
+OUT = BASE / "outputs" / "case2"
 GROUPS = ("A", "B")
+WINDOW_SIZE = 1  # 1：只算本段；3：本段與前兩段
+with (DATA / "codebook.csv").open(encoding="utf-8-sig", newline="") as handle:
+    CODES = [row["code"] for row in csv.DictReader(handle)]
 
 
-def build_parser(description):
-    parser = argparse.ArgumentParser(description=description)
-    parser.add_argument("--summary-only", action="store_true", help="輸出資料與統計摘要，略過繪圖。")
-    parser.add_argument("--group-seed", type=int, default=20260922, help="以聊天為單位隨機分群的種子。")
-    parser.add_argument("--regenerate-data", action="store_true", help="重新生成 200 筆模擬資料並依 group-seed 分群。")
-    return parser
 
-
-def assign_groups(rows, seed):
-    """隨機平衡分配聊天；獨立亂數產生器，不改變原始編碼。"""
-    sessions = sorted({r["session_id"] for r in rows})
-    Random(seed).shuffle(sessions)
-    groups = {session: GROUPS[i % 2] for i, session in enumerate(sessions)}
-    return [{**r, "group": groups[r["session_id"]]} for r in rows]
+def parse_args(description):
+    parser = argparse.ArgumentParser(description=description, add_help=False)
+    parser.add_argument("--summary-only", action="store_true", help="輸出統計摘要與表格，略過繪圖。")
+    return parser.parse_args()
 
 
 def save_csv(path, records):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(records[0]))
+        writer = csv.DictWriter(handle, fieldnames=list(records[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(records)
 
 
-def run_ena(records, codes, output_dir, window_size=1, summary_only=False, group_seed=20260922):
-    """每列一段文字；每個 session_id 一張網絡；episode_id 限制共現邊界。"""
-    records = sorted(records, key=lambda r: (r["session_id"], r["episode_id"], int(r["order"])))
-    if len({(r["session_id"], r["episode_id"], int(r["order"])) for r in records}) != len(records):
-        raise ValueError("同一聊天事件內的 order 不可重複。")
+def run_ena(records, codes, output_dir, window_size=1, summary_only=False, groups=("A", "B")):
+    """每列一段文字；每個 session_id 一張網絡，亦為共現邊界。"""
+    records = sorted(records, key=lambda r: (r["session_id"], int(r["order"])))
+    if len({(r["session_id"], int(r["order"])) for r in records}) != len(records):
+        raise ValueError("同一聊天內的 order 不可重複。")
     if any(r[c] not in (0, 1) for r in records for c in codes):
         raise ValueError("本範例要求 codes 欄位為整數 0 或 1。")
     session_groups = {}
     for row in records:
         group = row.get("group")
-        if group not in GROUPS:
-            raise ValueError("group 必須為 A 或 B。")
+        if group not in groups:
+            raise ValueError(f"group 必須為 {groups[0]} 或 {groups[1]}。")
         previous = session_groups.setdefault(row["session_id"], group)
         if previous != group:
             raise ValueError("同一次聊天不可跨群。")
-    if any(list(session_groups.values()).count(g) < 2 for g in GROUPS):
+    if any(list(session_groups.values()).count(g) < 2 for g in groups):
         raise ValueError("每群至少需要兩次聊天。")
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    save_csv(DATA / "binary_input.csv", records)
     settings = dict(
         codes=codes,
         metadata=["group"],
         units=["session_id"],                 # 網絡單位：一次聊天
-        conversation=["session_id", "episode_id"], # 不跨聊天／事件連線
+        conversation=["session_id"],          # 不跨聊天連線
         model="EndPoint",
         window="MovingStanzaWindow",
         window_size_back=window_size,          # 1：只算本段；3：本段＋前兩段
@@ -93,7 +86,7 @@ def run_ena(records, codes, output_dir, window_size=1, summary_only=False, group
 
     # 對照 example.py，以群組平均旋轉並產生兩群比較。
     model = ena(data=records, rotation="mean", group_column="group",
-                groups=GROUPS, dimensions=2, **settings)
+                groups=groups, dimensions=2, **settings)
     if model.points.shape[1] < 2 or not np.isfinite(model.points).all():
         raise ValueError("資料不足以形成有效的二維 ENA 座標。")
     save_csv(out / "points.csv", [
@@ -101,12 +94,12 @@ def run_ena(records, codes, output_dir, window_size=1, summary_only=False, group
         for label, p in zip(model.unit_labels, model.points)
     ])
     if summary_only:
-        a_network = group_network(model, "group", GROUPS[0])
-        b_network = group_network(model, "group", GROUPS[1])
+        a_network = group_network(model, "group", groups[0])
+        b_network = group_network(model, "group", groups[1])
         summary = summarize_ena_results(
-            ena_set=model, group_column="group", group_a_label=GROUPS[0], group_b_label=GROUPS[1],
-            group_a_points=group_points(model, "group", GROUPS[0]),
-            group_b_points=group_points(model, "group", GROUPS[1]),
+            ena_set=model, group_column="group", group_a_label=groups[0], group_b_label=groups[1],
+            group_a_points=group_points(model, "group", groups[0]),
+            group_b_points=group_points(model, "group", groups[1]),
             group_a_network=a_network, group_b_network=b_network,
             subtracted_mean_network=a_network - b_network,
         )
@@ -114,13 +107,13 @@ def run_ena(records, codes, output_dir, window_size=1, summary_only=False, group
     else:
         outputs = generate_analysis_outputs(
             ena_set=model, output_dir=out, group_column="group",
-            group_a_label=GROUPS[0], group_b_label=GROUPS[1],
+            group_a_label=groups[0], group_b_label=groups[1],
             group_a_color="#ff0000", group_b_color="#0000ff",
             group_a_line_colors=("#ff0000", "#ff0000"),
             group_b_line_colors=("#0000ff", "#0000ff"),
             subtracted_line_colors=("#ff0000", "#0000ff"),
-            focus_unit_a=next(s for s in model.unit_labels if session_groups[s] == GROUPS[0]),
-            focus_unit_b=next(s for s in model.unit_labels if session_groups[s] == GROUPS[1]),
+            focus_unit_a=next(s for s in model.unit_labels if session_groups[s] == groups[0]),
+            focus_unit_b=next(s for s in model.unit_labels if session_groups[s] == groups[1]),
         )
         summary = outputs["analysis_summary"]
         fig, _ = create_network_plot(
@@ -129,7 +122,7 @@ def run_ena(records, codes, output_dir, window_size=1, summary_only=False, group
         fig.savefig(out / "mean_network.png", dpi=180, bbox_inches="tight")
         plt.close(fig)
         fig, ax = plt.subplots(figsize=(7, 6))
-        for group, color in zip(GROUPS, ("#ff0000", "#0000ff")):
+        for group, color in zip(groups, ("#ff0000", "#0000ff")):
             points = group_points(model, "group", group)
             ax.scatter(points[:, 0], points[:, 1], c=color, label=group)
         ax.legend()
@@ -140,7 +133,7 @@ def run_ena(records, codes, output_dir, window_size=1, summary_only=False, group
         fig.savefig(out / "points.png", dpi=180)
         plt.close(fig)
     summary["data_context"] = {
-        "synthetic_data": True, "group_seed": group_seed,
+        "synthetic_data": True,
         "group_assignment": "Balanced random assignment by session_id",
         "interpretation": "Demonstration only; random groups do not represent substantive populations.",
     }
@@ -149,10 +142,10 @@ def run_ena(records, codes, output_dir, window_size=1, summary_only=False, group
     )
     (out / "settings.json").write_text(json.dumps({
         **settings, "synthetic_data": True, "n_sessions": len(model.unit_labels),
-        "n_segments": len(records), "rotation": "mean", "groups": GROUPS, "group_column": "group",
-        "group_seed": group_seed, "summary_only": summary_only,
+        "n_segments": len(records), "rotation": "mean", "groups": groups, "group_column": "group",
+        "summary_only": summary_only,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
-    print("Group session counts:", {g: list(session_groups.values()).count(g) for g in GROUPS})
+    print("Group session counts:", {g: list(session_groups.values()).count(g) for g in groups})
     print("Generated:", outputs["generated_files"])
     print(f"完成：{out.resolve()}")
     return model
@@ -170,46 +163,15 @@ def load_csv(path, numeric_columns):
     return rows
 
 
-CODEBOOK = {
-    "motor_masculinity": "機車駕駛技術與陽剛地位象徵",
-    "labor_masculinity": "粗重勞動與體力工作之陽剛崇拜",
-    "gendered_swearing": "性別化髒話作為同儕社交潤滑劑",
-    "minority_exclusion": "性少數標籤化與陰柔特質排斥",
-    "gender_double_standard": "常規管理與違規處置之雙重標準",
-    "teacher_counterexample": "男性教師以身作則破除陽剛權威",
-}
-CODES = list(CODEBOOK)
-BASE = Path(__file__).resolve().parent
-DATA = BASE / "datasets" / "case2"
-OUT = BASE / "outputs" / "case2"
-
-
-def demo_rows():
-    rng = Random(20260922)
-    rows = []
-    # 20 次聊天 × 每次 10 段＝200 筆模擬資料。
-    for session in range(1, 21):
-        for order in range(1, 11):
-            rows.append({
-                "session_id": f"S{session:02d}", "episode_id": "E1", "order": order,
-                **{code: int(rng.random() < 0.38) for code in CODES},
-            })
-    # 同一段中兩種現象共現的資料格式示範。
-    rows[0].update({code: int(code in ("motor_masculinity", "gendered_swearing")) for code in CODES})
-    return rows
-
-
 def main():
-    args = build_parser(__doc__).parse_args()
+    args = parse_args(__doc__)
     input_path = DATA / "binary_input.csv"
-    if args.regenerate_data or not input_path.exists():
-        rows = assign_groups(demo_rows(), args.group_seed)
-        save_csv(input_path, rows)
-    else:
-        rows = load_csv(input_path, CODES)
-    save_csv(DATA / "codebook.csv", [{"code": code, "meaning": name} for code, name in CODEBOOK.items()])
-    run_ena(rows, CODES, OUT, window_size=1,
-            summary_only=args.summary_only, group_seed=args.group_seed if args.regenerate_data else None)
+    if not input_path.exists():
+        raise FileNotFoundError(f"找不到輸入資料，請先準備：{input_path}")
+    rows = load_csv(input_path, CODES)
+
+    run_ena(rows, CODES, OUT, groups=GROUPS, window_size=WINDOW_SIZE,
+            summary_only=args.summary_only)
 
 
 if __name__ == "__main__":

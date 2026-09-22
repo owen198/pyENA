@@ -6,7 +6,7 @@
 | --- | --- | --- | --- |
 | [rs](rs/) | Handbook ENA，比較 FirstGame 與 SecondGame | [example.py](rs/example.py)、[example_3d.py](rs/example_3d.py) | `datasets/RS.data.csv`；二維 `outputs/`、三維 `outputs_3d/` |
 | [leet_dse](leet_dse/) | Leet 反思資料，比較 HDSE 與 LDSE | [example_leet.py](leet_dse/example_leet.py) | `datasets/leet.csv`（需自行提供）；`outputs/` |
-| [gender_ena](gender_ena/datasets/README.md) | 性別教育合成資料：程度編碼與主題編碼 | [case1.py](gender_ena/case1.py)、[case2.py](gender_ena/case2.py) | `datasets/case1/`、`datasets/case2/`；`outputs/case1/`、`outputs/case2/` |
+| [gender_ena](gender_ena/README.md) | 性別教育合成資料：程度編碼與主題編碼 | [case1_preprocess.py](gender_ena/case1_preprocess.py)、[case1.py](gender_ena/case1.py)、[case2.py](gender_ena/case2.py) | `datasets/case1/`、`datasets/case2/`；`outputs/case1/`、`outputs/case2/` |
 
 ## 執行方式
 
@@ -15,6 +15,7 @@ python3 examples/rs/example.py
 python3 examples/rs/example.py --summary-only
 python3 examples/rs/example_3d.py
 python3 examples/leet_dse/example_leet.py
+python3 examples/gender_ena/case1_preprocess.py
 python3 examples/gender_ena/case1.py
 python3 examples/gender_ena/case2.py
 ```
