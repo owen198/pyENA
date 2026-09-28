@@ -916,8 +916,8 @@ def generate_analysis_outputs(
     group_a_line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
     group_b_line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
     subtracted_line_colors: tuple[str, str] = ("#ff0000", "#0000ff"),
-    focus_unit_a: str = "FirstGame::steven z",
-    focus_unit_b: str = "SecondGame::samuel o",
+    focus_unit_a: str | None = "FirstGame::steven z",
+    focus_unit_b: str | None = "SecondGame::samuel o",
     individual_subtracted_network_multiplier: float = 5.0,
 ) -> dict[str, object]:
     output_dir = Path(output_dir)
@@ -929,21 +929,24 @@ def generate_analysis_outputs(
     group_a_points = group_points(ena_set, group_column, group_a_label)
     group_b_points = group_points(ena_set, group_column, group_b_label)
 
-    unit_labels = ena_set.unit_labels
-    focus_unit_a_index = find_unit_index(unit_labels, focus_unit_a)
-    focus_unit_b_index = find_unit_index(unit_labels, focus_unit_b)
+    if (focus_unit_a is None) != (focus_unit_b is None):
+        raise ValueError("Provide both focus units, or neither.")
+    focus_unit_a_label = focus_unit_b_label = None
+    if focus_unit_a is not None and focus_unit_b is not None:
+        unit_labels = ena_set.unit_labels
+        focus_unit_a_index = find_unit_index(unit_labels, focus_unit_a)
+        focus_unit_b_index = find_unit_index(unit_labels, focus_unit_b)
 
-    focus_unit_a_label = unit_labels[focus_unit_a_index]
-    focus_unit_b_label = unit_labels[focus_unit_b_index]
-    focus_unit_a_network = ena_set.line_weights[focus_unit_a_index]
-    focus_unit_b_network = ena_set.line_weights[focus_unit_b_index]
-    focus_unit_a_point = ena_set.points[focus_unit_a_index:focus_unit_a_index + 1]
-    focus_unit_b_point = ena_set.points[focus_unit_b_index:focus_unit_b_index + 1]
-    subtracted_individual_network = (
-        subtract_networks(focus_unit_a_network, focus_unit_b_network)
-        * individual_subtracted_network_multiplier
-    )
-
+        focus_unit_a_label = unit_labels[focus_unit_a_index]
+        focus_unit_b_label = unit_labels[focus_unit_b_index]
+        focus_unit_a_network = ena_set.line_weights[focus_unit_a_index]
+        focus_unit_b_network = ena_set.line_weights[focus_unit_b_index]
+        focus_unit_a_point = ena_set.points[focus_unit_a_index:focus_unit_a_index + 1]
+        focus_unit_b_point = ena_set.points[focus_unit_b_index:focus_unit_b_index + 1]
+        subtracted_individual_network = (
+            subtract_networks(focus_unit_a_network, focus_unit_b_network)
+            * individual_subtracted_network_multiplier
+        )
     analysis_summary = summarize_ena_results(
         ena_set=ena_set,
         group_a_label=group_a_label,
@@ -1051,56 +1054,57 @@ def generate_analysis_outputs(
         )[0],
         output_dir / "subtracted_network_with_points.png",
     ))
-    figures.append((
-        create_individual_network_plot(
-            ena_set,
-            focus_unit_a_network,
-            focus_unit_a_point,
-            group_a_color,
-            title=f"Individual Network: {focus_unit_a_label}",
-            line_colors=group_a_line_colors,
-        )[0],
-        output_dir / f"individual_{group_a_label.lower()}_network.png",
-    ))
-    figures.append((
-        create_individual_network_plot(
-            ena_set,
-            focus_unit_b_network,
-            focus_unit_b_point,
-            group_b_color,
-            title=f"Individual Network: {focus_unit_b_label}",
-            line_colors=group_b_line_colors,
-        )[0],
-        output_dir / f"individual_{group_b_label.lower()}_network.png",
-    ))
-    figures.append((
-        create_network_with_point_groups_plot(
-            ena_set,
-            subtracted_individual_network,
-            point_groups=[
-                {
-                    "points": focus_unit_a_point,
-                    "color": group_a_color,
-                    "label": focus_unit_a_label,
-                    "size": 80,
-                    "show_mean": False,
-                    "zorder": 5,
-                },
-                {
-                    "points": focus_unit_b_point,
-                    "color": group_b_color,
-                    "label": focus_unit_b_label,
-                    "size": 80,
-                    "show_mean": False,
-                    "zorder": 5,
-                },
-            ],
-            title=f"Subtracted network: {focus_unit_a_label} (red) - {focus_unit_b_label} (blue)",
-            show_legend=True,
-            line_colors=subtracted_line_colors,
-        )[0],
-        output_dir / "subtracted_individual_network.png",
-    ))
+    if focus_unit_a is not None and focus_unit_b is not None:
+        figures.append((
+            create_individual_network_plot(
+                ena_set,
+                focus_unit_a_network,
+                focus_unit_a_point,
+                group_a_color,
+                title=f"Individual Network: {focus_unit_a_label}",
+                line_colors=group_a_line_colors,
+            )[0],
+            output_dir / f"individual_{group_a_label.lower()}_network.png",
+        ))
+        figures.append((
+            create_individual_network_plot(
+                ena_set,
+                focus_unit_b_network,
+                focus_unit_b_point,
+                group_b_color,
+                title=f"Individual Network: {focus_unit_b_label}",
+                line_colors=group_b_line_colors,
+            )[0],
+            output_dir / f"individual_{group_b_label.lower()}_network.png",
+        ))
+        figures.append((
+            create_network_with_point_groups_plot(
+                ena_set,
+                subtracted_individual_network,
+                point_groups=[
+                    {
+                        "points": focus_unit_a_point,
+                        "color": group_a_color,
+                        "label": focus_unit_a_label,
+                        "size": 80,
+                        "show_mean": False,
+                        "zorder": 5,
+                    },
+                    {
+                        "points": focus_unit_b_point,
+                        "color": group_b_color,
+                        "label": focus_unit_b_label,
+                        "size": 80,
+                        "show_mean": False,
+                        "zorder": 5,
+                    },
+                ],
+                title=f"Subtracted network: {focus_unit_a_label} (red) - {focus_unit_b_label} (blue)",
+                show_legend=True,
+                line_colors=subtracted_line_colors,
+            )[0],
+            output_dir / "subtracted_individual_network.png",
+        ))
 
     for fig, path in figures:
         save_figure(fig, path)

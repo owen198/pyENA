@@ -17,7 +17,8 @@ dependencies = [
   "numpy>=1.26",
   "matplotlib>=3.8",
   "scipy>=1.13",
-  "plotly>=6.0"
+  "plotly>=6.0",
+  "PyYAML>=6.0"
 ]
 keywords = ["ENA", "epistemic network analysis", "learning analytics", "quantitative ethnography"]
 classifiers = [
@@ -34,3 +35,9 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[project.scripts]
+pyena = "pyena.cli:main"
+
+[tool.setuptools.package-data]
+pyena = ["resources/rs/*.csv", "resources/rs/*.yaml", "resources/rs/*.md"]

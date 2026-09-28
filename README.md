@@ -2,6 +2,215 @@
 
 `pyENA` is a Python rewrite of the core workflow in `rENA`, focused on reproducing the standard Epistemic Network Analysis pipeline used in the Shaffer handbook examples.
 
+## CLI quick start
+
+In an activated Python 3.10+ virtual environment, install this checkout:
+
+```bash
+pip install -e .
+```
+
+Then, from any working directory, run:
+
+```bash
+pyena
+```
+
+On first execution without `--config`, pyENA creates `analysis.yaml` in the
+current directory from its bundled **RS handbook example**, then runs the
+analysis. Later executions read that same file. Edit it and run `pyena` again.
+Existing configuration files are never replaced automatically.
+
+The installed package includes the 3,824-row RS CSV and its YAML template.
+No dataset download, repository checkout, or export command is needed at run
+time. The default analysis reproduces `examples/rs/example.py`: EndPoint,
+MovingStanzaWindow with `size_back: 4`, two dimensions, and mean rotation for
+FirstGame versus SecondGame. It also generates the example's individual
+comparison for steven z and samuel o.
+
+Each execution writes to a new directory under `./outputs/`, with a UTC
+timestamp and unique suffix. Previous results are retained. The terminal
+prints the configuration path and result location.
+
+> Development status: the CLI is being developed on `owen_cli1`. Install this
+> checkout to use it. A GitHub installation from the default branch will only
+> include the CLI after these changes have been pushed and merged.
+
+### Commands
+
+```bash
+pyena                                      # Create missing default YAML, then run
+pyena --config ./analysis.yaml             # Run an existing configuration
+pyena --summary-only                       # Write statistics without figures
+pyena --init-only                          # Create YAML without running
+pyena --config ./custom.yaml --init-only   # Create a new named RS template
+pyena --validate                           # Check existing YAML and CSV
+pyena --config ./analysis.yaml --output ./results
+pyena --help
+pyena --version
+```
+
+`python -m pyena` provides the same interface. An explicitly supplied missing
+`--config` file is an error unless `--init-only` is used. Initialization refuses
+to replace an existing file. `--validate` never creates a configuration or
+result directory; it checks input consistency, not model estimability.
+
+Explicit command-line overrides take precedence over YAML, then schema defaults.
+`--output` and all relative paths in YAML resolve against the **YAML directory**,
+not the shell's current directory. `bundled:rs` selects the installed example
+CSV. Quote group labels such as `"yes"` or `"01"` so YAML preserves them as strings.
+
+### Default analysis.yaml
+
+```yaml
+schema_version: 1
+
+data:
+  path: bundled:rs
+  encoding: utf-8-sig
+
+analysis:
+  units: [Condition, UserName]
+  conversation: [Condition, GroupName]
+  metadata: [Condition, GroupName]
+  codes:
+    - Data
+    - Technical.Constraints
+    - Performance.Parameters
+    - Client.and.Consultant.Requests
+    - Design.Reasoning
+    - Collaboration
+  model: EndPoint
+  dimensions: 2
+  window:
+    type: MovingStanzaWindow
+    size_back: 4
+    size_forward: 0
+  rotation:
+    method: mean
+    column: Condition
+    groups: ["FirstGame", "SecondGame"]
+
+comparison:
+  column: Condition
+  groups: ["FirstGame", "SecondGame"]
+
+output:
+  directory: ./outputs
+  summary_only: false
+  colors:
+    group_a: "#ff0000"
+    group_b: "#0000ff"
+  individual_comparison:
+    unit_a: "FirstGame::steven z"
+    unit_b: "SecondGame::samuel o"
+```
+
+The first comparison group minus the second determines the subtracted network.
+Rotation and reporting groups are separate settings. All input rows participate
+in fitting the model, including rows outside the two reporting groups; create
+a filtered CSV if only those two groups should define the space.
+
+### Analyze your own CSV
+
+Replace `data.path` with your CSV path and update `units`, `conversation`,
+`metadata`, `codes`, rotation, and comparison groups. Remove the entire
+`output.individual_comparison` block unless you want to select two of your own
+units. Unit labels join the configured unit columns with `::`; for a single
+unit column, use its value directly. A selected individual must belong to its
+corresponding comparison group. User CSV files do not receive RS-specific
+validation or automatic RS individual selections.
+
+The CLI accepts numeric binary code values (`0` or `1`, including `0.0` and
+`1.0`). Blank cells are errors, not implicit zeros. Prepare or recode raw text
+before running. Identifier and metadata fields must be non-empty, and metadata
+used for comparison or rotation must be consistent within each unit. Other
+metadata follows the core API: the first row per unit supplies its value.
+Comparison/mean-rotation columns are
+included in metadata automatically. Each specified group must have at least
+two units. Labels used for comparison filenames cannot contain `/`, `\`, or
+control characters, and must differ ignoring case. Code names cannot contain
+the reserved edge separator `__`.
+
+Input row order is preserved by default. To sort explicitly, add:
+
+```yaml
+data:
+  path: ./data/my_data.csv
+  sort_by:
+    - {column: student_id, type: string}
+    - {column: source_text_id, type: string}
+    - {column: sentence_order, type: integer}
+```
+
+Sorting is stable and ascending; types are `string`, `integer`, or `number`.
+Include the columns identifying conversations before the sequence column
+when contiguous conversations are needed. Moving windows use positions in
+the complete ordered row sequence and then retain rows from the same
+conversation. Interleaved conversations can therefore affect results.
+`size_back` includes the current row: `4` means current plus three previous
+rows; `size_forward` counts subsequent rows.
+
+For a whole-conversation window, replace the entire window block with:
+
+```yaml
+window:
+  type: Conversation
+```
+
+Do not include size parameters with `Conversation`. The current core groups
+this window by both conversation and unit. For SVD rotation, replace the
+rotation block with `rotation: {method: svd}`; omit its column/groups fields.
+
+CLI schema version 1 supports EndPoint, 2D, two reporting groups, both window
+types, and SVD/mean rotation. The Python API remains available for trajectory,
+3D, and custom preprocessing workflows. Unspecified window and rotation
+settings default to MovingStanzaWindow (back 1, forward 0) and SVD; the bundled
+RS template explicitly sets its own back 4 and mean rotation.
+
+### CLI outputs and reproducibility
+
+```text
+analysis.yaml
+outputs/
+└── run_20260928_103000_a1b2c3d4e5f6/
+    ├── resolved_config.yaml
+    ├── run_manifest.json
+    ├── statistical_summary.json
+    └── figures/
+```
+
+Full RS runs generate 12 PNG figures; omitting individual comparison generates
+9. Summary-only runs do not create a figures directory. `resolved_config.yaml`
+stores defaults, overrides, and resolved paths. The manifest records package
+versions, Python version, input SHA-256, row count, timestamps, status, and
+output filenames. It records a hash, not a copy of user data; retain the source
+CSV for reproducibility. Runs that fail during modeling or output generation
+retain a failed manifest and may contain partial outputs. Invalid configuration
+or input data is rejected before a run directory is created.
+
+Configuration errors include field paths; CSV errors identify rows/columns
+where applicable. YAML is parsed safely and rejects duplicate/unknown fields.
+Runtime errors such as singular node-position matrices are reported directly;
+use `--debug` to include the traceback. Successful commands return exit code 0,
+configuration/data/analysis failures return 1, and invalid CLI usage returns 2.
+
+### Development checks
+
+```bash
+python -m unittest discover -s tests -v
+python -m pip wheel . --no-deps --wheel-dir /tmp/pyena-wheels
+```
+
+The tests cover first use/reuse, validation, custom CSV data, optional individual
+plots, failed-run records, and RS statistical equivalence with the existing
+Python API. The packaged CSV is a derived copy of
+`examples/rs/datasets/RS.data.csv`; a regression test enforces byte equality.
+Update both copies together when changing the example data. Test a built wheel
+from outside the repository to verify installed resources and the entry point.
+
+## Python API and existing examples
+
 It currently supports:
 
 - reading coded CSV data
@@ -57,7 +266,7 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-## Quick Start
+## Run the repository examples
 
 Run the handbook example:
 

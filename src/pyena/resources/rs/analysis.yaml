@@ -1,0 +1,48 @@
+# Run with: pyena
+# Edit this file and run again. Each run creates a new output directory.
+schema_version: 1
+
+data:
+  # Replace with ./data/my_data.csv to analyze your own coded data.
+  path: bundled:rs
+  encoding: utf-8-sig
+  # Preserve input order by default. Optional numeric ordering:
+  # sort_by:
+  #   - {column: Sentence_Order, type: integer}
+
+analysis:
+  units: [Condition, UserName]
+  conversation: [Condition, GroupName]
+  metadata: [Condition, GroupName]
+  codes:
+    - Data
+    - Technical.Constraints
+    - Performance.Parameters
+    - Client.and.Consultant.Requests
+    - Design.Reasoning
+    - Collaboration
+  model: EndPoint
+  dimensions: 2
+  window:
+    type: MovingStanzaWindow
+    size_back: 4  # Includes the current row: current + three previous rows.
+    size_forward: 0
+  rotation:
+    method: mean
+    column: Condition
+    groups: ["FirstGame", "SecondGame"]
+
+comparison:
+  column: Condition
+  groups: ["FirstGame", "SecondGame"] # Subtraction is first minus second.
+
+output:
+  directory: ./outputs
+  summary_only: false
+  colors:
+    group_a: "#ff0000"
+    group_b: "#0000ff"
+  # Remove this block to skip individual comparisons with your own data.
+  individual_comparison:
+    unit_a: "FirstGame::steven z"
+    unit_b: "SecondGame::samuel o"
