@@ -1,0 +1,626 @@
+{
+ "provenance": {
+  "file": "RS.data.csv",
+  "script": "examples/rs/example.py",
+  "archive": "pyena-ed788e0.zip",
+  "rows": 3824,
+  "columns": 20,
+  "units": 48
+ },
+ "codes": [
+  "Data",
+  "Technical.Constraints",
+  "Performance.Parameters",
+  "Client.and.Consultant.Requests",
+  "Design.Reasoning",
+  "Collaboration"
+ ],
+ "groups": {
+  "column": "Condition",
+  "a": "FirstGame",
+  "b": "SecondGame"
+ },
+ "window": 4,
+ "nodes": [
+  {
+   "code": "Data",
+   "x": -0.3134391226842166,
+   "y": -0.8601432421134342
+  },
+  {
+   "code": "Technical.Constraints",
+   "x": -1.8963650800150023,
+   "y": 1.7726617720612716
+  },
+  {
+   "code": "Performance.Parameters",
+   "x": 1.5057338550458086,
+   "y": -1.4185801483119382
+  },
+  {
+   "code": "Client.and.Consultant.Requests",
+   "x": -0.20076551953951363,
+   "y": -1.495653495665213
+  },
+  {
+   "code": "Design.Reasoning",
+   "x": 1.3659177260761224,
+   "y": 1.0516906435968933
+  },
+  {
+   "code": "Collaboration",
+   "x": -1.7125963314182877,
+   "y": -1.8113725650415275
+  }
+ ],
+ "edges": [
+  {
+   "source": "Data",
+   "target": "Technical.Constraints",
+   "overall": 0.3680343278290806,
+   "a": 0.4032830261845686,
+   "b": 0.3263767752271402,
+   "subtracted": 0.07690625095742842
+  },
+  {
+   "source": "Data",
+   "target": "Performance.Parameters",
+   "overall": 0.2976397501561121,
+   "a": 0.27885635339155856,
+   "b": 0.3198383099687661,
+   "subtracted": -0.040981956577207546
+  },
+  {
+   "source": "Technical.Constraints",
+   "target": "Performance.Parameters",
+   "overall": 0.33852526401081123,
+   "a": 0.3479090671376733,
+   "b": 0.3274353148608833,
+   "subtracted": 0.02047375227678999
+  },
+  {
+   "source": "Data",
+   "target": "Client.and.Consultant.Requests",
+   "overall": 0.08848537929111029,
+   "a": 0.08888452555502457,
+   "b": 0.08801366097921161,
+   "subtracted": 0.0008708645758129657
+  },
+  {
+   "source": "Technical.Constraints",
+   "target": "Client.and.Consultant.Requests",
+   "overall": 0.09260316270087043,
+   "a": 0.10970647102238867,
+   "b": 0.07239016195725798,
+   "subtracted": 0.0373163090651307
+  },
+  {
+   "source": "Performance.Parameters",
+   "target": "Client.and.Consultant.Requests",
+   "overall": 0.09874723847010225,
+   "a": 0.0925315939164758,
+   "b": 0.1060930002152971,
+   "subtracted": -0.013561406298821313
+  },
+  {
+   "source": "Data",
+   "target": "Design.Reasoning",
+   "overall": 0.36626724804020366,
+   "a": 0.3475824950682894,
+   "b": 0.3883492288251933,
+   "subtracted": -0.04076673375690387
+  },
+  {
+   "source": "Technical.Constraints",
+   "target": "Design.Reasoning",
+   "overall": 0.49186582428912984,
+   "a": 0.5025362490813242,
+   "b": 0.479255322261991,
+   "subtracted": 0.023280926819333192
+  },
+  {
+   "source": "Performance.Parameters",
+   "target": "Design.Reasoning",
+   "overall": 0.3641594478396278,
+   "a": 0.3169237609973011,
+   "b": 0.4199834413805593,
+   "subtracted": -0.10305968038325825
+  },
+  {
+   "source": "Client.and.Consultant.Requests",
+   "target": "Design.Reasoning",
+   "overall": 0.12319084499921606,
+   "a": 0.11732680809068771,
+   "b": 0.13012107043656773,
+   "subtracted": -0.01279426234588002
+  },
+  {
+   "source": "Data",
+   "target": "Collaboration",
+   "overall": 0.08024080729554871,
+   "a": 0.10301530671592142,
+   "b": 0.0533254897987446,
+   "subtracted": 0.04968981691717682
+  },
+  {
+   "source": "Technical.Constraints",
+   "target": "Collaboration",
+   "overall": 0.10367597882709946,
+   "a": 0.15047913111721464,
+   "b": 0.04836316248423604,
+   "subtracted": 0.1021159686329786
+  },
+  {
+   "source": "Performance.Parameters",
+   "target": "Collaboration",
+   "overall": 0.07295294237484168,
+   "a": 0.08811443141382093,
+   "b": 0.05503481896513896,
+   "subtracted": 0.03307961244868197
+  },
+  {
+   "source": "Client.and.Consultant.Requests",
+   "target": "Collaboration",
+   "overall": 0.029004598208612207,
+   "a": 0.028185704988150644,
+   "b": 0.029972381105521327,
+   "subtracted": -0.0017866761173706835
+  },
+  {
+   "source": "Design.Reasoning",
+   "target": "Collaboration",
+   "overall": 0.11013740581271152,
+   "a": 0.12351321989881756,
+   "b": 0.09432962552913166,
+   "subtracted": 0.0291835943696859
+  }
+ ],
+ "units": [
+  {
+   "label": "FirstGame::steven z",
+   "group": "FirstGame",
+   "x": -0.0560543538750745,
+   "y": -0.008605342184913744
+  },
+  {
+   "label": "FirstGame::akash v",
+   "group": "FirstGame",
+   "x": -0.08634214553433983,
+   "y": 0.0010374746963588606
+  },
+  {
+   "label": "FirstGame::alexander b",
+   "group": "FirstGame",
+   "x": -0.28773817410100494,
+   "y": -0.17416992879082402
+  },
+  {
+   "label": "FirstGame::brandon l",
+   "group": "FirstGame",
+   "x": 0.024420908377503336,
+   "y": -0.1031949280044498
+  },
+  {
+   "label": "FirstGame::christian x",
+   "group": "FirstGame",
+   "x": -0.1884387658570576,
+   "y": 0.056262827149706734
+  },
+  {
+   "label": "FirstGame::jordan l",
+   "group": "FirstGame",
+   "x": -0.126092029643749,
+   "y": -0.13075946261052065
+  },
+  {
+   "label": "FirstGame::arden f",
+   "group": "FirstGame",
+   "x": -0.289888189041127,
+   "y": -0.0029270223851328814
+  },
+  {
+   "label": "FirstGame::margaret n",
+   "group": "FirstGame",
+   "x": -0.09511341989495789,
+   "y": -0.17109525361655215
+  },
+  {
+   "label": "FirstGame::connor f",
+   "group": "FirstGame",
+   "x": -0.07877800827150158,
+   "y": -0.24140239882823972
+  },
+  {
+   "label": "FirstGame::jimmy i",
+   "group": "FirstGame",
+   "x": -0.03163731412315874,
+   "y": -0.08088596682434006
+  },
+  {
+   "label": "FirstGame::devin c",
+   "group": "FirstGame",
+   "x": -0.0057921577863404945,
+   "y": 0.2559633620372988
+  },
+  {
+   "label": "FirstGame::tiffany x",
+   "group": "FirstGame",
+   "x": -0.03315725205868057,
+   "y": -0.004428192692979021
+  },
+  {
+   "label": "FirstGame::amelia n",
+   "group": "FirstGame",
+   "x": -0.045707803919002886,
+   "y": -0.04593805292915761
+  },
+  {
+   "label": "FirstGame::luis t",
+   "group": "FirstGame",
+   "x": -0.21083534455098604,
+   "y": -0.14608980701852667
+  },
+  {
+   "label": "FirstGame::amalia x",
+   "group": "FirstGame",
+   "x": -0.023089037823189558,
+   "y": -0.12991401078064482
+  },
+  {
+   "label": "FirstGame::robert z",
+   "group": "FirstGame",
+   "x": -0.1314810289710283,
+   "y": 0.11944967748606888
+  },
+  {
+   "label": "FirstGame::joseph k",
+   "group": "FirstGame",
+   "x": -0.15271251968136568,
+   "y": 0.020832481688733858
+  },
+  {
+   "label": "FirstGame::peter h",
+   "group": "FirstGame",
+   "x": -0.07125183457349686,
+   "y": 0.21527036445187997
+  },
+  {
+   "label": "FirstGame::carl b",
+   "group": "FirstGame",
+   "x": 0.021839319126795202,
+   "y": 0.1142240807243378
+  },
+  {
+   "label": "FirstGame::mitchell h",
+   "group": "FirstGame",
+   "x": -0.3092280759876767,
+   "y": 0.13071380216104056
+  },
+  {
+   "label": "FirstGame::peter s",
+   "group": "FirstGame",
+   "x": -0.10052385156168077,
+   "y": 0.23273087847574983
+  },
+  {
+   "label": "FirstGame::joseph h",
+   "group": "FirstGame",
+   "x": 0.009957384444188344,
+   "y": 0.061352461457974836
+  },
+  {
+   "label": "FirstGame::cameron k",
+   "group": "FirstGame",
+   "x": -0.0936262053217202,
+   "y": -0.01404289662330826
+  },
+  {
+   "label": "FirstGame::fletcher l",
+   "group": "FirstGame",
+   "x": 0.22515327562242038,
+   "y": -0.021650931408909054
+  },
+  {
+   "label": "FirstGame::amirah u",
+   "group": "FirstGame",
+   "x": -0.05773543739467287,
+   "y": -0.02584936246399866
+  },
+  {
+   "label": "FirstGame::kevin g",
+   "group": "FirstGame",
+   "x": -0.11149931194000191,
+   "y": 0.09311614683334661
+  },
+  {
+   "label": "SecondGame::brent p",
+   "group": "SecondGame",
+   "x": -0.057720495579220925,
+   "y": 0.28524673269919854
+  },
+  {
+   "label": "SecondGame::kiana k",
+   "group": "SecondGame",
+   "x": -0.26275230968321167,
+   "y": -0.13176109249819823
+  },
+  {
+   "label": "SecondGame::madeline g",
+   "group": "SecondGame",
+   "x": 0.22258575294859836,
+   "y": -0.12599816546976209
+  },
+  {
+   "label": "SecondGame::justin y",
+   "group": "SecondGame",
+   "x": 0.027437464838948093,
+   "y": 0.2351948042172365
+  },
+  {
+   "label": "SecondGame::ruzhen e",
+   "group": "SecondGame",
+   "x": 0.1923920692370818,
+   "y": -0.06992872582363202
+  },
+  {
+   "label": "SecondGame::brandon f",
+   "group": "SecondGame",
+   "x": -0.023633868637079024,
+   "y": -0.0233360487296973
+  },
+  {
+   "label": "SecondGame::jackson p",
+   "group": "SecondGame",
+   "x": 0.16194441142475355,
+   "y": 0.10300857864433892
+  },
+  {
+   "label": "SecondGame::shane t",
+   "group": "SecondGame",
+   "x": 0.10064384871350744,
+   "y": -0.1748788025183345
+  },
+  {
+   "label": "SecondGame::samuel o",
+   "group": "SecondGame",
+   "x": 0.24187946420482195,
+   "y": -0.0394086869085166
+  },
+  {
+   "label": "SecondGame::casey f",
+   "group": "SecondGame",
+   "x": 0.2420234268553626,
+   "y": -0.07008242232467106
+  },
+  {
+   "label": "SecondGame::keegan q",
+   "group": "SecondGame",
+   "x": 0.1836567120660567,
+   "y": 0.13935113704596339
+  },
+  {
+   "label": "SecondGame::nicholas l",
+   "group": "SecondGame",
+   "x": -0.045389963629541695,
+   "y": -0.017350794720371366
+  },
+  {
+   "label": "SecondGame::cameron i",
+   "group": "SecondGame",
+   "x": 0.054442022035464874,
+   "y": 0.12337591576950645
+  },
+  {
+   "label": "SecondGame::cormick u",
+   "group": "SecondGame",
+   "x": 0.13728934320544492,
+   "y": 0.07185373433123149
+  },
+  {
+   "label": "SecondGame::daniel t",
+   "group": "SecondGame",
+   "x": 0.14214060020786878,
+   "y": -0.06928547562251282
+  },
+  {
+   "label": "SecondGame::christina b",
+   "group": "SecondGame",
+   "x": 0.17431994047329957,
+   "y": -0.06089379532621178
+  },
+  {
+   "label": "SecondGame::derek v",
+   "group": "SecondGame",
+   "x": 0.1785281921358655,
+   "y": 0.043393735923144626
+  },
+  {
+   "label": "SecondGame::nicholas n",
+   "group": "SecondGame",
+   "x": 0.15818553247666936,
+   "y": 0.22841422272047726
+  },
+  {
+   "label": "SecondGame::abigail z",
+   "group": "SecondGame",
+   "x": 0.14513570146747795,
+   "y": -0.21086435602968714
+  },
+  {
+   "label": "SecondGame::caitlyn y",
+   "group": "SecondGame",
+   "x": -0.03371073952459316,
+   "y": 0.04540924267996357
+  },
+  {
+   "label": "SecondGame::nathan d",
+   "group": "SecondGame",
+   "x": 0.11614886068888268,
+   "y": -0.05987962343142535
+  },
+  {
+   "label": "SecondGame::luke u",
+   "group": "SecondGame",
+   "x": 0.24980540841444823,
+   "y": -0.22158011462804053
+  }
+ ],
+ "document": {
+  "conversation": "FirstGame / 1",
+  "lines": [
+   {
+    "row": 1447,
+    "speaker": "jimmy i",
+    "text": "The cost of each one seems to be already fairly low",
+    "codes": [
+     "Data",
+     "Performance.Parameters"
+    ]
+   },
+   {
+    "row": 1448,
+    "speaker": "jimmy i",
+    "text": "During the previous meeting we decided that recharge interval could be lacking a bit",
+    "codes": [
+     "Performance.Parameters",
+     "Design.Reasoning",
+     "Collaboration"
+    ]
+   },
+   {
+    "row": 1449,
+    "speaker": "robert z",
+    "text": "electric and pneumatic are best all around I think",
+    "codes": [
+     "Technical.Constraints",
+     "Design.Reasoning"
+    ]
+   },
+   {
+    "row": 1450,
+    "speaker": "jimmy i",
+    "text": "Values in the 13000 are good. Based on the internal consultants request, 13000 was the low value that she wanted",
+    "codes": [
+     "Data",
+     "Client.and.Consultant.Requests"
+    ]
+   },
+   {
+    "row": 1451,
+    "speaker": "akash v",
+    "text": "The only downside to the electric is it isnt as safe as the series elastic",
+    "codes": [
+     "Data",
+     "Technical.Constraints"
+    ]
+   },
+   {
+    "row": 1452,
+    "speaker": "devin c",
+    "text": "Let's hear arguments against the \"Pneumatic and Composite\" design from our REDD batch.",
+    "codes": [
+     "Technical.Constraints",
+     "Design.Reasoning"
+    ]
+   }
+  ]
+ },
+ "connections": [
+  {
+   "source": "Data",
+   "target": "Performance.Parameters",
+   "line": 0
+  },
+  {
+   "source": "Data",
+   "target": "Design.Reasoning",
+   "line": 1
+  },
+  {
+   "source": "Data",
+   "target": "Collaboration",
+   "line": 1
+  },
+  {
+   "source": "Performance.Parameters",
+   "target": "Collaboration",
+   "line": 1
+  },
+  {
+   "source": "Performance.Parameters",
+   "target": "Design.Reasoning",
+   "line": 1
+  },
+  {
+   "source": "Design.Reasoning",
+   "target": "Collaboration",
+   "line": 1
+  },
+  {
+   "source": "Data",
+   "target": "Technical.Constraints",
+   "line": 2
+  },
+  {
+   "source": "Technical.Constraints",
+   "target": "Performance.Parameters",
+   "line": 2
+  },
+  {
+   "source": "Technical.Constraints",
+   "target": "Collaboration",
+   "line": 2
+  },
+  {
+   "source": "Technical.Constraints",
+   "target": "Design.Reasoning",
+   "line": 2
+  },
+  {
+   "source": "Data",
+   "target": "Client.and.Consultant.Requests",
+   "line": 3
+  },
+  {
+   "source": "Technical.Constraints",
+   "target": "Client.and.Consultant.Requests",
+   "line": 3
+  },
+  {
+   "source": "Performance.Parameters",
+   "target": "Client.and.Consultant.Requests",
+   "line": 3
+  },
+  {
+   "source": "Client.and.Consultant.Requests",
+   "target": "Collaboration",
+   "line": 3
+  },
+  {
+   "source": "Client.and.Consultant.Requests",
+   "target": "Design.Reasoning",
+   "line": 3
+  }
+ ],
+ "excerpts": [
+  {
+   "group": "FirstGame",
+   "codes": [
+    "Technical.Constraints",
+    "Collaboration"
+   ],
+   "unit": "FirstGame::brandon l",
+   "text": "@Justin Kim: What is the presentation supposed to include, and is it a PowerPoint or something else? Is it a team project?"
+  },
+  {
+   "group": "SecondGame",
+   "codes": [
+    "Performance.Parameters",
+    "Design.Reasoning"
+   ],
+   "unit": "SecondGame::madeline g",
+   "text": "I tested piezoelectric sensors and although the cost was higher than the others, the safety rating was very good which is what we wanted to focus on"
+  }
+ ],
+ "summaryJson": "{\n  \"groups\": {\n    \"group_column\": \"Condition\",\n    \"group_a_label\": \"FirstGame\",\n    \"group_b_label\": \"SecondGame\"\n  },\n  \"model\": {\n    \"units\": 48,\n    \"edges\": 15,\n    \"codes\": [\n      \"Data\",\n      \"Technical.Constraints\",\n      \"Performance.Parameters\",\n      \"Client.and.Consultant.Requests\",\n      \"Design.Reasoning\",\n      \"Collaboration\"\n    ],\n    \"rotation_dimensions\": 2,\n    \"eigenvalues\": [\n      0.03742524691286972,\n      0.8452886537183464\n    ],\n    \"explained_variance_ratio\": [\n      0.04239793537419934,\n      0.9576020646258007\n    ]\n  },\n  \"points\": {\n    \"group_a\": {\n      \"n\": 26,\n      \"mean_point\": [\n        -0.08866736055157334,\n        -1.6546593155471083e-17\n      ],\n      \"median_point\": [\n        -0.0825600769029207,\n        -0.006516767438946382\n      ],\n      \"confidence_interval_95\": {\n        \"dimension_1\": [\n          -0.13412780559748388,\n          -0.043206915505662816\n        ],\n        \"dimension_2\": [\n          -0.05237743174971525,\n          0.05237743174971522\n        ]\n      }\n    },\n    \"group_b\": {\n      \"n\": 22,\n      \"mean_point\": [\n        0.10478869883367753,\n        3.784851220313033e-18\n      ],\n      \"median_point\": [\n        0.14363815083767337,\n        -0.03137236781910695\n      ],\n      \"confidence_interval_95\": {\n        \"dimension_1\": [\n          0.04876537570050555,\n          0.16081202196684952\n        ],\n        \"dimension_2\": [\n          -0.06306663751668966,\n          0.06306663751668966\n        ]\n      }\n    }\n  },\n  \"statistics\": {\n    \"welch_t_test\": {\n      \"dimension_1\": {\n        \"t_statistic\": -5.554707888469296,\n        \"p_value\": 1.6675032026732437e-06,\n        \"degrees_of_freedom\": 42.55183770987087,\n        \"mean_x\": -0.08866736055157334,\n        \"mean_y\": 0.10478869883367753,\n        \"sd_x\": 0.11255127808888213,\n        \"sd_y\": 0.12635647642359288,\n        \"n_x\": 26,\n        \"n_y\": 22,\n        \"confidence_interval_95\": [\n          -0.26371361332252585,\n          -0.12319850544797586\n        ],\n        \"cohens_d\": -1.624965521456542\n      },\n      \"dimension_2\": {\n        \"t_statistic\": -4.2297639111847355e-16,\n        \"p_value\": 0.9999999999999997,\n        \"degrees_of_freedom\": 43.04161761141994,\n        \"mean_x\": -1.5479071016408433e-17,\n        \"mean_y\": 1.261617073437678e-18,\n        \"sd_x\": 0.12967640067073982,\n        \"sd_y\": 0.142242152925313,\n        \"n_x\": 26,\n        \"n_y\": 22,\n        \"confidence_interval_95\": [\n          -0.07981502464893453,\n          0.0798150246489345\n        ],\n        \"cohens_d\": -1.2349509281091072e-16\n      }\n    },\n    \"mann_whitney_u\": {\n      \"dimension_1\": {\n        \"u_statistic\": 69.0,\n        \"u_complement\": 503.0,\n        \"w_statistic_r_style\": 69.0,\n        \"p_value\": 1.4997635286819895e-06,\n        \"median_x\": -0.0825600769029207,\n        \"median_y\": 0.14363815083767337,\n        \"n_x\": 26,\n        \"n_y\": 22,\n        \"effect_r_approx\": 0.6944466034643625\n      },\n      \"dimension_2\": {\n        \"u_statistic\": 296.0,\n        \"u_complement\": 276.0,\n        \"w_statistic_r_style\": 276.0,\n        \"p_value\": 0.8456154633192885,\n        \"median_x\": -0.006516767438946382,\n        \"median_y\": -0.03137236781910695,\n        \"n_x\": 26,\n        \"n_y\": 22,\n        \"effect_r_approx\": 0.028104800965008697\n      }\n    },\n    \"anova\": {\n      \"dimension_1\": {\n        \"f_statistic\": 31.46611260557683,\n        \"p_value\": 1.1099810622527933e-06,\n        \"mean_x\": -0.08866736055157334,\n        \"mean_y\": 0.10478869883367753,\n        \"n_x\": 26,\n        \"n_y\": 22\n      },\n      \"dimension_2\": {\n        \"f_statistic\": 6.59262553158618e-32,\n        \"p_value\": 0.9999999999999998,\n        \"mean_x\": -1.5479071016408433e-17,\n        \"mean_y\": 1.261617073437678e-18,\n        \"n_x\": 26,\n        \"n_y\": 22\n      }\n    },\n    \"chi_square\": {\n      \"basis\": \"Binary code presence counts per row within each group.\",\n      \"group_a_rows\": 2309,\n      \"group_b_rows\": 1515,\n      \"overall\": {\n        \"chi_square\": 28.87375482244235,\n        \"p_value\": 2.4548013363438492e-05,\n        \"degrees_of_freedom\": 5,\n        \"observed\": [\n          [\n            481.0,\n            727.0,\n            401.0,\n            149.0,\n            709.0,\n            175.0\n          ],\n          [\n            253.0,\n            462.0,\n            284.0,\n            91.0,\n            448.0,\n            53.0\n          ]\n        ],\n        \"expected\": [\n          [\n            458.1214268840066,\n            742.1067800614221,\n            427.5383888495157,\n            149.79447200566975,\n            722.1341837939996,\n            142.30474840538625\n          ],\n          [\n            275.8785731159934,\n            446.89321993857783,\n            257.4616111504843,\n            90.20552799433027,\n            434.8658162060005,\n            85.69525159461375\n          ]\n        ]\n      },\n      \"per_code\": [\n        {\n          \"code\": \"Data\",\n          \"group_a_present\": 481,\n          \"group_b_present\": 253,\n          \"group_a_rate\": 0.20831528800346472,\n          \"group_b_rate\": 0.166996699669967,\n          \"chi_square\": 9.804471385375246,\n          \"p_value\": 0.0017408806963969377,\n          \"degrees_of_freedom\": 1,\n          \"expected\": [\n            [\n              443.2024058577406,\n              1865.7975941422594\n            ],\n            [\n              290.7975941422594,\n              1224.2024058577406\n            ]\n          ]\n        },\n        {\n          \"code\": \"Technical.Constraints\",\n          \"group_a_present\": 727,\n          \"group_b_present\": 462,\n          \"group_a_rate\": 0.3148549155478562,\n          \"group_b_rate\": 0.30495049504950494,\n          \"chi_square\": 0.3738897283440386,\n          \"p_value\": 0.5408916297163279,\n          \"degrees_of_freedom\": 1,\n          \"expected\": [\n            [\n              717.9395920502092,\n              1591.0604079497907\n            ],\n            [\n              471.0604079497908,\n              1043.9395920502093\n            ]\n          ]\n        },\n        {\n          \"code\": \"Performance.Parameters\",\n          \"group_a_present\": 401,\n          \"group_b_present\": 284,\n          \"group_a_rate\": 0.1736682546556951,\n          \"group_b_rate\": 0.18745874587458747,\n          \"chi_square\": 1.091202325834512,\n          \"p_value\": 0.2962049658253379,\n          \"degrees_of_freedom\": 1,\n          \"expected\": [\n            [\n              413.61532426778246,\n              1895.3846757322176\n            ],\n            [\n              271.38467573221754,\n              1243.6153242677824\n            ]\n          ]\n        },\n        {\n          \"code\": \"Client.and.Consultant.Requests\",\n          \"group_a_present\": 149,\n          \"group_b_present\": 91,\n          \"group_a_rate\": 0.06453009961022088,\n          \"group_b_rate\": 0.06006600660066007,\n          \"chi_square\": 0.23866941854118665,\n          \"p_value\": 0.6251687867054128,\n          \"degrees_of_freedom\": 1,\n          \"expected\": [\n            [\n              144.9163179916318,\n              2164.083682008368\n            ],\n            [\n              95.0836820083682,\n              1419.9163179916318\n            ]\n          ]\n        },\n        {\n          \"code\": \"Design.Reasoning\",\n          \"group_a_present\": 709,\n          \"group_b_present\": 448,\n          \"group_a_rate\": 0.30705933304460803,\n          \"group_b_rate\": 0.2957095709570957,\n          \"chi_square\": 0.5059431395389765,\n          \"p_value\": 0.4769003333437376,\n          \"degrees_of_freedom\": 1,\n          \"expected\": [\n            [\n              698.6174163179917,\n              1610.3825836820083\n            ],\n            [\n              458.3825836820084,\n              1056.6174163179917\n            ]\n          ]\n        },\n        {\n          \"code\": \"Collaboration\",\n          \"group_a_present\": 175,\n          \"group_b_present\": 53,\n          \"group_a_rate\": 0.075790385448246,\n          \"group_b_rate\": 0.03498349834983498,\n          \"chi_square\": 26.445644247606523,\n          \"p_value\": 2.7105900854338603e-07,\n          \"degrees_of_freedom\": 1,\n          \"expected\": [\n            [\n              137.6705020920502,\n              2171.3294979079496\n            ],\n            [\n              90.32949790794979,\n              1424.6705020920501\n            ]\n          ]\n        }\n      ]\n    },\n    \"goodness_of_fit\": {\n      \"n_non_zero_units\": 48,\n      \"co_registration_correlations\": {\n        \"dimension_1\": {\n          \"pearson\": 0.9963250360059343,\n          \"spearman\": 0.9951150673035171\n        },\n        \"dimension_2\": {\n          \"pearson\": 0.9846713522314782,\n          \"spearman\": 0.9826313504125054\n        }\n      },\n      \"summary\": \"Strong goodness of fit between the visualization and the original model.\"\n    }\n  },\n  \"axis_interpretation\": {\n    \"dimension_1\": {\n      \"basis\": \"Heuristic summary based on node positions in the co-registered ENA space.\",\n      \"positive_pole_codes\": [\n        {\n          \"code\": \"Performance.Parameters\",\n          \"coordinate\": 1.5057338550458086\n        },\n        {\n          \"code\": \"Design.Reasoning\",\n          \"coordinate\": 1.3659177260761224\n        },\n        {\n          \"code\": \"Client.and.Consultant.Requests\",\n          \"coordinate\": -0.20076551953951363\n        }\n      ],\n      \"negative_pole_codes\": [\n        {\n          \"code\": \"Technical.Constraints\",\n          \"coordinate\": -1.8963650800150023\n        },\n        {\n          \"code\": \"Collaboration\",\n          \"coordinate\": -1.7125963314182877\n        },\n        {\n          \"code\": \"Data\",\n          \"coordinate\": -0.3134391226842166\n        }\n      ]\n    },\n    \"dimension_2\": {\n      \"basis\": \"Heuristic summary based on node positions in the co-registered ENA space.\",\n      \"positive_pole_codes\": [\n        {\n          \"code\": \"Technical.Constraints\",\n          \"coordinate\": 1.7726617720612716\n        },\n        {\n          \"code\": \"Design.Reasoning\",\n          \"coordinate\": 1.0516906435968933\n        },\n        {\n          \"code\": \"Data\",\n          \"coordinate\": -0.8601432421134342\n        }\n      ],\n      \"negative_pole_codes\": [\n        {\n          \"code\": \"Collaboration\",\n          \"coordinate\": -1.8113725650415275\n        },\n        {\n          \"code\": \"Client.and.Consultant.Requests\",\n          \"coordinate\": -1.495653495665213\n        },\n        {\n          \"code\": \"Performance.Parameters\",\n          \"coordinate\": -1.4185801483119382\n        }\n      ]\n    }\n  },\n  \"networks\": {\n    \"group_a_mean_network\": [\n      {\n        \"edge\": \"Data__Technical.Constraints\",\n        \"weight\": 0.4032830261845686\n      },\n      {\n        \"edge\": \"Data__Performance.Parameters\",\n        \"weight\": 0.27885635339155856\n      },\n      {\n        \"edge\": \"Technical.Constraints__Performance.Parameters\",\n        \"weight\": 0.3479090671376733\n      },\n      {\n        \"edge\": \"Data__Client.and.Consultant.Requests\",\n        \"weight\": 0.08888452555502457\n      },\n      {\n        \"edge\": \"Technical.Constraints__Client.and.Consultant.Requests\",\n        \"weight\": 0.10970647102238867\n      },\n      {\n        \"edge\": \"Performance.Parameters__Client.and.Consultant.Requests\",\n        \"weight\": 0.0925315939164758\n      },\n      {\n        \"edge\": \"Data__Design.Reasoning\",\n        \"weight\": 0.3475824950682894\n      },\n      {\n        \"edge\": \"Technical.Constraints__Design.Reasoning\",\n        \"weight\": 0.5025362490813242\n      },\n      {\n        \"edge\": \"Performance.Parameters__Design.Reasoning\",\n        \"weight\": 0.3169237609973011\n      },\n      {\n        \"edge\": \"Client.and.Consultant.Requests__Design.Reasoning\",\n        \"weight\": 0.11732680809068771\n      },\n      {\n        \"edge\": \"Data__Collaboration\",\n        \"weight\": 0.10301530671592142\n      },\n      {\n        \"edge\": \"Technical.Constraints__Collaboration\",\n        \"weight\": 0.15047913111721464\n      },\n      {\n        \"edge\": \"Performance.Parameters__Collaboration\",\n        \"weight\": 0.08811443141382093\n      },\n      {\n        \"edge\": \"Client.and.Consultant.Requests__Collaboration\",\n        \"weight\": 0.028185704988150644\n      },\n      {\n        \"edge\": \"Design.Reasoning__Collaboration\",\n        \"weight\": 0.12351321989881756\n      }\n    ],\n    \"group_b_mean_network\": [\n      {\n        \"edge\": \"Data__Technical.Constraints\",\n        \"weight\": 0.3263767752271402\n      },\n      {\n        \"edge\": \"Data__Performance.Parameters\",\n        \"weight\": 0.3198383099687661\n      },\n      {\n        \"edge\": \"Technical.Constraints__Performance.Parameters\",\n        \"weight\": 0.3274353148608833\n      },\n      {\n        \"edge\": \"Data__Client.and.Consultant.Requests\",\n        \"weight\": 0.08801366097921161\n      },\n      {\n        \"edge\": \"Technical.Constraints__Client.and.Consultant.Requests\",\n        \"weight\": 0.07239016195725798\n      },\n      {\n        \"edge\": \"Performance.Parameters__Client.and.Consultant.Requests\",\n        \"weight\": 0.1060930002152971\n      },\n      {\n        \"edge\": \"Data__Design.Reasoning\",\n        \"weight\": 0.3883492288251933\n      },\n      {\n        \"edge\": \"Technical.Constraints__Design.Reasoning\",\n        \"weight\": 0.479255322261991\n      },\n      {\n        \"edge\": \"Performance.Parameters__Design.Reasoning\",\n        \"weight\": 0.4199834413805593\n      },\n      {\n        \"edge\": \"Client.and.Consultant.Requests__Design.Reasoning\",\n        \"weight\": 0.13012107043656773\n      },\n      {\n        \"edge\": \"Data__Collaboration\",\n        \"weight\": 0.0533254897987446\n      },\n      {\n        \"edge\": \"Technical.Constraints__Collaboration\",\n        \"weight\": 0.04836316248423604\n      },\n      {\n        \"edge\": \"Performance.Parameters__Collaboration\",\n        \"weight\": 0.05503481896513896\n      },\n      {\n        \"edge\": \"Client.and.Consultant.Requests__Collaboration\",\n        \"weight\": 0.029972381105521327\n      },\n      {\n        \"edge\": \"Design.Reasoning__Collaboration\",\n        \"weight\": 0.09432962552913166\n      }\n    ],\n    \"subtracted_mean_network\": [\n      {\n        \"edge\": \"Data__Technical.Constraints\",\n        \"weight\": 0.07690625095742842\n      },\n      {\n        \"edge\": \"Data__Performance.Parameters\",\n        \"weight\": -0.040981956577207546\n      },\n      {\n        \"edge\": \"Technical.Constraints__Performance.Parameters\",\n        \"weight\": 0.02047375227678999\n      },\n      {\n        \"edge\": \"Data__Client.and.Consultant.Requests\",\n        \"weight\": 0.0008708645758129657\n      },\n      {\n        \"edge\": \"Technical.Constraints__Client.and.Consultant.Requests\",\n        \"weight\": 0.0373163090651307\n      },\n      {\n        \"edge\": \"Performance.Parameters__Client.and.Consultant.Requests\",\n        \"weight\": -0.013561406298821313\n      },\n      {\n        \"edge\": \"Data__Design.Reasoning\",\n        \"weight\": -0.04076673375690387\n      },\n      {\n        \"edge\": \"Technical.Constraints__Design.Reasoning\",\n        \"weight\": 0.023280926819333192\n      },\n      {\n        \"edge\": \"Performance.Parameters__Design.Reasoning\",\n        \"weight\": -0.10305968038325825\n      },\n      {\n        \"edge\": \"Client.and.Consultant.Requests__Design.Reasoning\",\n        \"weight\": -0.01279426234588002\n      },\n      {\n        \"edge\": \"Data__Collaboration\",\n        \"weight\": 0.04968981691717682\n      },\n      {\n        \"edge\": \"Technical.Constraints__Collaboration\",\n        \"weight\": 0.1021159686329786\n      },\n      {\n        \"edge\": \"Performance.Parameters__Collaboration\",\n        \"weight\": 0.03307961244868197\n      },\n      {\n        \"edge\": \"Client.and.Consultant.Requests__Collaboration\",\n        \"weight\": -0.0017866761173706835\n      },\n      {\n        \"edge\": \"Design.Reasoning__Collaboration\",\n        \"weight\": 0.0291835943696859\n      }\n    ],\n    \"subtracted_mean_network_top_edges\": {\n      \"group_a_stronger\": [\n        {\n          \"edge\": \"Technical.Constraints__Collaboration\",\n          \"weight\": 0.1021159686329786\n        },\n        {\n          \"edge\": \"Data__Technical.Constraints\",\n          \"weight\": 0.07690625095742842\n        },\n        {\n          \"edge\": \"Data__Collaboration\",\n          \"weight\": 0.04968981691717682\n        },\n        {\n          \"edge\": \"Technical.Constraints__Client.and.Consultant.Requests\",\n          \"weight\": 0.0373163090651307\n        },\n        {\n          \"edge\": \"Performance.Parameters__Collaboration\",\n          \"weight\": 0.03307961244868197\n        }\n      ],\n      \"group_b_stronger\": [\n        {\n          \"edge\": \"Performance.Parameters__Design.Reasoning\",\n          \"weight\": -0.10305968038325825\n        },\n        {\n          \"edge\": \"Data__Performance.Parameters\",\n          \"weight\": -0.040981956577207546\n        },\n        {\n          \"edge\": \"Data__Design.Reasoning\",\n          \"weight\": -0.04076673375690387\n        },\n        {\n          \"edge\": \"Performance.Parameters__Client.and.Consultant.Requests\",\n          \"weight\": -0.013561406298821313\n        },\n        {\n          \"edge\": \"Client.and.Consultant.Requests__Design.Reasoning\",\n          \"weight\": -0.01279426234588002\n        }\n      ]\n    }\n  }\n}"
+}

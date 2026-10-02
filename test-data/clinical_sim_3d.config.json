@@ -1,0 +1,59 @@
+{
+  "format": "pyena-platform-config",
+  "version": 1,
+  "pyena": "ed788e0",
+  "source": {
+    "fileName": "clinical_sim_3d.csv",
+    "columns": [
+      "participant",
+      "experience",
+      "team",
+      "scenario",
+      "shift",
+      "turn",
+      "timestamp",
+      "Assessment",
+      "Vital_Signs",
+      "Diagnosis",
+      "Treatment",
+      "Medication_Safety",
+      "Team_Communication",
+      "Escalation",
+      "Patient_Education"
+    ]
+  },
+  "model": {
+    "codes": [
+      "Assessment",
+      "Vital_Signs",
+      "Diagnosis",
+      "Treatment",
+      "Medication_Safety",
+      "Team_Communication",
+      "Escalation",
+      "Patient_Education"
+    ],
+    "units": [
+      "experience",
+      "participant"
+    ],
+    "conversation": [
+      "team",
+      "scenario"
+    ],
+    "metadata": [
+      "team",
+      "shift"
+    ],
+    "window": "MovingStanzaWindow",
+    "windowBack": 3,
+    "windowForward": 0,
+    "rotation": "mean",
+    "dimensions": 3,
+    "groupColumn": "experience",
+    "groups": [
+      "Novice",
+      "Expert"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56">
+  <!-- The IdeaLens mark at favicon size, as the Logo README's 16px version: the stem, the
+       accent tittle and the two upper nodes, thicker edges. Paper-theme token values,
+       since a favicon cannot read CSS variables: brand #1e3086, brand-dark #17266d,
+       brand-surface #e8ebfa, accent #df3022. -->
+  <g stroke="#1e3086" stroke-width="3.4" stroke-linecap="round">
+    <line x1="28" y1="14" x2="12" y2="27"/>
+    <line x1="28" y1="14" x2="45" y2="28"/>
+  </g>
+  <path d="M24,24 L32,24 L36,20 L28,20 Z" fill="#e8ebfa"/>
+  <path d="M32,24 L32,47 L36,43 L36,20 Z" fill="#17266d"/>
+  <path d="M24,24 L32,24 L32,47 L24,47 Z" fill="#1e3086"/>
+  <circle cx="12" cy="27" r="6" fill="#1e3086"/>
+  <circle cx="45" cy="28" r="6" fill="#1e3086"/>
+  <circle cx="28" cy="14" r="8.4" fill="#df3022"/>
+</svg>

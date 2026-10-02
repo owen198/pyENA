@@ -1,0 +1,228 @@
+{
+ "provenance": {
+  "file": "RS.data.csv",
+  "script": "examples/rs/example.py, with dimensions=3",
+  "archive": "pyena-ed788e0.zip"
+ },
+ "dimensions": 3,
+ "nodes": [
+  {
+   "code": "Data",
+   "z": -2.580175037504231
+  },
+  {
+   "code": "Technical.Constraints",
+   "z": 0.7738811874080558
+  },
+  {
+   "code": "Performance.Parameters",
+   "z": 0.30018337168168197
+  },
+  {
+   "code": "Client.and.Consultant.Requests",
+   "z": 1.9444949366497901
+  },
+  {
+   "code": "Design.Reasoning",
+   "z": 0.5785648386758673
+  },
+  {
+   "code": "Collaboration",
+   "z": 0.01635928017965172
+  }
+ ],
+ "units": [
+  {
+   "label": "FirstGame::steven z",
+   "z": 0.0020572201634956534
+  },
+  {
+   "label": "FirstGame::akash v",
+   "z": -0.04118909755896176
+  },
+  {
+   "label": "FirstGame::alexander b",
+   "z": 0.041421698373273606
+  },
+  {
+   "label": "FirstGame::brandon l",
+   "z": -0.0966413762791385
+  },
+  {
+   "label": "FirstGame::christian x",
+   "z": 0.047768405853196354
+  },
+  {
+   "label": "FirstGame::jordan l",
+   "z": 0.21255883928572855
+  },
+  {
+   "label": "FirstGame::arden f",
+   "z": -0.14007075414269898
+  },
+  {
+   "label": "FirstGame::margaret n",
+   "z": -0.11633299970629735
+  },
+  {
+   "label": "FirstGame::connor f",
+   "z": 0.0862432507085655
+  },
+  {
+   "label": "FirstGame::jimmy i",
+   "z": 0.022172479457532517
+  },
+  {
+   "label": "FirstGame::devin c",
+   "z": -0.06476400552413084
+  },
+  {
+   "label": "FirstGame::tiffany x",
+   "z": 0.06032453550520113
+  },
+  {
+   "label": "FirstGame::amelia n",
+   "z": -0.019112459896111402
+  },
+  {
+   "label": "FirstGame::luis t",
+   "z": -0.06598284300608814
+  },
+  {
+   "label": "FirstGame::amalia x",
+   "z": -0.11507193060433826
+  },
+  {
+   "label": "FirstGame::robert z",
+   "z": -0.08158068944010718
+  },
+  {
+   "label": "FirstGame::joseph k",
+   "z": -0.021940496979679057
+  },
+  {
+   "label": "FirstGame::peter h",
+   "z": -0.1304132719112877
+  },
+  {
+   "label": "FirstGame::carl b",
+   "z": -0.1524732409393361
+  },
+  {
+   "label": "FirstGame::mitchell h",
+   "z": 0.06775191638361895
+  },
+  {
+   "label": "FirstGame::peter s",
+   "z": 0.17782201189143887
+  },
+  {
+   "label": "FirstGame::joseph h",
+   "z": -0.012788397797364374
+  },
+  {
+   "label": "FirstGame::cameron k",
+   "z": 0.07772415149656976
+  },
+  {
+   "label": "FirstGame::fletcher l",
+   "z": -0.015335147458576394
+  },
+  {
+   "label": "FirstGame::amirah u",
+   "z": 0.28611011143260273
+  },
+  {
+   "label": "FirstGame::kevin g",
+   "z": -0.008257909307107656
+  },
+  {
+   "label": "SecondGame::brent p",
+   "z": -0.02207119057422304
+  },
+  {
+   "label": "SecondGame::kiana k",
+   "z": 0.1122283320076073
+  },
+  {
+   "label": "SecondGame::madeline g",
+   "z": -0.13201054823866612
+  },
+  {
+   "label": "SecondGame::justin y",
+   "z": -0.03967310894909048
+  },
+  {
+   "label": "SecondGame::ruzhen e",
+   "z": 0.027037984773187654
+  },
+  {
+   "label": "SecondGame::brandon f",
+   "z": 0.0713882199150852
+  },
+  {
+   "label": "SecondGame::jackson p",
+   "z": 0.10294988152334733
+  },
+  {
+   "label": "SecondGame::shane t",
+   "z": 0.030132269991101565
+  },
+  {
+   "label": "SecondGame::samuel o",
+   "z": 0.12979018904874826
+  },
+  {
+   "label": "SecondGame::casey f",
+   "z": -0.08077990544479845
+  },
+  {
+   "label": "SecondGame::keegan q",
+   "z": -0.10846453522725373
+  },
+  {
+   "label": "SecondGame::nicholas l",
+   "z": 0.013930817304433076
+  },
+  {
+   "label": "SecondGame::cameron i",
+   "z": 0.09049482332431803
+  },
+  {
+   "label": "SecondGame::cormick u",
+   "z": 0.10439254876171691
+  },
+  {
+   "label": "SecondGame::daniel t",
+   "z": -0.30836520034568726
+  },
+  {
+   "label": "SecondGame::christina b",
+   "z": -0.24321184973841536
+  },
+  {
+   "label": "SecondGame::derek v",
+   "z": 0.23353327527910123
+  },
+  {
+   "label": "SecondGame::nicholas n",
+   "z": -0.032321945103661674
+  },
+  {
+   "label": "SecondGame::abigail z",
+   "z": -0.05255530604792192
+  },
+  {
+   "label": "SecondGame::caitlyn y",
+   "z": 0.049246188772804345
+  },
+  {
+   "label": "SecondGame::nathan d",
+   "z": -0.005041992826641743
+  },
+  {
+   "label": "SecondGame::luke u",
+   "z": 0.05937105179490929
+  }
+ ]
+}

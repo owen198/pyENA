@@ -1,0 +1,1837 @@
+/* IdeaLens — the landing page, the Team and Papers pages, and sign-in.
+   The same tokens and the same two typefaces as the product. Textured fields,
+   the live plot grid and stickers (Canvas, Hero, Stickers) appear only on the
+   hero, the page heads, the consent box and sign-in. The walk-through is a
+   real network, so it is drawn as the product draws: on paper, on graph paper
+   in its own coordinates, with no sticker or moving grid near it. */
+
+.st-page {
+  background: var(--surface);
+  color: var(--ink);
+}
+.st-page .ml-nav__mark,
+.st-auth .ml-nav__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3); /* Logo README: the lockup's space-3 */
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* ============================== Floating nav ============================== */
+
+/* Hero README: a floating bar inset space-4, space-3/space-5 padding, radius-md.
+   Scrolled, it tightens: less inset, less padding, a narrower bar and a
+   hairline to hold its edge over sections of the same colour. */
+.st-nav {
+  position: fixed;
+  top: var(--space-4);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  width: calc(100% - 2 * var(--space-4));
+  max-width: 1180px;
+  margin-inline: auto;
+  transition:
+    top 250ms ease,
+    max-width 250ms ease;
+}
+.st-nav__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  min-height: 64px;
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  transition:
+    padding 250ms ease,
+    min-height 250ms ease,
+    border-color 250ms ease;
+}
+.st-nav.is-compact {
+  top: var(--space-2);
+  max-width: 1060px;
+}
+.st-nav.is-compact .st-nav__bar {
+  min-height: 52px;
+  padding: var(--space-1) var(--space-4);
+  border-color: var(--border);
+}
+.st-nav__links {
+  flex: 1;
+  justify-content: center;
+}
+/* The section in view, or the page open, reads as current: brand with the 2px underline (Navigation README). */
+.st-nav__links a[aria-current],
+.st-nav__panel-links a[aria-current] {
+  color: var(--brand);
+  border-color: var(--brand);
+}
+.st-nav__end {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+.st-nav__account {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.st-nav__menu {
+  display: none;
+}
+.st-nav__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.st-nav__panel-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.st-nav__panel-links a {
+  display: inline-block;
+  padding: var(--space-2) 0;
+  font: var(--text-label);
+  color: var(--ink-secondary);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.st-nav__panel-account {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-nav,
+  .st-nav__bar {
+    transition: none;
+  }
+}
+
+/* ============================== Hero ============================== */
+
+.st-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: min(860px, 100vh);
+  min-height: min(860px, 100svh);
+  padding-top: 96px;
+}
+.st-hero__body {
+  padding-bottom: var(--space-9);
+}
+/* The statement, once per page, at display size (Hero README: 96–120px). */
+.st-hero__title {
+  font-size: clamp(48px, 8.5vw, 112px);
+  line-height: 0.98;
+  max-width: 11ch;
+  margin-inline: auto;
+}
+.st-hero .ml-hero__sub {
+  font-size: 18px;
+}
+.st-hero__more {
+  margin-top: var(--space-4);
+}
+.st-hero__more a {
+  color: var(--on-brand);
+  text-underline-offset: 3px;
+}
+/* Buttons and links on the deep canvas take a surface focus ring (Canvas README). */
+.st-hero .ml-btn:focus-visible,
+.st-hero a:focus-visible {
+  outline-color: var(--surface);
+}
+.st-hero__bloom {
+  left: -44px;
+  bottom: -40px;
+  transform: rotate(-7deg);
+}
+.st-hero__cluster {
+  right: -40px;
+  bottom: -30px;
+  transform: rotate(8deg);
+}
+.st-hero__finding {
+  right: 7%;
+  top: 22%;
+  transform: rotate(-8deg);
+}
+
+/* ============================== Sections ============================== */
+
+.st-section {
+  padding: var(--space-9) var(--space-8);
+  scroll-margin-top: 72px;
+}
+.st-section--soft {
+  background: var(--surface-soft);
+}
+.st-block,
+.st-split {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+[id] {
+  scroll-margin-top: 72px;
+}
+.st-h2 {
+  font: var(--text-h2);
+  margin: var(--space-3) 0 var(--space-5);
+}
+.st-h3 {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  line-height: 1.15;
+  font-weight: 400;
+}
+.st-lead {
+  max-width: 62ch;
+  color: var(--ink-secondary);
+}
+/* A narrow introduction beside the working area (README: Spacing & grid). */
+.st-split {
+  display: grid;
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+.st-split__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.st-split__intro .body-lg {
+  color: var(--ink-secondary);
+}
+.st-split__intro .st-h2 {
+  margin: 0;
+}
+
+/* ============================== Start: the way in ============================== */
+
+/* The split hero on the blue wash (Hero README), as a panel with radius-md
+   (Canvas README), without the live plot grid. Text in a 520px column, the
+   stickers in their own column beside it, so they never cross the words. */
+.st-cta {
+  padding-block: var(--space-7);
+}
+.st-cta__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
+  gap: var(--space-6);
+  max-width: 1180px;
+  min-height: 360px;
+  margin-inline: auto;
+  padding: var(--space-8);
+  border-radius: var(--radius-md);
+}
+.st-cta__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.st-cta__title {
+  margin: var(--space-4) 0 var(--space-3);
+  font-family: var(--font-serif);
+  font-size: 40px;
+  line-height: 1.05;
+  font-weight: 400;
+  color: var(--ink);
+}
+.st-cta__sub {
+  max-width: 46ch;
+  color: var(--ink-secondary);
+}
+.st-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+.st-cta__art {
+  position: relative;
+  min-height: 260px;
+}
+.st-cta__talk {
+  right: 34%;
+  top: 4px;
+  transform: rotate(-5deg);
+}
+/* The projected points bleed off the panel's corner (Stickers README). */
+.st-cta__points {
+  right: calc(-1 * var(--space-8) - 8px);
+  bottom: calc(-1 * var(--space-8) - 16px);
+  transform: rotate(7deg);
+}
+/* Each bubble swells and settles in turn, like two people talking: a
+   looping exception the owner asked for, as for the step band's flowers. */
+.st-bubble {
+  transform-box: fill-box;
+  transform-origin: 25% 90%;
+  animation: st-bubble 3.2s ease-in-out calc(var(--b) * 1.6s) infinite;
+}
+@keyframes st-bubble {
+  0%,
+  100% {
+    transform: scale(0.93);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-bubble {
+    animation: none;
+  }
+}
+
+/* ============================== The walk-through ============================== */
+
+.st-storysection {
+  padding-bottom: var(--space-7);
+}
+.st-storysection__head {
+  margin-bottom: var(--space-6);
+}
+/* Step texts scroll past a drawing pinned beside them. */
+.st-story {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+  gap: var(--space-7);
+  max-width: 1320px;
+  margin-inline: auto;
+}
+.st-story__steps {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.st-story__stage {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  position: sticky;
+  top: 84px;
+  height: calc(100vh - 108px);
+  height: calc(100svh - 108px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.st-story__frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+.st-story__caption {
+  align-self: flex-start;
+}
+/* The second walk-through mirrors the first: the drawing on the left, the
+   steps on the right, so the two alternate down the page. */
+.st-story--flip {
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+}
+.st-story--flip .st-story__stage {
+  grid-column: 1;
+}
+.st-story--flip .st-story__steps {
+  grid-column: 2;
+}
+.st-step {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 72vh;
+  padding: var(--space-6) 0;
+  opacity: 0.4;
+  transition: opacity 250ms ease;
+}
+.st-step.is-active {
+  opacity: 1;
+}
+.st-step:first-child {
+  min-height: 60vh;
+}
+.st-step:last-child {
+  min-height: 80vh;
+}
+.st-step__title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  line-height: 1.12;
+  font-weight: 400;
+}
+.st-step__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+/* Where the walk-through turns to exploring the results. */
+.st-step__part {
+  padding-top: var(--space-6);
+  margin-bottom: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+.st-step__part .st-h2 {
+  margin: var(--space-2) 0 var(--space-2);
+}
+.st-finding {
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--brand);
+}
+
+.st-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.st-table th,
+.st-table td {
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+.st-table thead th {
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+.st-table td {
+  text-align: right;
+}
+.st-pairs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.st-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
+}
+.st-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.st-quote {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+/* Pulled excerpts are the quote style, italic serif (README: Typography). */
+.st-quote__text {
+  margin: 0;
+  font: var(--text-quote);
+  font-size: 21px;
+}
+.st-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.st-tiles .ml-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-3);
+}
+.st-tile__value {
+  font: var(--text-body-lg);
+  font-weight: 600;
+}
+
+/* The drawing. Colours are tokens, so it follows the theme like the rest of the page. */
+.st-stage {
+  display: block;
+  width: min(100%, calc((100svh - 150px) * 1000 / 680));
+  height: auto;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+.st-grid line {
+  stroke: var(--border);
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+.st-grid line.is-major {
+  stroke-width: 1.2;
+}
+.st-axes line {
+  stroke: var(--ink-secondary);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.st-ticks text {
+  fill: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.st-doc__sheet {
+  fill: var(--surface);
+  stroke: var(--border);
+}
+.st-doc__mark {
+  fill: transparent;
+}
+/* As the stanza window reaches each line, the line lights, then settles. */
+.st-doc__line.is-connecting .st-doc__mark {
+  animation: st-line 900ms ease calc(var(--i) * 420ms) both;
+}
+@keyframes st-line {
+  0% {
+    fill: transparent;
+  }
+  35% {
+    fill: var(--brand-surface);
+  }
+  100% {
+    fill: color-mix(in srgb, var(--brand-surface) 45%, transparent);
+  }
+}
+.st-doc__speaker {
+  fill: var(--ink-secondary);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.st-doc__text {
+  fill: var(--ink);
+}
+.st-doc__tags rect {
+  fill: var(--brand-surface);
+}
+.st-doc__tags text {
+  fill: var(--brand);
+  font-weight: 500;
+}
+.st-edge {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  transition:
+    stroke-dashoffset 500ms ease,
+    stroke 400ms ease;
+}
+.st-edge--plain {
+  stroke: var(--ink-secondary);
+}
+.st-edge--net,
+.st-edge--a {
+  stroke: var(--brand);
+}
+.st-edge--b {
+  stroke: var(--accent);
+}
+.st-node {
+  fill: var(--ink);
+  stroke: var(--surface-soft);
+  stroke-width: 2;
+}
+.st-node__label {
+  fill: var(--ink);
+}
+.st-point--a {
+  fill: var(--brand);
+}
+.st-point--b {
+  fill: var(--accent);
+}
+.st-mean {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.st-mean--a {
+  fill: var(--brand);
+}
+.st-mean--b {
+  fill: var(--accent);
+}
+.st-ci {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.st-ci--a {
+  stroke: var(--brand);
+}
+.st-ci--b {
+  stroke: var(--accent);
+}
+.st-meanlabels text,
+.st-poles text {
+  fill: var(--ink-secondary);
+}
+.st-stage.is-still *,
+.st-stage.is-still {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* ============================== History ============================== */
+
+.st-history {
+  margin: var(--space-5) 0 var(--space-4);
+}
+.st-history__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+.st-history__row .ml-btn {
+  flex: none;
+}
+.st-history + .pf-note a {
+  color: var(--brand);
+}
+
+/* The History section flies in each time it scrolls into view, from the side
+   it is entered from: the heading rises into place, then each analysis glides
+   in from the right and settles into the index in order, decelerating without
+   overshoot. Scrolling down, the rows come up from below, top row first;
+   scrolling up, they come down from above, bottom row first. */
+.st-arrive {
+  --arrive-dy: 1;
+  overflow-x: clip;
+}
+.st-arrive.is-from-above {
+  --arrive-dy: -1;
+}
+.st-arrive.is-waiting .st-block > *,
+.st-arrive.is-waiting .st-history__row {
+  opacity: 0;
+}
+.st-arrive.is-in .st-block > :not(.st-history) {
+  animation: st-arrive-rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.st-arrive.is-in .st-block > h2 {
+  animation-delay: 60ms;
+}
+.st-arrive.is-in .st-block > .st-lead {
+  animation-delay: 120ms;
+}
+.st-arrive.is-in .st-block > .pf-note {
+  animation-delay: 520ms;
+}
+.st-arrive.is-in .st-history__row {
+  animation: st-arrive-fly 640ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(180ms + var(--i, 0) * 90ms);
+}
+.st-arrive.is-in.is-from-above .st-history__row {
+  animation-delay: calc(180ms + (var(--n, 1) - 1 - var(--i, 0)) * 90ms);
+}
+@keyframes st-arrive-rise {
+  from {
+    opacity: 0;
+    transform: translateY(calc(18px * var(--arrive-dy)));
+  }
+}
+@keyframes st-arrive-fly {
+  from {
+    opacity: 0;
+    transform: translate(72px, calc(20px * var(--arrive-dy)));
+  }
+  60% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-arrive .st-block > *,
+  .st-arrive .st-history__row {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+/* ============================== Stay connected ============================== */
+
+.st-connect__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+  gap: var(--space-8);
+  align-items: center;
+  max-width: 1180px;
+  margin-inline: auto;
+}
+.st-connect__art {
+  margin: 0;
+  pointer-events: none;
+}
+.st-connect__art svg {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+}
+.st-connect__names {
+  display: flex;
+  justify-content: space-between;
+  max-width: 440px;
+  color: var(--ink-secondary);
+}
+/* Ticking the box draws the connection; agreeing makes it the brand line. */
+.st-connect__edge {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  transition:
+    stroke-dashoffset 500ms ease,
+    stroke 300ms ease,
+    stroke-width 300ms ease;
+}
+.st-connect__edge.is-drawn {
+  stroke-dashoffset: 0;
+}
+.st-connect__edge.is-made {
+  stroke: var(--brand);
+  stroke-width: 3.5;
+}
+.st-connect__form .st-h2 {
+  margin-top: var(--space-2);
+}
+.st-connect .pf-form {
+  max-width: 480px;
+}
+.st-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+.st-consent input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--brand);
+  cursor: pointer;
+}
+.st-consent input:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.st-consent.is-invalid input {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-connect__edge,
+  .st-edge,
+  .st-step {
+    transition: none;
+  }
+  .st-doc__line.is-connecting .st-doc__mark {
+    animation: none;
+  }
+}
+
+/* ============================== Team and Papers ============================== */
+
+.st-pagehead {
+  padding: calc(var(--space-9) + 48px) var(--space-8) var(--space-8);
+}
+.st-pagehead__title {
+  font: var(--text-h1);
+  margin: var(--space-3) 0 var(--space-4);
+}
+.st-pagehead__sticker {
+  right: -30px;
+  bottom: -46px;
+  transform: rotate(8deg);
+}
+.st-team {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+.st-member {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+}
+.st-member__name {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  line-height: 1.15;
+  font-weight: 400;
+}
+.st-member__name.is-empty {
+  color: var(--ink-secondary);
+}
+.st-credit {
+  color: var(--ink-secondary);
+}
+/* Citations as index rows, venue and pages in metadata (README: Research vocabulary). */
+.st-papers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+}
+.st-paper-list {
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+.st-paper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+.st-paper__title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 1.25;
+}
+.st-paper.is-empty .st-paper__title {
+  color: var(--ink-secondary);
+}
+.st-paper__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.st-paper__links a,
+.st-member a,
+.st-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--brand);
+}
+
+/* ============================== Footer ============================== */
+
+.st-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-7);
+  flex-wrap: wrap;
+  padding: var(--space-7) var(--space-8);
+  border-top: 1px solid var(--border);
+}
+.st-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 44ch;
+}
+.st-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: var(--text-label);
+}
+.st-footer__links a {
+  color: var(--ink-secondary);
+  text-decoration: none;
+}
+.st-footer__links a:hover {
+  color: var(--ink);
+}
+
+/* ============================== Sign in ============================== */
+
+.st-auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: var(--space-4) var(--space-4) var(--space-8);
+}
+.st-auth__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 1180px;
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+}
+.st-auth__bar-end {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.st-auth__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: min(440px, 100%);
+  margin-block: auto;
+  padding: var(--space-6);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+}
+.st-auth__panel .pf-form {
+  max-width: none;
+}
+.st-auth__panel .pf-btn--block {
+  width: 100%;
+  justify-content: center;
+}
+.st-auth__title {
+  font: var(--text-h2);
+}
+.st-auth__switch a {
+  color: var(--brand);
+}
+.st-auth__bloom {
+  left: -44px;
+  bottom: -40px;
+  transform: rotate(-7deg);
+}
+.st-auth__cluster {
+  right: -40px;
+  top: 30%;
+  transform: rotate(8deg);
+}
+
+/* ============================== Narrow screens ============================== */
+
+@media (max-width: 1100px) and (min-width: 900px) {
+  .st-nav__links {
+    gap: var(--space-4);
+  }
+  .st-nav .pf-theme-btn__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+
+@media (max-width: 899px) {
+  .st-nav__links,
+  .st-nav__account {
+    display: none;
+  }
+  .st-nav__menu {
+    display: inline-flex;
+    min-height: 44px;
+  }
+  .st-nav__bar {
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+  }
+  .st-nav .pf-theme-btn__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  /* Hero README, mobile: the statement drops, the block goes full width, one sticker. */
+  .st-hero .ml-hero {
+    padding: var(--space-8) var(--space-5) var(--space-9);
+  }
+  .st-hero__cluster,
+  .st-hero__finding,
+  .st-auth__cluster {
+    display: none;
+  }
+  .st-hero__bloom {
+    width: 150px;
+    left: -36px;
+    bottom: -44px;
+  }
+  .st-section {
+    padding: var(--space-8) var(--space-5);
+  }
+  .st-h2 {
+    font: var(--text-h3);
+  }
+  .st-split,
+  .st-papers,
+  .st-connect__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  /* Canvas README, mobile: the text full width, one sticker, below it. */
+  .st-cta {
+    padding-inline: var(--space-4);
+  }
+  .st-cta__panel {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    min-height: 0;
+    padding: var(--space-6) var(--space-5) 0;
+  }
+  .st-cta__title {
+    font-size: 32px;
+  }
+  .st-cta__art {
+    min-height: 170px;
+  }
+  .st-cta__talk {
+    right: auto;
+    left: 50%;
+    top: 0;
+    width: 150px;
+    transform: translateX(-50%) rotate(-5deg);
+  }
+  .st-cta__points {
+    display: none;
+  }
+  .st-team,
+  .st-pairs,
+  .st-tiles {
+    grid-template-columns: 1fr;
+  }
+  /* The drawing pins to the top; the step texts scroll up beneath it. */
+  .st-story {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .st-story__stage {
+    grid-column: 1;
+    grid-row: 1;
+    top: 68px;
+    z-index: 5;
+    height: auto;
+    padding-bottom: var(--space-2);
+    background: var(--surface);
+  }
+  .st-story__steps,
+  .st-story--flip .st-story__steps {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .st-story--flip {
+    grid-template-columns: 1fr;
+  }
+  .st-story--flip .st-story__stage {
+    grid-column: 1;
+  }
+  .st-stage {
+    width: min(100%, calc((46svh - 24px) * 600 / 660));
+  }
+  .st-step {
+    min-height: 62vh;
+    justify-content: flex-start;
+    padding-top: var(--space-5);
+  }
+  .st-step__title {
+    font-size: 26px;
+  }
+  .st-history__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  .st-pagehead {
+    padding: calc(var(--space-8) + 40px) var(--space-5) var(--space-7);
+  }
+  .st-pagehead__title {
+    font: var(--text-h2);
+  }
+  .st-pagehead__sticker {
+    width: 120px;
+  }
+  .st-footer {
+    padding: var(--space-6) var(--space-5);
+  }
+  .st-auth__bloom {
+    width: 150px;
+  }
+  .st-auth__panel {
+    padding: var(--space-5);
+  }
+}
+
+/* ============================== Platform tour ============================== */
+
+/* The real workspace, 1280 × 800, in a frame that scales it to the column and
+   closes in on each step. The pointer moves in the frame's own pixels, so it
+   stays the same size however close the view is. */
+.pt-frame {
+  position: relative;
+  width: min(100%, calc((100svh - 150px) * 1280 / 800));
+  aspect-ratio: 1280 / 800;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.pt-zoom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1280px;
+  height: 800px;
+  transform-origin: 0 0;
+  transition: transform 700ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.pt-app {
+  display: block;
+  width: 1280px;
+  height: 800px;
+  border: 0;
+}
+.pt-shield {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.pt-pointer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  margin: -3px 0 0 -4px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 700ms cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 250ms ease;
+}
+.pt-pointer.is-visible {
+  opacity: 1;
+}
+.pt-pointer svg {
+  position: relative;
+  display: block;
+}
+.pt-pointer svg path {
+  fill: var(--ink);
+  stroke: var(--surface);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+/* A press: a brand ring opening from the pointer's tip. */
+.pt-pointer__press {
+  position: absolute;
+  left: -12px;
+  top: -12px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--brand);
+  border-radius: var(--radius-full);
+  animation: pt-press 520ms ease-out both;
+}
+@keyframes pt-press {
+  from {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.pt-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.pt-frame.is-still .pt-zoom,
+.pt-frame.is-still .pt-pointer {
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pt-zoom,
+  .pt-pointer {
+    transition: none;
+  }
+  .pt-pointer__press {
+    animation: none;
+    opacity: 0;
+  }
+}
+@media (max-width: 899px) {
+  .pt-frame {
+    width: min(100%, calc((46svh - 24px) * 1280 / 800));
+  }
+}
+/* Inside the frame: the platform's own scrollbars stay out of the picture. */
+html.pt-inner,
+html.pt-inner body {
+  overflow: hidden;
+}
+html.pt-inner * {
+  scrollbar-width: none;
+}
+
+/* ============================== IdeaLens: the waitlist ============================== */
+
+/* One address and one button: the hero's single action (Hero README), and again at the end. */
+.st-wait {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
+  text-align: left;
+}
+/* The field holds the address and its button on one row, so it takes the form's width, not the 360px a lone field has. */
+.st-wait__field {
+  max-width: none;
+}
+.st-wait__row {
+  display: flex;
+  gap: var(--space-2);
+}
+.st-wait__input {
+  flex: 1;
+  min-width: 0;
+}
+.st-wait__row .ml-btn {
+  flex: none;
+}
+.st-wait__terms {
+  color: var(--ink-secondary);
+}
+.st-wait--canvas .st-wait__terms,
+.st-wait--canvas.st-wait--done {
+  color: var(--on-brand);
+  text-align: center;
+}
+/* On the deep field the hint keeps the field's own text colour; the input's accent edge marks it. */
+.st-wait--canvas .ml-field--invalid .ml-field-hint {
+  color: var(--on-brand);
+}
+.st-wait--done {
+  align-items: flex-start;
+}
+.st-wait--canvas.st-wait--done {
+  align-items: center;
+}
+.st-wait__line {
+  margin: calc(-1 * var(--space-3)) 0 var(--space-3);
+  font-family: var(--font-serif);
+  font-size: 24px;
+  line-height: 1.2;
+}
+.st-wait__lead {
+  margin-bottom: var(--space-4);
+  color: var(--ink-secondary);
+}
+
+/* ============================== IdeaLens: the showcase ============================== */
+
+.st-show {
+  padding-bottom: var(--space-7);
+}
+.st-show__head {
+  margin-bottom: var(--space-6);
+}
+.st-show__stage {
+  height: calc(100vh - 100px);
+  height: calc(100svh - 100px);
+}
+.st-show__stage .st-story__frame {
+  align-items: stretch;
+  gap: var(--space-3);
+}
+/* The six chapters, numbered: where the scroll is, and a way to jump. */
+.st-show__index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.st-show__index a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-secondary);
+  text-decoration: none;
+}
+.st-show__index a:hover {
+  color: var(--ink);
+}
+.st-show__index li[aria-current] a {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+}
+/* The drawing is a real network, so it sits on paper with graph paper under it, as the product draws. */
+.st-show__canvas {
+  position: relative;
+  align-self: center;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+}
+.st-show__canvas--wide {
+  aspect-ratio: 1000 / 640;
+  width: min(100%, calc((100svh - 220px) * 1000 / 640));
+}
+.st-show__canvas--tall {
+  aspect-ratio: 520 / 620;
+  width: min(100%, calc(50svh * 520 / 620));
+}
+.st-show__canvas.is-turnable {
+  cursor: grab;
+}
+.st-show__canvas.is-turnable:active {
+  cursor: grabbing;
+}
+.st-show__canvas:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.st-show__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+}
+.st-show__edge {
+  fill: none;
+  stroke-linecap: round;
+}
+.st-show__label {
+  paint-order: stroke;
+  stroke: var(--surface-soft);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.st-show__axis-label {
+  fill: var(--ink-secondary);
+}
+/* Where each node sits in 2D, kept on the plane once depth lifts it off. */
+.st-show__ghost line {
+  stroke: var(--ink-secondary);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+  vector-effect: non-scaling-stroke;
+}
+.st-show__ghost circle {
+  fill: none;
+  stroke: var(--ink-secondary);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.st-show__leader {
+  stroke: var(--ink-secondary);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+/* The margin note: a reader's note beside the connection (README: an annotation margin). */
+.st-show__margin {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.st-show__margin--wide {
+  left: 66.4%;
+  top: 16%;
+  width: 31%;
+  max-height: 80%;
+}
+.st-show__margin--tall {
+  left: 3%;
+  right: 3%;
+  top: 54%;
+  bottom: 3%;
+  padding: var(--space-3);
+  gap: var(--space-1);
+}
+.st-show__pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin: 0;
+}
+.st-show__pair-line {
+  flex: 1 0 24px;
+  height: 2px;
+  background: var(--brand);
+}
+.st-show__pair--b .st-show__pair-line {
+  background: var(--accent);
+}
+.st-show__generating {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--ink-secondary);
+}
+.st-show__progress {
+  display: block;
+  height: 2px;
+  background: var(--border);
+  overflow: hidden;
+}
+.st-show__progress span {
+  display: block;
+  height: 100%;
+  background: var(--brand);
+  transform-origin: left center;
+}
+.st-show__text {
+  margin: 0;
+  color: var(--ink);
+}
+.st-show__caret {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: var(--ink);
+}
+.st-show__ask {
+  align-self: flex-end;
+  margin: 0;
+  padding: var(--space-1) var(--space-2);
+  background: var(--brand-surface);
+  border-radius: var(--radius-sm);
+}
+.st-show__ref {
+  display: inline-block;
+  padding: 0 var(--space-1);
+  font: var(--text-small);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--brand);
+  background: var(--brand-surface);
+  border: 1px solid var(--brand);
+  border-radius: var(--radius-sm);
+}
+.st-show__quote {
+  margin: 0;
+  font: var(--text-quote);
+  font-size: 17px;
+  color: var(--ink);
+}
+.st-show__history {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.st-show__history li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+}
+.st-show__history li.is-current {
+  padding-inline: var(--space-2);
+  background: var(--brand-surface);
+  border-radius: var(--radius-sm);
+}
+/* Each chapter gets a screen of scroll; Interpret writes two notes, so it gets more. */
+.st-show__step {
+  min-height: 88vh;
+}
+.st-show__step:nth-child(4) {
+  min-height: 100vh;
+}
+.st-show__step:nth-child(5) {
+  min-height: 150vh;
+}
+.st-show__actions {
+  margin-top: var(--space-2);
+}
+.st-show__step-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+@media (pointer: coarse) {
+  .st-show__hint {
+    display: none;
+  }
+}
+
+/* ============================== IdeaLens: your research ============================== */
+
+/* Played by the scroll: a tall track, with the demo and the words pinned while
+   it passes. The demo leads on the left, the reverse of the showcase above. */
+.st-research {
+  padding-block: 0;
+}
+.st-research__track {
+  height: 300vh;
+}
+.st-research__sticky {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  height: 100svh;
+  padding-top: 64px;
+}
+.st-research__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: center;
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+}
+.st-research__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 44ch;
+}
+.st-research__text .st-h2 {
+  margin: 0;
+}
+.st-research__text .body-lg {
+  color: var(--ink-secondary);
+}
+.st-research__cta {
+  margin-top: var(--space-2);
+}
+
+/* The workspace's first step, as the product draws it: flat paper, hairlines, radius-md. */
+.st-up {
+  margin: 0;
+}
+.st-up__window {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  user-select: none;
+}
+.st-up__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+.st-up__dot--idle {
+  background: var(--border);
+}
+.st-up__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-5) var(--space-5) 0;
+}
+.st-up__step-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  line-height: 1.15;
+}
+/* Every state of the file shares one place: the layers sit on top of one another. */
+.st-up__body {
+  position: relative;
+  height: 330px;
+  margin: var(--space-4) var(--space-5) var(--space-5);
+}
+.st-up__layer,
+.st-up__picker {
+  position: absolute;
+  inset: 0;
+}
+.st-up__drop {
+  justify-content: center;
+}
+.st-up__file {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.st-up__source {
+  max-width: none;
+}
+.st-up__check {
+  margin-right: var(--space-2);
+  color: var(--brand);
+  vertical-align: -2px;
+}
+.st-up__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+.st-up__progress {
+  height: 2px;
+  margin-top: var(--space-4);
+  background: var(--border);
+  overflow: hidden;
+}
+.st-up__progress span {
+  display: block;
+  height: 100%;
+  background: var(--brand);
+  transform-origin: left center;
+}
+.st-up__ready {
+  margin: var(--space-3) 0 0;
+  color: var(--brand);
+}
+.st-up__preview .pf-table {
+  width: 100%;
+}
+.st-up__preview td {
+  max-width: 240px;
+}
+/* A button the pointer presses moves 1px, as every button does (Buttons README). */
+.st-up .ml-btn.is-pressed {
+  transform: translateY(1px);
+  background: var(--brand-dark);
+}
+/* The file picker: a popover over the workspace, so it takes the one shadow. */
+.st-up__picker {
+  inset: var(--space-4) var(--space-6) auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-modal);
+}
+.st-up__picker-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-soft);
+}
+.st-up__files {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.st-up__files li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+}
+.st-up__files li + li {
+  border-top: 1px solid var(--border);
+}
+.st-up__files li.is-unreadable {
+  color: var(--ink-secondary);
+}
+.st-up__files li.is-selected {
+  background: var(--brand-surface);
+}
+.st-up__file-name {
+  font: var(--text-label);
+  overflow-wrap: anywhere;
+}
+.st-up__picker-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border);
+}
+.st-up__pointer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ============================== IdeaLens: footer line and legal ============================== */
+
+.st-footer__line {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.2;
+}
+.st-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  width: 100%;
+  margin: 0;
+  padding: var(--space-4) 0 0;
+  border-top: 1px solid var(--border);
+  list-style: none;
+  font: var(--text-small);
+}
+.st-footer__legal a {
+  color: var(--ink-secondary);
+}
+.st-footer__legal a:hover {
+  color: var(--ink);
+}
+.st-legal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 70ch;
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.st-legal__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+.st-legal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.st-legal__draft {
+  max-width: 70ch;
+  margin-top: var(--space-6);
+}
+
+@media (max-width: 899px) {
+  .st-wait__row {
+    flex-direction: column;
+  }
+  .st-show__index {
+    display: none;
+  }
+  .st-show__stage {
+    height: auto;
+  }
+  .st-show__step,
+  .st-show__step:nth-child(4) {
+    min-height: 70vh;
+  }
+  .st-show__step:nth-child(5) {
+    min-height: 120vh;
+  }
+  .st-show__step {
+    justify-content: flex-start;
+    padding-top: 0;
+  }
+  /* Just under the pinned drawing: the nav, the drawing (half the screen high at most) and its caption. */
+  .st-show__step-inner {
+    position: sticky;
+    top: calc(68px + 50svh + 44px);
+    padding-top: var(--space-4);
+    background: var(--surface);
+  }
+  .st-show__margin--tall .st-show__generating[data-done] {
+    display: none;
+  }
+  /* Demo first, then the title and the words, both pinned while the demo plays. */
+  .st-research__track {
+    height: 260vh;
+  }
+  .st-research__sticky {
+    padding-top: 72px;
+  }
+  .st-research__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  .st-research__text .st-h2 {
+    font-size: 26px;
+  }
+  .st-research__text .body-lg {
+    font-size: 16px;
+  }
+  .st-research__cta {
+    display: none;
+  }
+  .st-up__bar,
+  .st-up__step {
+    padding-inline: var(--space-4);
+  }
+  .st-up__step {
+    padding-top: var(--space-3);
+  }
+  .st-up__body {
+    height: 270px;
+    margin: var(--space-3) var(--space-4) var(--space-4);
+  }
+  .st-up__picker {
+    inset: var(--space-2) 0 auto;
+  }
+  .st-up__preview td:nth-child(2),
+  .st-up__preview th:nth-child(2) {
+    display: none;
+  }
+  .st-up__preview tbody tr:nth-child(3) {
+    display: none;
+  }
+  .st-wait__line {
+    font-size: 20px;
+  }
+}
+.st-wait--canvas .label {
+  color: inherit;
+}

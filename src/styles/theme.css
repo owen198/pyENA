@@ -1,0 +1,76 @@
+/* Dark theme.
+   The design system ships one palette and no dark theme. This one is derived
+   from that palette alone: every value below is a mix of two existing tokens
+   (named beside it), so no new hue enters the system. Each pairing was checked
+   against the system's own floors — 4.5:1 for text, 3:1 for icons, borders
+   that carry meaning and focus rings; the ratios sit beside the values.
+
+   It is scoped the way tokens.css scopes the paper theme, so any element can
+   step back onto paper with data-theme="paper". Two things always do:
+   figures (matplotlib bakes paper colours into its SVG, and a figure is a
+   printed object) and the deep canvases of the canvas register, whose brand
+   and ink fields are already dark. */
+
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1b1b1b; /* ink. The dark canvas. */
+  --surface-soft: #262626; /* ink with 5% surface. Modals, zebra rows, quote blocks. */
+  --ink: #ffffed; /* surface. 17.0:1 on surface, 15.0:1 on surface-soft. */
+  --ink-secondary: #a4a499; /* ink with 60% surface. 6.9:1 / 6.0:1; 6.1:1 on brand-surface. Not below 14px. */
+  --border: #494945; /* ink with 20% surface. 1.9:1: structural only, as in the paper theme. */
+  --brand: #b6bcdd; /* brand-surface with 25% brand. 9.2:1 on surface, 8.2:1 on brand-surface. */
+  --brand-dark: #d8dcf1; /* brand-surface with 8% brand: hover and pressed step further from the ground. 12.7:1. */
+  --brand-surface: #1c2346; /* ink with 40% brand. Selected rows, the step band. ink 15.1:1 on it. */
+  --on-brand: #1b1b1b; /* ink on a brand fill. 9.2:1 on brand, 12.7:1 on brand-dark. */
+  --accent: #e7675c; /* accent with 30% accent-surface. 5.3:1 on surface, 4.7:1 on surface-soft. */
+  --accent-surface: #52211d; /* ink with 28% accent. ink 13.0:1 on it; accent 4.1:1, icons and 18px+ only. */
+  --on-accent: #1b1b1b; /* ink on an accent fill. 5.3:1. */
+  --shadow-modal: 0 8px 24px rgba(0, 0, 0, 0.5); /* The one shadow, deepened to read on a dark page. */
+}
+
+:root,
+[data-theme="paper"] {
+  color-scheme: light;
+  /* The Logo stem's lit top and shaded side (marks.tsx). */
+  --logo-top: var(--brand-surface);
+  --logo-side: var(--brand-dark);
+}
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  --logo-top: var(--brand-dark);
+  --logo-side: var(--brand-surface);
+}
+
+/* A scope that switches theme restates its own text colour: `color` inherits
+   as a resolved value, so without this a paper plate inside a dark page would
+   keep the page's cream text. Zero specificity, so any component rule wins. */
+:where([data-theme]) {
+  color: var(--ink);
+}
+
+/* The scrim is ink at 40% on paper; on a dark page the same ink needs more
+   weight to set the modal apart. */
+:root[data-theme="dark"] .ml-scrim {
+  background: rgba(27, 27, 27, 0.72);
+}
+
+/* Theme changes cross-fade their colours once, in the system's standard
+   150–300ms, rather than snapping; reduced motion snaps. */
+html.pf-theme-shift,
+html.pf-theme-shift *,
+html.pf-theme-shift *::before,
+html.pf-theme-shift *::after {
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    color 250ms ease,
+    fill 250ms ease,
+    stroke 250ms ease !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.pf-theme-shift,
+  html.pf-theme-shift * {
+    transition: none !important;
+  }
+}

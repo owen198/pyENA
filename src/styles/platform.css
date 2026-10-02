@@ -1,0 +1,2524 @@
+/* IdeaLens — layout and the few states bundle.css leaves to a consumer.
+   Every colour, space, radius and shadow is a token from tokens.css; every
+   type style is a token class or the same values the token defines.
+   Register: product only. No stickers, no textured fields, no moving grid. */
+
+/* Pages that scroll (the landing page, analyses, settings) grow the body
+   rather than overflow it; the workspace sets its own height (.pf-app). */
+html {
+  height: 100%;
+}
+body,
+#root {
+  min-height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+.pf-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.pf-num {
+  font-variant-numeric: tabular-nums;
+}
+.pf-ink-secondary {
+  color: var(--ink-secondary);
+}
+
+/* Focus: a solid brand outline on everything interactive, never the browser default. */
+:where(button, [href], input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ============================== Shell ============================== */
+
+.pf-app {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  height: 100vh;
+  height: 100dvh;
+}
+
+.pf-nav {
+  padding-inline: var(--space-8);
+}
+.pf-nav .ml-nav__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3); /* Logo README: the lockup's space-3 */
+  text-decoration: none;
+}
+.pf-nav__meta {
+  font-size: 14px;
+  color: var(--ink-secondary);
+}
+
+/* The progress band (plan §10.1): Previous, the four steps by name, Next.
+   brand-surface marks it as the one navigational band of the working product.
+   Pairings on brand-surface: ink 14.5:1, ink-secondary 5.1:1, brand 9.7:1. */
+.pf-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-8);
+  background: var(--brand-surface);
+  border-bottom: 1px solid var(--border);
+}
+/* Flowers: small Network bloom stickers in a lane beside the steps, whole and
+   never behind text. Each drifts slowly left to right and back, and blooms on a
+   slow cycle: the stem and branches draw, the leaves unfold, the edges appear,
+   the node heads open, the bloom holds while the heads breathe in and out, then
+   it folds away and grows again. An owner-requested exception to the Stickers
+   README's "static" rule; reduced motion shows the flowers whole and still. */
+.pf-flowers {
+  --cycle: 12s;
+  position: relative;
+  flex: 0 1 180px;
+  min-width: 88px;
+  height: 56px;
+  margin-inline: var(--space-2);
+  pointer-events: none;
+  opacity: 0.6;
+  container-type: inline-size;
+}
+.pf-flowers--start {
+  margin-left: auto;
+}
+.pf-flowers--end {
+  margin-right: auto;
+}
+/* A side column too narrow for its button and a lane keeps the button. */
+@container (max-width: 236px) {
+  .pf-flowers {
+    display: none;
+  }
+}
+
+/* The lane: each flower glides from one end to the other and back, in a
+   shallow arc, at its own slow speed. */
+.pf-drift {
+  --size: 48px;
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: var(--size);
+  height: var(--size);
+  animation: pf-drift var(--drift-speed, 14s) ease-in-out var(--drift-delay, 0s) infinite alternate;
+}
+.pf-drift--small {
+  --size: 36px;
+}
+.pf-flower {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+@keyframes pf-drift {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(calc((100cqw - var(--size)) / 2), -5px);
+  }
+  100% {
+    transform: translate(calc(100cqw - var(--size)), 0);
+  }
+}
+
+/* The bloom cycle. Every part shares --cycle; the keyframes stage them. */
+.pf-flower .pf-bloom__stem,
+.pf-flower .pf-bloom__branch {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.pf-flower .pf-bloom__stem {
+  animation: pf-cycle-stem var(--cycle) ease-in-out var(--d, 0s) infinite both;
+}
+.pf-flower .pf-bloom__branch {
+  animation: pf-cycle-branch var(--cycle) ease-in-out var(--d, 0s) infinite both;
+}
+.pf-flower .pf-bloom__leaf {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pf-cycle-leaf var(--cycle) ease-in-out var(--d, 0s) infinite both;
+}
+.pf-flower .pf-bloom__edge {
+  animation: pf-cycle-edge var(--cycle) ease-in-out var(--d, 0s) infinite both;
+}
+.pf-flower .pf-bloom__node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pf-cycle-node var(--cycle) ease-in-out calc(var(--d, 0s) + var(--n, 0ms)) infinite both;
+}
+/* Breathe in and out: a slow swell and settle, like Claude's own indicator. */
+.pf-flower .pf-bloom__breath {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pf-breathe 3.2s ease-in-out calc(var(--n, 0ms) * 3) infinite;
+}
+@keyframes pf-cycle-stem {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  12%,
+  84% {
+    stroke-dashoffset: 0;
+  }
+  96%,
+  100% {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes pf-cycle-branch {
+  0%,
+  8% {
+    stroke-dashoffset: 1;
+  }
+  17%,
+  80% {
+    stroke-dashoffset: 0;
+  }
+  90%,
+  100% {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes pf-cycle-leaf {
+  0%,
+  12% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  22%,
+  78% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+@keyframes pf-cycle-edge {
+  0%,
+  18% {
+    opacity: 0;
+  }
+  26%,
+  74% {
+    opacity: 1;
+  }
+  82%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes pf-cycle-node {
+  0%,
+  22% {
+    transform: scale(0);
+  }
+  30%,
+  72% {
+    transform: scale(1);
+  }
+  80%,
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes pf-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.72;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-drift,
+  .pf-flower .pf-bloom__leaf,
+  .pf-flower .pf-bloom__edge,
+  .pf-flower .pf-bloom__node,
+  .pf-flower .pf-bloom__breath {
+    animation: none;
+  }
+  .pf-flower .pf-bloom__stem,
+  .pf-flower .pf-bloom__branch {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .pf-drift + .pf-drift {
+    left: auto;
+    right: 0;
+  }
+}
+.pf-band__side {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  container-type: inline-size;
+}
+.pf-band__side--end {
+  justify-content: flex-end;
+}
+.pf-band__btn {
+  white-space: nowrap;
+}
+.pf-band .ml-btn--secondary {
+  background: var(--surface);
+}
+.pf-band__steps {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pf-band__steps li {
+  display: flex;
+  align-items: center;
+}
+.pf-band__steps li + li::before {
+  content: "";
+  width: var(--space-4);
+  border-top: 1px solid var(--ink-secondary);
+  opacity: 0.4;
+  margin: 0 var(--space-2);
+}
+.pf-band__step {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2) 2px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+/* Step names in the label style (13px, 600), never wrapped. */
+.pf-band__name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+/* Five names need about 800px, which fits from a 1240px window. Below it the current step
+   keeps its name and the others their number and tick; each name stays for
+   screen readers. Phones show the current step alone (below). */
+@media (min-width: 900px) and (max-width: 1239px) {
+  .pf-band__steps li:not(.is-current) .pf-band__name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+.pf-band__step .ml-icon {
+  align-self: center;
+  stroke-width: 2;
+}
+.pf-band__step:hover:not([aria-disabled="true"]) {
+  color: var(--ink);
+}
+.pf-band__step.is-done {
+  color: var(--brand);
+}
+.pf-band__step[aria-current="step"] {
+  color: var(--brand);
+  border-color: var(--brand);
+}
+.pf-band__step[aria-current="step"] .pf-band__name {
+  color: var(--ink);
+}
+.pf-band__step[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* A control that cannot act yet stays focusable so its reason can be read. */
+.ml-btn[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.ml-btn--primary[aria-disabled="true"]:hover,
+.ml-btn--primary[aria-disabled="true"]:active {
+  background: var(--brand);
+  transform: none;
+}
+.ml-btn--secondary[aria-disabled="true"]:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* The Arrow icon, turned to point where it leads. */
+.pf-icon--back {
+  transform: rotate(180deg);
+}
+.pf-icon--up {
+  transform: rotate(-90deg);
+}
+.pf-icon--out {
+  transform: rotate(-45deg);
+}
+.pf-icon--down {
+  transform: rotate(90deg);
+}
+.pf-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.pf-brand .ml-tag {
+  cursor: help;
+}
+/* The Demo tag lights up and fades, with its dot breathing in the flowers'
+   rhythm, so it is plain this is a demonstration. The ring is a brand glow,
+   not an elevation shadow; the focus outline stays free for keyboard focus. */
+.pf-demo {
+  animation: pf-demo-glow 3.2s ease-in-out infinite;
+}
+.pf-demo__dot {
+  transform-origin: center;
+  animation: pf-demo-dot 3.2s ease-in-out infinite;
+}
+@keyframes pf-demo-glow {
+  0%,
+  100% {
+    background: var(--brand-surface);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand) 0%, transparent);
+  }
+  50% {
+    background: color-mix(in srgb, var(--brand) 16%, var(--brand-surface));
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--brand) 18%, transparent);
+  }
+}
+@keyframes pf-demo-dot {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-demo,
+  .pf-demo__dot {
+    animation: none;
+  }
+}
+.pf-external {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.pf-brand-text {
+  color: var(--brand);
+}
+
+/* The split: left = input, right = consequence (plan §5.1). */
+.pf-split {
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  min-height: 0;
+  padding-left: var(--space-8);
+}
+
+/* ============================== Rail ============================== */
+
+.pf-rail {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: var(--space-6);
+}
+.pf-rail__sections {
+  flex: 1;
+  padding-top: var(--space-4);
+}
+
+.pf-step + .pf-step {
+  border-top: 1px solid var(--border);
+}
+.pf-step__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4) 0;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+.pf-step__head:disabled {
+  cursor: not-allowed;
+}
+.pf-step__title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.pf-step__num {
+  color: var(--brand);
+}
+.pf-step__name {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.pf-step__head:disabled .pf-step__name,
+.pf-step__head:disabled .pf-step__num {
+  color: var(--ink-secondary);
+}
+.pf-step__head:hover:not(:disabled) .pf-step__name {
+  color: var(--brand);
+}
+.pf-step__state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--brand);
+}
+.pf-step__current {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--brand);
+}
+.pf-step__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding-bottom: var(--space-6);
+}
+
+.pf-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+.pf-group:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+.pf-group__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  color: var(--brand);
+}
+.pf-group__label svg {
+  flex: none;
+  margin: -6px 0 -6px -4px;
+}
+
+.pf-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.pf-row--tight {
+  gap: var(--space-2);
+}
+.pf-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pf-rail .ml-field {
+  max-width: none;
+}
+.pf-rail .ml-source {
+  max-width: none;
+}
+.pf-rail .ml-btn--primary.pf-btn--block {
+  width: 100%;
+  justify-content: center;
+}
+
+.pf-field__label {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+.pf-required {
+  font-weight: 500;
+  color: var(--ink);
+}
+.pf-hint--flag {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+.pf-hint--flag svg {
+  flex: none;
+  margin: -5px 0 -5px -4px;
+}
+.pf-flag {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  color: var(--accent);
+}
+.pf-flag svg {
+  flex: none;
+  margin: -3px 0 -3px -4px;
+}
+.pf-note {
+  color: var(--ink-secondary);
+}
+
+select.ml-input {
+  appearance: none;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpolyline points='6,8 10,12 14,8' fill='none' stroke='%23626262' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  cursor: pointer;
+}
+.ml-input[type="number"] {
+  width: 96px;
+}
+.pf-field--wide .ml-input {
+  width: 100%;
+}
+
+/* Chips: Filters, with a check when selected so colour never carries it alone. */
+.pf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.pf-chip:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.pf-chip:disabled:hover {
+  border-color: var(--border);
+}
+.pf-chip .ml-icon {
+  stroke-width: 2;
+}
+.pf-chip__flag {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  flex: none;
+}
+.pf-chip-wrap {
+  display: inline-flex;
+}
+
+/* Toggle: radius-full is reserved for this. */
+.pf-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+.pf-toggle__track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  flex: none;
+  padding: 0;
+  border: 1px solid var(--ink-secondary);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.pf-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: var(--ink-secondary);
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+.pf-toggle__track[aria-checked="true"] {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.pf-toggle__track[aria-checked="true"] .pf-toggle__thumb {
+  transform: translateX(16px);
+  background: var(--on-brand);
+}
+.pf-toggle__track:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.pf-toggle__label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.pf-toggle__state {
+  color: var(--ink-secondary);
+}
+
+/* Colour field: token swatches and a hex input. */
+.pf-swatches {
+  display: flex;
+  gap: var(--space-2);
+}
+.pf-swatch {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-brand);
+}
+.pf-swatch:hover {
+  border-color: var(--ink);
+}
+.pf-swatch[aria-pressed="true"] {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.pf-swatch .ml-icon {
+  stroke-width: 2.5;
+}
+.pf-hex {
+  width: 108px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Window diagram (plan §9.3): lines of discourse with the stanza window over them. */
+.pf-window {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+.pf-window__band {
+  fill: var(--brand-surface);
+}
+.pf-window__line {
+  fill: var(--surface-soft);
+  stroke: var(--border);
+}
+.pf-window__line--current {
+  fill: var(--brand);
+  stroke: var(--brand);
+}
+.pf-window__line--in {
+  fill: var(--surface);
+  stroke: var(--brand);
+}
+
+/* Drop zones: the page accepts a CSV anywhere; these make that visible. A
+   1px dashed border marks the target; dragging escalates to brand, a tint and
+   new text, never a border change alone. */
+.pf-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-4);
+  border: 1px dashed var(--ink-secondary);
+  border-radius: var(--radius-md);
+  text-align: center;
+  color: var(--ink-secondary);
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.pf-drop p {
+  color: var(--ink);
+}
+.pf-drop .pf-note {
+  color: var(--ink-secondary);
+}
+.pf-drop--canvas {
+  flex: 1;
+  justify-content: center;
+  min-height: 320px;
+  padding: var(--space-7) var(--space-6);
+}
+.pf-drop__hint {
+  max-width: 34ch;
+  margin-top: var(--space-2);
+}
+.pf-drop.is-active {
+  border: 1px solid var(--brand);
+  background: var(--brand-surface);
+  color: var(--brand);
+}
+.pf-drop.is-active p:first-of-type {
+  color: var(--brand);
+}
+.ml-source.is-drop {
+  border-color: var(--brand);
+  background: var(--brand-surface);
+}
+.pf-empty-drop {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space-4);
+}
+.pf-empty-drop .ml-empty {
+  padding-bottom: 0;
+  max-width: 520px;
+}
+
+/* Example data: boxed, so it reads as something to try (a card is warranted). */
+.pf-examples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pf-examples__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.3;
+}
+.pf-examples__list {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+}
+.pf-example {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--border);
+}
+.pf-example__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pf-example__load {
+  flex: none;
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface);
+}
+.pf-example__loaded {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--brand);
+}
+.pf-example__loaded .ml-icon {
+  stroke-width: 2;
+}
+
+/* Download buttons: the action named, the file name in its tooltip and label. */
+.pf-download {
+  padding: var(--space-2) var(--space-4);
+  font-size: 13px;
+}
+.pf-download .ml-icon {
+  stroke-width: 1.75;
+}
+.pf-exports {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.pf-exports__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pf-export {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--border);
+}
+.pf-export:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.pf-export__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pf-chip__sub {
+  font-weight: 500;
+  opacity: 0.85;
+}
+.pf-callout.pf-try3d {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.pf-try3d .pf-stack {
+  max-width: 60ch;
+}
+
+/* Offer / notice blocks: sit on the page, told apart by a hairline. */
+.pf-callout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Checklist of unmet requirements above the run button (plan §9.4). */
+.pf-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The run action: sticky at the bottom of the rail (plan §10.4). */
+.pf-runbar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) 0 var(--space-5);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.pf-engine {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-secondary);
+}
+
+/* Python equivalent (plan §9.6). */
+.pf-disclosure {
+  border-top: 1px solid var(--border);
+  padding: var(--space-4) 0;
+}
+.pf-disclosure > summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.pf-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.pf-disclosure > summary .ml-icon {
+  transition: transform 150ms ease;
+}
+.pf-disclosure[open] > summary .ml-icon {
+  transform: rotate(90deg);
+}
+.pf-disclosure > summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pf-code {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-4);
+  background: var(--surface-soft);
+  border-radius: var(--radius-md);
+  /* Figtree, not a monospace: the system never introduces a third typeface. */
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ============================== Canvas ============================== */
+
+.pf-canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--space-6) var(--space-8) var(--space-6) var(--space-6);
+  transition: box-shadow 150ms ease;
+}
+.pf-canvas.is-drop {
+  box-shadow: inset 0 0 0 var(--space-4) var(--surface), inset 0 0 0 calc(var(--space-4) + 1px) var(--brand);
+}
+.pf-canvas__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+.pf-canvas__title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+.pf-sheet-handle {
+  display: none;
+}
+
+/* Empty state sits on surface, left-aligned (EmptyState README). */
+.pf-canvas .ml-empty {
+  padding-top: var(--space-6);
+}
+
+/* Loading on graph paper (Loading README). */
+.pf-loading {
+  flex: 1;
+  min-height: 320px;
+}
+.pf-loading svg {
+  max-width: 100%;
+  height: auto;
+}
+.pf-loading .ml-loading__caption {
+  font-size: 14px;
+}
+
+/* Data table (plan §8.1): radius-none, sits directly on the page. */
+.pf-table-wrap {
+  flex: 1;
+  min-height: 240px;
+  overflow: auto;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.pf-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.pf-table th,
+.pf-table td {
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+  padding: 0 var(--space-3);
+}
+.pf-table td {
+  height: 36px;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 36px;
+}
+.pf-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+  min-width: 140px;
+}
+.pf-table tbody th {
+  height: 36px;
+  line-height: 36px;
+}
+.pf-table tbody tr.pf-row-data > * {
+  background: var(--surface);
+}
+.pf-table tbody tr.pf-row-data.is-odd > * {
+  background: var(--surface-soft);
+}
+.pf-table .pf-rownum {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 64px;
+  text-align: right;
+  color: var(--ink-secondary);
+  border-right: 1px solid var(--border);
+}
+.pf-table thead .pf-rownum {
+  z-index: 3;
+}
+.pf-colhead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pf-colhead__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.pf-colhead__meta {
+  color: var(--ink-secondary);
+}
+.pf-colhead__tags {
+  display: flex;
+  gap: var(--space-1);
+  min-height: 22px;
+  margin-top: var(--space-1);
+}
+.pf-missing {
+  display: inline-flex;
+  margin: -4px 0;
+}
+
+/* ============================== Results ============================== */
+
+.pf-results {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+/* The tab row stays put; the panel beneath it scrolls. */
+.pf-results__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.pf-results__body > .pf-panel {
+  flex: none;
+  padding-bottom: var(--space-6);
+}
+.pf-results__body > .pf-panel--data {
+  flex: 1;
+  padding-bottom: 0;
+}
+.pf-results.is-stale .pf-results__body {
+  opacity: 0.6;
+}
+.pf-stale {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.pf-stale .pf-flag {
+  margin: 0;
+}
+.pf-tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pf-tabs .ml-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+.pf-tabs .ml-tab svg {
+  margin: -6px 0;
+}
+.pf-tabs .ml-tab:not([aria-selected="true"]) svg {
+  opacity: 0.7;
+}
+.pf-panel {
+  min-height: 0;
+}
+.pf-panel--data {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.pf-section + .pf-section {
+  margin-top: var(--space-7);
+}
+.pf-section__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+.pf-pickers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-5);
+  max-width: 640px;
+  margin-bottom: var(--space-5);
+}
+.pf-section__title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+.pf-section__lead {
+  max-width: 68ch;
+  margin-bottom: var(--space-5);
+}
+
+/* Figures. */
+.pf-figgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: var(--space-6);
+}
+.pf-figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  min-width: 0;
+}
+.pf-figure__caption {
+  color: var(--ink-secondary);
+  max-width: 68ch;
+}
+/* The figure brings its own graph paper, drawn in its data coordinates so the
+   network sits on the lines (bridge.py _graph_paper); the frame is plain paper. */
+.pf-figure__plot {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--surface-soft);
+}
+.pf-figure__plot img {
+  transition: opacity 150ms ease;
+}
+.pf-figure__plot.is-redrawing img {
+  opacity: 0.35;
+}
+
+/* Chart loading: the Loading component, sized to the chart's own box. On
+   graph paper where nothing is drawn yet; over a dimmed figure while it is
+   redrawn. It appears only once loading outlasts a moment. */
+.pf-chart-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  text-align: center;
+}
+.pf-chart-loading__graphic {
+  width: min(60%, 240px);
+  height: auto;
+}
+.pf-chart-loading .ml-loading__caption {
+  max-width: 36ch;
+  font-size: 14px;
+}
+.pf-chart-loading--over {
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+}
+.pf-chart-failed {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  text-align: center;
+  background: var(--surface-soft);
+}
+.pf-figure__plot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.pf-figure__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+.pf-figure__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.pf-figure__meta {
+  color: var(--ink-secondary);
+}
+.pf-figure__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+.pf-figure__actions .ml-btn--ghost {
+  padding-top: var(--space-1);
+  padding-bottom: var(--space-1);
+}
+
+/* The Z axis: pyENA's 3D networks, drawn by plotly and moved by hand. */
+.pf-plot3d {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pf-plot3d__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+.pf-plot3d__stage {
+  position: relative;
+}
+.pf-plot3d__stage--placeholder {
+  aspect-ratio: 4 / 3;
+  min-height: 340px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.pf-plot3d__canvas {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface);
+  cursor: grab;
+  touch-action: none;
+}
+.pf-plot3d__canvas:active {
+  cursor: grabbing;
+}
+/* On a touch screen the inline model is a picture: a swipe scrolls the page,
+   and Full screen is where it turns. */
+.pf-plot3d__stage.is-passive .pf-plot3d__canvas {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Full screen: the one place the wheel zooms a 3D network. A full-viewport
+   sheet on the page's own surface, over everything, closed with Close or Esc. */
+.pf-plot3d-full {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6) var(--space-5);
+  background: var(--surface);
+  color: var(--ink);
+}
+.pf-plot3d-full__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.pf-plot3d-full__title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.pf-plot3d--fill {
+  flex: 1;
+  min-height: 0;
+}
+.pf-plot3d--fill .pf-plot3d__stage {
+  flex: 1;
+  min-height: 0;
+}
+.pf-plot3d--fill .pf-plot3d__canvas {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 0;
+}
+@media (max-width: 899px) {
+  .pf-plot3d-full {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+  }
+}
+
+/* Stat tiles (plan §11.4). */
+.pf-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+.pf-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-variant-numeric: tabular-nums;
+}
+.pf-tile__test {
+  color: var(--ink-secondary);
+}
+.pf-tile__stat {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+.pf-tile__line {
+  font-size: 14px;
+}
+.pf-tile__groups {
+  font-size: 14px;
+  color: var(--ink-secondary);
+}
+
+/* Tables in results: hairline rows, radius-none. */
+.pf-dtable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.pf-dtable th,
+.pf-dtable td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: baseline;
+}
+.pf-dtable th:first-child,
+.pf-dtable td:first-child {
+  padding-left: 0;
+}
+.pf-dtable thead th {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.pf-dtable .is-num {
+  text-align: right;
+}
+.pf-dtable tbody tr:nth-child(even) > * {
+  background: var(--surface-soft);
+}
+.pf-dtable tbody th {
+  font-weight: 600;
+}
+.pf-sort {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.pf-sort:hover {
+  color: var(--brand);
+}
+.pf-sign {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.pf-sign__bar {
+  display: inline-block;
+  width: 14px;
+  height: 3px;
+  border-radius: 1px;
+}
+.pf-poles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-6);
+}
+.pf-fit-summary {
+  max-width: 68ch;
+}
+
+/* Run failure in place of results (plan §15). */
+.pf-failure {
+  max-width: 640px;
+  padding-top: var(--space-6);
+}
+.pf-failure .ml-empty__body {
+  margin-bottom: var(--space-4);
+}
+.pf-diagnostic {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-4);
+  background: var(--surface-soft);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* ============================== Tooltip placement ============================== */
+
+.pf-tip--start .ml-tip {
+  left: 0;
+  transform: translateY(2px);
+}
+.pf-tip--start:hover .ml-tip,
+.pf-tip--start:focus-within .ml-tip {
+  transform: translateY(0);
+}
+.pf-tip--end .ml-tip {
+  left: auto;
+  right: 0;
+  transform: translateY(2px);
+}
+.pf-tip--end:hover .ml-tip,
+.pf-tip--end:focus-within .ml-tip {
+  transform: translateY(0);
+}
+.pf-tip--wrap {
+  white-space: normal;
+  width: max-content;
+  max-width: 260px;
+  line-height: 1.4;
+  z-index: 4;
+}
+.ml-tip {
+  z-index: 4;
+}
+
+/* The design system positions the scrim within its parent; the layer fixes it to the viewport. */
+.pf-modal-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+/* ============================== Motion ============================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+  }
+}
+
+/* ============================== Mobile (plan §5.4) ============================== */
+
+@media (max-width: 899px) {
+  .pf-app {
+    display: block;
+    height: auto;
+  }
+  .pf-nav,
+  .pf-band {
+    padding-inline: var(--space-4);
+  }
+  .pf-nav__meta {
+    display: none;
+  }
+  /* The band keeps Previous and Next as 44px arrows and names only the current step. */
+  .pf-band {
+    gap: var(--space-2);
+  }
+  .pf-band__btn-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .pf-band__btn {
+    min-width: 44px;
+    justify-content: center;
+    padding-inline: var(--space-3);
+  }
+  .pf-band {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .pf-band__steps {
+    justify-content: center;
+  }
+  .pf-band__steps li:not(.is-current) {
+    display: none;
+  }
+  .pf-band__steps li + li::before {
+    display: none;
+  }
+  /* The band's sides hold only the arrows on a phone, sized by their content. */
+  .pf-flowers {
+    display: none;
+  }
+  .pf-band__side {
+    container-type: normal;
+  }
+  /* Modal README: below a small viewport the modal is a full-width sheet anchored to the bottom. */
+  .ml-scrim {
+    align-items: flex-end;
+  }
+  .ml-modal {
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+  .pf-split {
+    display: block;
+    padding: 0 var(--space-4) 104px;
+  }
+  .pf-rail {
+    padding-right: 0;
+    overflow: visible;
+  }
+  .pf-runbar {
+    bottom: 72px;
+  }
+  /* With nothing to show, the sheet stays out of the way; the rail holds the drop zone. */
+  .pf-canvas.is-idle {
+    display: none;
+  }
+  .pf-canvas {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    height: 72px;
+    padding: 0 var(--space-4);
+    overflow: hidden;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    transition: height 300ms ease;
+  }
+  .pf-canvas.is-open {
+    height: 88vh;
+    height: 88dvh;
+    overflow: auto;
+    box-shadow: var(--shadow-modal);
+    padding-bottom: var(--space-6);
+  }
+  /* The handle names what the sheet holds and carries one clear action. */
+  .pf-sheet-handle {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    width: 100%;
+    min-height: 72px;
+    padding: var(--space-3) 0;
+    margin-bottom: var(--space-3);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .pf-sheet-handle__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .pf-sheet-handle__text .label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pf-sheet-handle .ml-btn {
+    flex: none;
+  }
+  .pf-nav .ml-tag {
+    padding: 2px 6px;
+  }
+  .pf-canvas:not(.is-open) > :not(.pf-sheet-handle) {
+    display: none;
+  }
+  .ml-btn {
+    min-height: 44px;
+  }
+  .pf-rail .ml-btn--primary {
+    width: 100%;
+    justify-content: center;
+  }
+  .pf-canvas .ml-empty .ml-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .pf-window {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================== Interpretation in the figures ============================== */
+
+/* The results head: the title on the left, the Interpretation button (the way
+   into asking about the results) on the right, with its one-time tip under it. */
+.pf-results__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-5);
+}
+.pf-results__ask {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  max-width: 300px;
+}
+.pf-interpret-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+/* How many conversations the analysis holds. */
+.pf-interpret-button__count {
+  min-width: 22px;
+  padding: 0 6px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+}
+.pf-interpret-button.ml-btn--secondary .pf-interpret-button__count {
+  background: var(--brand);
+  color: var(--surface);
+}
+.pf-interpret-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-2) var(--space-1) var(--space-2) var(--space-3);
+  background: var(--brand-surface);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  text-align: left;
+}
+.pf-interpret-hint__close {
+  flex: none;
+  min-height: 0;
+  padding: 2px;
+}
+
+/* A figure is for looking; its Ask button opens its conversation, and the figure is ringed while it is open. */
+.pf-figure.is-interpreting .pf-figure__plot {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.pf-ask[aria-pressed="true"] {
+  background: var(--brand-surface);
+}
+
+/* Model tab: each edge has a visible Ask button; its row stays marked while its conversation is open. */
+.pf-edge-row.is-interpreting > * {
+  background: var(--brand-surface);
+}
+.pf-edge-name {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.pf-edge-ask {
+  padding: 1px var(--space-2);
+  background: var(--surface);
+  color: var(--brand);
+  border: 1px solid var(--brand);
+  border-radius: var(--radius-sm);
+  font: var(--text-small);
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.pf-edge-ask:hover,
+.pf-edge-ask[aria-pressed="true"] {
+  background: var(--brand-surface);
+}
+.pf-edge-ask:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.pf-tab__badge {
+  font-weight: 600;
+}
+
+.pf-interpret-ws {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.pf-interpret-ws__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.pf-interpret-ws__head .pf-note {
+  flex: 1 1 280px;
+}
+.pf-threads {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-threads__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+.pf-threads__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.pf-threads__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.pf-threads__main:hover .label {
+  color: var(--brand);
+}
+/* A conversation read in place: full width, at reading size. */
+.pf-threads__talk {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 72ch;
+  padding: 0 0 var(--space-2) var(--space-4);
+  border-left: 2px solid var(--brand-surface);
+}
+.pf-threads__answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pf-threads__answer p,
+.pf-notes__text p {
+  margin: 0;
+}
+.pf-threads__talk .pf-cw__question {
+  align-self: flex-start;
+}
+.pf-notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-notes__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+.pf-notes__head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pf-notes__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 72ch;
+}
+
+/* While the connection panel is docked, the rail is a strip of step numbers
+   and the panel takes the right-hand column: results and panel side by side. */
+.pf-split.is-docked {
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  padding-left: var(--space-4);
+}
+.pf-split.is-docked .pf-canvas {
+  padding-right: var(--space-6);
+}
+.pf-rail--strip {
+  padding-right: 0;
+  border-right: 1px solid var(--border);
+}
+.pf-strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-4) var(--space-2) 0 0;
+  list-style: none;
+}
+.pf-strip__step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--brand);
+  cursor: pointer;
+}
+.pf-strip__step:hover:not(:disabled) {
+  background: var(--brand-surface);
+}
+.pf-strip__step.is-current {
+  background: var(--brand-surface);
+  box-shadow: inset 2px 0 0 var(--brand);
+}
+.pf-strip__step:disabled {
+  color: var(--ink-secondary);
+  cursor: not-allowed;
+}
+
+/* The connection panel: docked in the page's right-hand column, flat like the
+   rest of the product register, with a left edge that drags to resize it. */
+.pf-cw {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--dock-w, 440px);
+  max-width: 50vw;
+  min-height: 0;
+  background: var(--surface);
+  color: var(--ink);
+  border-left: 1px solid var(--border);
+}
+.pf-cw__resize {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  z-index: 2;
+  width: 8px;
+  cursor: col-resize;
+  touch-action: none;
+}
+.pf-cw__resize:hover,
+.pf-cw__resize:focus-visible,
+.pf-cw__resize:active {
+  background: linear-gradient(to right, transparent 3px, var(--brand) 3px, var(--brand) 5px, transparent 5px);
+  outline: none;
+}
+.pf-cw__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5) var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+.pf-cw__title p {
+  margin: 0;
+}
+.pf-cw__title .metadata {
+  margin: 0;
+}
+/* "‹ All": back to the panel's home. */
+.pf-cw__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  align-self: flex-start;
+  margin-bottom: var(--space-1);
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--brand);
+  font-weight: 600;
+  cursor: pointer;
+}
+.pf-cw__back:hover {
+  text-decoration: underline;
+}
+.pf-cw__home {
+  gap: var(--space-5);
+}
+.pf-cw__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+}
+/* The key beside a heading: filled brand for yours, a dashed outline for suggestions. */
+.pf-key {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+.pf-key--yours {
+  background: var(--brand-surface);
+  border-left: 3px solid var(--brand);
+}
+.pf-key--suggested {
+  border: 1px dashed var(--ink-secondary);
+}
+/* Your notes, kept in the Report: a link from the panel's home. */
+.pf-cw__notes-link {
+  margin-top: var(--space-2);
+}
+/* The home's lists: each row opens one conversation. */
+.pf-pick {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+.pf-pick > li {
+  border-bottom: 1px solid var(--border);
+}
+.pf-pick__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-1);
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.pf-pick__row:hover {
+  background: var(--brand-surface);
+}
+.pf-pick__row:hover .label {
+  color: var(--brand);
+}
+.pf-pick__row > svg {
+  flex: none;
+  color: var(--brand);
+}
+.pf-pick__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pf-pick__quote {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Your conversations: a chat list, as in any messaging app. A speech bubble,
+   the title with the time on the right, and the last answer in two lines. */
+.pf-chatlist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Yours (conversations here, notes in the Report): the brand tint with a brand edge. */
+.pf-chatlist__row,
+.pf-notes__item {
+  background: var(--brand-surface);
+  border-left: 3px solid var(--brand);
+  border-radius: var(--radius-md);
+}
+.pf-chatlist__row {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--space-3);
+}
+.pf-chatlist__row:hover {
+  background: var(--brand-surface);
+  box-shadow: inset 0 0 0 1px var(--brand);
+}
+.pf-chatlist__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--brand);
+  color: var(--on-brand);
+}
+.pf-chatlist__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pf-chatlist__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.pf-chatlist__time {
+  flex: none;
+}
+.pf-chatlist__preview {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--ink);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Suggestions: outlined cards on the page itself, no fill, so they never read as your own. */
+.pf-suggest {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-suggest__card {
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px dashed var(--ink-secondary);
+  border-radius: var(--radius-md);
+}
+.pf-suggest__card:hover {
+  background: var(--surface);
+  border-style: solid;
+  border-color: var(--brand);
+}
+.pf-suggest__meaning {
+  color: var(--ink);
+}
+.pf-suggest__tag {
+  color: var(--ink-secondary);
+}
+
+/* Starting a conversation: starter questions as cards, as an AI chat offers them. */
+.pf-cw__start {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.pf-starters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.pf-starter {
+  min-height: 64px;
+  padding: var(--space-3);
+  background: var(--surface);
+  border: 1px dashed var(--ink-secondary);
+  border-radius: var(--radius-md);
+  font: var(--text-small);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.pf-starter:hover:not(:disabled) {
+  border-style: solid;
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.pf-starter:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Who is speaking: the IdeaLens mark beside each answer. */
+.pf-cw__byline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.pf-cw__avatar {
+  display: inline-flex;
+  flex: none;
+  line-height: 0;
+}
+
+/* The message box: rounded, growing with the question, a round send button inside. */
+.pf-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+.pf-composer:focus-within {
+  border-color: var(--brand);
+}
+.pf-composer.is-disabled {
+  background: var(--surface-soft);
+}
+.pf-composer__input {
+  flex: 1;
+  min-width: 0;
+  max-height: 132px;
+  padding: 7px 0;
+  background: none;
+  border: none;
+  resize: none;
+  font: var(--text-body, inherit);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.pf-composer__input:focus {
+  outline: none;
+}
+.pf-composer__input::placeholder {
+  color: var(--ink-secondary);
+}
+.pf-composer__send {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: var(--brand);
+  color: var(--surface);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+.pf-composer__send:disabled {
+  background: var(--border);
+  color: var(--ink-secondary);
+  cursor: not-allowed;
+}
+.pf-composer__about {
+  margin: 0;
+  padding-left: var(--space-2);
+}
+.pf-cw__weights {
+  color: var(--ink);
+}
+/* Evidence and counter-evidence side by side while folded; an open list takes the full width. */
+.pf-cw__evidence-group {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-5);
+  row-gap: var(--space-2);
+}
+.pf-cw__evidence-group > .pf-cw__evidence:has(.pf-cw__toggle[aria-expanded="true"]) {
+  flex-basis: 100%;
+}
+.pf-cw__empty {
+  margin: 0;
+}
+.pf-cw__actions {
+  display: flex;
+  gap: var(--space-1);
+  margin-left: calc(-1 * var(--space-2));
+}
+.pf-cw__action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 32px;
+  padding: var(--space-1) var(--space-2);
+  font-size: 13px;
+}
+.pf-cw__action[aria-pressed="true"] {
+  color: var(--brand);
+}
+.pf-cw__title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pf-cw__heading {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.15;
+  font-weight: 400;
+}
+.pf-cw__close {
+  flex: none;
+  padding: var(--space-1);
+}
+.pf-cw__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  overflow-y: auto;
+  min-height: 0;
+}
+.pf-cw__switched {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--brand-surface);
+  border-radius: var(--radius-sm);
+}
+.pf-cw__toggle {
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--brand);
+  cursor: pointer;
+  text-align: left;
+}
+.pf-cw__toggle::before {
+  content: "▸ ";
+}
+.pf-cw__toggle[aria-expanded="true"]::before {
+  content: "▾ ";
+}
+.pf-cw__stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: var(--space-2) 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-secondary);
+}
+.pf-cw__lines {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+.pf-cw__line {
+  border-bottom: 1px solid var(--border);
+}
+.pf-cw__line.is-open {
+  background: var(--surface-soft);
+}
+.pf-cw__line-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-1);
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.pf-cw__line-head .metadata {
+  flex: none;
+  color: var(--brand);
+}
+.pf-cw__line.is-counter .pf-cw__line-head .metadata {
+  color: var(--ink-secondary);
+}
+.pf-cw__line-text {
+  overflow-wrap: anywhere;
+}
+.pf-cw__source {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0 var(--space-1) var(--space-3) calc(var(--space-6) + var(--space-1));
+}
+.pf-cw__source p {
+  margin: 0;
+}
+.pf-cw__context {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-cw__context li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: var(--space-2);
+  border-left: 1px solid var(--border);
+}
+.pf-cw__context li.is-line {
+  border-left: 2px solid var(--brand);
+}
+.pf-cw__talk {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.pf-cw__question {
+  align-self: flex-end;
+  max-width: 85%;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--brand-surface);
+  border-radius: var(--radius-md);
+}
+.pf-cw__answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pf-cw__answer p {
+  margin: 0;
+}
+.pf-cw__ref {
+  display: inline-block;
+  margin: 0 2px;
+  padding: 0 var(--space-1);
+  background: var(--brand-surface);
+  color: var(--brand);
+  border: 1px solid var(--brand);
+  border-radius: var(--radius-sm);
+  font: var(--text-small);
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.pf-cw__ref:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+.pf-cw__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5) var(--space-4);
+  border-top: 1px solid var(--border);
+}
+.pf-cw__quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+/* Once the conversation has started, the quick questions keep to one line, so the answer has the height. */
+.pf-cw__quick.is-compact {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+.pf-cw__quick.is-compact .pf-cw__chip {
+  flex: none;
+}
+.pf-cw__chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pf-cw__ask {
+  display: flex;
+  gap: var(--space-2);
+}
+.pf-cw__ask .ml-input {
+  flex: 1;
+  min-width: 0;
+}
+@media (max-width: 899px) {
+  /* A sheet at the bottom of a phone's screen (a popover, so it takes the one shadow). */
+  .pf-cw {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 48;
+    width: 100%;
+    max-width: none;
+    max-height: 72vh;
+    max-height: 72dvh;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    box-shadow: var(--shadow-modal);
+  }
+  .pf-cw__resize {
+    display: none;
+  }
+}

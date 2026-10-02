@@ -1,0 +1,46 @@
+{
+  "name": "pyena-platform",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Epistemic Network Analysis in the browser, running pyENA on Pyodide.",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && tsc -p server && vite build",
+    "test": "vitest run",
+    "vendor:pyena": "sh scripts/vendor-pyena.sh",
+    "sync:ds": "sh scripts/sync-design-system.sh",
+    "start": "NODE_ENV=production node server/start.ts",
+    "typecheck": "tsc -b && tsc -p server",
+    "host": "npm run build && NODE_ENV=production node server/host.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "compression": "^1.8.2",
+    "express": "^5.2.1",
+    "jszip": "^3.10.2",
+    "mongodb": "^7.6.0",
+    "papaparse": "^5.7.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.8.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.3",
+    "@types/papaparse": "^5.5.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "mongodb-memory-server": "^11.3.0",
+    "pyodide": "^314.0.7",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=22.18"
+  }
+}

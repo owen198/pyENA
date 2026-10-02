@@ -1,0 +1,1201 @@
+condition,team,student,activity,line,utterance,Questioning,Explaining,Evidence,Planning,Evaluating,Off_Task
+Scaffolded,Aurora,chi,1,1,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,1,2,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,an,1,3,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Aurora,an,1,4,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,binh,1,5,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,an,1,6,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,binh,1,7,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Aurora,dung,1,8,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,binh,1,9,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Aurora,chi,1,10,"(Evidence, Planning, Evaluating)",0,0,1,1,1,0
+Scaffolded,Aurora,an,1,11,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Aurora,dung,1,12,"(Explaining, Planning, Off_Task)",0,1,0,1,0,1
+Scaffolded,Aurora,chi,1,13,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,dung,1,14,(Planning),0,0,0,1,0,0
+Scaffolded,Aurora,chi,1,15,"(Planning, Evaluating, Off_Task)",0,0,0,1,1,1
+Scaffolded,Aurora,binh,1,16,(Off_Task),0,0,0,0,0,1
+Scaffolded,Aurora,an,1,17,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,an,1,18,"(Planning, Evaluating)",0,0,0,1,1,0
+Scaffolded,Aurora,dung,1,19,(Off_Task),0,0,0,0,0,1
+Scaffolded,Aurora,binh,1,20,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,chi,1,21,"(Evaluating, Off_Task)",0,0,0,0,1,1
+Scaffolded,Aurora,an,1,22,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,dung,1,23,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,dung,1,24,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,dung,1,25,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,chi,1,26,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Aurora,chi,1,27,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,chi,1,28,"(Questioning, Planning)",1,0,0,1,0,0
+Scaffolded,Aurora,an,1,29,(Off_Task),0,0,0,0,0,1
+Scaffolded,Aurora,binh,1,30,"(Questioning, Explaining, Planning)",1,1,0,1,0,0
+Scaffolded,Aurora,an,1,31,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Aurora,an,1,32,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Aurora,an,1,33,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,binh,1,34,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,binh,1,35,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,an,1,36,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,dung,1,37,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,1,38,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,an,1,39,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Aurora,binh,1,40,(Planning),0,0,0,1,0,0
+Scaffolded,Aurora,chi,2,41,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,binh,2,42,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,binh,2,43,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,an,2,44,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,binh,2,45,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,an,2,46,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Aurora,binh,2,47,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,2,48,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Aurora,binh,2,49,"(Explaining, Evaluating, Off_Task)",0,1,0,0,1,1
+Scaffolded,Aurora,an,2,50,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Aurora,dung,2,51,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,binh,2,52,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Aurora,dung,2,53,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,an,2,54,"(Questioning, Planning)",1,0,0,1,0,0
+Scaffolded,Aurora,an,2,55,(Off_Task),0,0,0,0,0,1
+Scaffolded,Aurora,an,2,56,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,dung,2,57,(Off_Task),0,0,0,0,0,1
+Scaffolded,Aurora,binh,2,58,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Aurora,an,2,59,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,an,2,60,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Aurora,dung,2,61,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Aurora,dung,2,62,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,dung,2,63,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Aurora,an,2,64,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,an,2,65,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,dung,2,66,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,binh,2,67,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,chi,2,68,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,chi,2,69,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,chi,2,70,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,dung,2,71,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Aurora,an,2,72,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,2,73,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Aurora,an,2,74,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,binh,2,75,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Aurora,binh,2,76,"(Questioning, Planning)",1,0,0,1,0,0
+Scaffolded,Aurora,binh,2,77,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,chi,2,78,"(Explaining, Evaluating, Off_Task)",0,1,0,0,1,1
+Scaffolded,Aurora,an,2,79,(Off_Task),0,0,0,0,0,1
+Scaffolded,Aurora,dung,2,80,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,3,81,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Aurora,binh,3,82,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,binh,3,83,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,3,84,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,dung,3,85,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,an,3,86,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,an,3,87,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Aurora,dung,3,88,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,dung,3,89,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,chi,3,90,"(Explaining, Planning)",0,1,0,1,0,0
+Scaffolded,Aurora,binh,3,91,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Aurora,dung,3,92,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,an,3,93,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,dung,3,94,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,binh,3,95,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,an,3,96,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,dung,3,97,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Aurora,chi,3,98,"(Explaining, Planning, Evaluating)",0,1,0,1,1,0
+Scaffolded,Aurora,binh,3,99,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,chi,3,100,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,an,3,101,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,binh,3,102,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,an,3,103,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,an,3,104,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,dung,3,105,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,3,106,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,an,3,107,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,binh,3,108,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,dung,3,109,(Explaining),0,1,0,0,0,0
+Scaffolded,Aurora,chi,3,110,(Evidence),0,0,1,0,0,0
+Scaffolded,Aurora,chi,3,111,(Evaluating),0,0,0,0,1,0
+Scaffolded,Aurora,binh,3,112,"(Evaluating, Off_Task)",0,0,0,0,1,1
+Scaffolded,Aurora,dung,3,113,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Aurora,dung,3,114,(Planning),0,0,0,1,0,0
+Scaffolded,Aurora,chi,3,115,(Questioning),1,0,0,0,0,0
+Scaffolded,Aurora,dung,3,116,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,3,117,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,an,3,118,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Aurora,an,3,119,(uncoded),0,0,0,0,0,0
+Scaffolded,Aurora,chi,3,120,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,giang,1,1,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,giang,1,2,"(Questioning, Evidence)",1,0,1,0,0,0
+Scaffolded,Birch,hoa,1,3,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,1,4,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,giang,1,5,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Birch,hai,1,6,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,khanh,1,7,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,hai,1,8,(Planning),0,0,0,1,0,0
+Scaffolded,Birch,hoa,1,9,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,hoa,1,10,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Birch,hai,1,11,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hai,1,12,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,hoa,1,13,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,khanh,1,14,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hai,1,15,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,khanh,1,16,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,khanh,1,17,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,khanh,1,18,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hoa,1,19,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Birch,giang,1,20,"(Questioning, Explaining, Off_Task)",1,1,0,0,0,1
+Scaffolded,Birch,hoa,1,21,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hai,1,22,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Birch,khanh,1,23,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,hai,1,24,(Off_Task),0,0,0,0,0,1
+Scaffolded,Birch,hai,1,25,(Planning),0,0,0,1,0,0
+Scaffolded,Birch,hai,1,26,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hai,1,27,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,1,28,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,khanh,1,29,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hai,1,30,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,giang,1,31,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,khanh,1,32,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,1,33,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,hoa,1,34,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,khanh,1,35,"(Explaining, Evidence, Evaluating)",0,1,1,0,1,0
+Scaffolded,Birch,giang,1,36,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,khanh,1,37,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hai,1,38,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,hai,1,39,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,khanh,1,40,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hai,2,41,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,hoa,2,42,(Off_Task),0,0,0,0,0,1
+Scaffolded,Birch,giang,2,43,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,khanh,2,44,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,2,45,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hoa,2,46,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,khanh,2,47,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,hai,2,48,(Planning),0,0,0,1,0,0
+Scaffolded,Birch,hai,2,49,(Off_Task),0,0,0,0,0,1
+Scaffolded,Birch,hoa,2,50,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,giang,2,51,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,giang,2,52,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Birch,khanh,2,53,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,khanh,2,54,"(Evidence, Planning, Evaluating)",0,0,1,1,1,0
+Scaffolded,Birch,hai,2,55,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Birch,giang,2,56,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,2,57,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,hai,2,58,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,giang,2,59,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,2,60,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,hai,2,61,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hai,2,62,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,giang,2,63,"(Questioning, Evaluating)",1,0,0,0,1,0
+Scaffolded,Birch,hoa,2,64,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,khanh,2,65,(Planning),0,0,0,1,0,0
+Scaffolded,Birch,khanh,2,66,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,khanh,2,67,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,giang,2,68,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Birch,giang,2,69,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hai,2,70,"(Questioning, Planning)",1,0,0,1,0,0
+Scaffolded,Birch,giang,2,71,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,khanh,2,72,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,khanh,2,73,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,2,74,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Birch,hai,2,75,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,giang,2,76,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,khanh,2,77,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,khanh,2,78,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Birch,hai,2,79,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,hoa,2,80,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,khanh,3,81,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,hoa,3,82,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,khanh,3,83,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Birch,khanh,3,84,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,giang,3,85,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Birch,hoa,3,86,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,khanh,3,87,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,khanh,3,88,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,giang,3,89,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,3,90,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hai,3,91,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hai,3,92,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Birch,hai,3,93,(Questioning),1,0,0,0,0,0
+Scaffolded,Birch,giang,3,94,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,giang,3,95,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,hai,3,96,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hai,3,97,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Birch,hai,3,98,"(Explaining, Evidence, Evaluating)",0,1,1,0,1,0
+Scaffolded,Birch,giang,3,99,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,hoa,3,100,(Evidence),0,0,1,0,0,0
+Scaffolded,Birch,hoa,3,101,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,khanh,3,102,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Birch,hai,3,103,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hoa,3,104,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Birch,khanh,3,105,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,khanh,3,106,"(Explaining, Planning)",0,1,0,1,0,0
+Scaffolded,Birch,khanh,3,107,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,khanh,3,108,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Birch,khanh,3,109,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Birch,giang,3,110,(uncoded),0,0,0,0,0,0
+Scaffolded,Birch,hai,3,111,"(Explaining, Planning, Evaluating)",0,1,0,1,1,0
+Scaffolded,Birch,hoa,3,112,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Birch,hai,3,113,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Birch,giang,3,114,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Birch,hoa,3,115,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hoa,3,116,(Explaining),0,1,0,0,0,0
+Scaffolded,Birch,hai,3,117,(Evaluating),0,0,0,0,1,0
+Scaffolded,Birch,khanh,3,118,"(Explaining, Evidence, Off_Task)",0,1,1,0,0,1
+Scaffolded,Birch,hoa,3,119,"(Explaining, Evidence, Off_Task)",0,1,1,0,0,1
+Scaffolded,Birch,hai,3,120,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Cedar,lan,1,1,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,nam,1,2,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Cedar,linh,1,3,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Cedar,minh,1,4,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,minh,1,5,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Cedar,nam,1,6,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,nam,1,7,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,linh,1,8,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,linh,1,9,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Cedar,nam,1,10,"(Questioning, Explaining, Evaluating)",1,1,0,0,1,0
+Scaffolded,Cedar,linh,1,11,"(Evidence, Off_Task)",0,0,1,0,0,1
+Scaffolded,Cedar,lan,1,12,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,nam,1,13,"(Explaining, Planning)",0,1,0,1,0,0
+Scaffolded,Cedar,lan,1,14,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,nam,1,15,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Cedar,linh,1,16,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,lan,1,17,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,lan,1,18,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Cedar,lan,1,19,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,lan,1,20,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Cedar,linh,1,21,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,lan,1,22,"(Questioning, Evidence, Evaluating)",1,0,1,0,1,0
+Scaffolded,Cedar,nam,1,23,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,minh,1,24,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,linh,1,25,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,linh,1,26,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Cedar,linh,1,27,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Cedar,nam,1,28,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,minh,1,29,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,minh,1,30,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,linh,1,31,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Cedar,nam,1,32,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,linh,1,33,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,linh,1,34,"(Explaining, Planning, Evaluating)",0,1,0,1,1,0
+Scaffolded,Cedar,linh,1,35,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Cedar,nam,1,36,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,nam,1,37,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,linh,1,38,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Cedar,nam,1,39,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Cedar,linh,1,40,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,nam,2,41,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Cedar,lan,2,42,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Cedar,minh,2,43,"(Questioning, Planning)",1,0,0,1,0,0
+Scaffolded,Cedar,minh,2,44,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,lan,2,45,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,lan,2,46,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,nam,2,47,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,linh,2,48,"(Questioning, Evidence, Evaluating)",1,0,1,0,1,0
+Scaffolded,Cedar,nam,2,49,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,linh,2,50,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Cedar,nam,2,51,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,nam,2,52,"(Explaining, Off_Task)",0,1,0,0,0,1
+Scaffolded,Cedar,linh,2,53,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,nam,2,54,"(Explaining, Off_Task)",0,1,0,0,0,1
+Scaffolded,Cedar,nam,2,55,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,lan,2,56,"(Evidence, Off_Task)",0,0,1,0,0,1
+Scaffolded,Cedar,minh,2,57,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,nam,2,58,(Planning),0,0,0,1,0,0
+Scaffolded,Cedar,minh,2,59,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,linh,2,60,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,linh,2,61,"(Questioning, Evaluating)",1,0,0,0,1,0
+Scaffolded,Cedar,minh,2,62,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,minh,2,63,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Cedar,minh,2,64,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,lan,2,65,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,lan,2,66,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Cedar,lan,2,67,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,minh,2,68,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,lan,2,69,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,linh,2,70,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,linh,2,71,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,nam,2,72,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,minh,2,73,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,linh,2,74,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Cedar,minh,2,75,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,linh,2,76,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,nam,2,77,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,minh,2,78,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,linh,2,79,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,nam,2,80,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,minh,3,81,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,nam,3,82,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Cedar,lan,3,83,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,lan,3,84,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,minh,3,85,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,linh,3,86,(Planning),0,0,0,1,0,0
+Scaffolded,Cedar,linh,3,87,(Planning),0,0,0,1,0,0
+Scaffolded,Cedar,lan,3,88,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,minh,3,89,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,linh,3,90,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,linh,3,91,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,nam,3,92,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,nam,3,93,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Cedar,linh,3,94,(Evidence),0,0,1,0,0,0
+Scaffolded,Cedar,linh,3,95,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,nam,3,96,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Cedar,lan,3,97,(Evaluating),0,0,0,0,1,0
+Scaffolded,Cedar,nam,3,98,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,linh,3,99,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Cedar,linh,3,100,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Cedar,nam,3,101,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,nam,3,102,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Cedar,lan,3,103,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Cedar,nam,3,104,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,linh,3,105,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Cedar,minh,3,106,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Cedar,minh,3,107,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,lan,3,108,(uncoded),0,0,0,0,0,0
+Scaffolded,Cedar,nam,3,109,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,nam,3,110,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Cedar,nam,3,111,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Cedar,nam,3,112,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,linh,3,113,(Explaining),0,1,0,0,0,0
+Scaffolded,Cedar,minh,3,114,"(Questioning, Planning, Evaluating)",1,0,0,1,1,0
+Scaffolded,Cedar,minh,3,115,(Planning),0,0,0,1,0,0
+Scaffolded,Cedar,linh,3,116,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,lan,3,117,(Questioning),1,0,0,0,0,0
+Scaffolded,Cedar,minh,3,118,"(Questioning, Evaluating, Off_Task)",1,0,0,0,1,1
+Scaffolded,Cedar,minh,3,119,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Cedar,linh,3,120,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,1,1,(Evaluating),0,0,0,0,1,0
+Scaffolded,Delta,ngoc,1,2,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,phuc,1,3,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,son,1,4,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,ngoc,1,5,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Delta,quan,1,6,"(Explaining, Planning)",0,1,0,1,0,0
+Scaffolded,Delta,son,1,7,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Delta,son,1,8,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,quan,1,9,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,ngoc,1,10,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,ngoc,1,11,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,ngoc,1,12,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Delta,phuc,1,13,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,phuc,1,14,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Delta,quan,1,15,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,phuc,1,16,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,1,17,(Questioning),1,0,0,0,0,0
+Scaffolded,Delta,ngoc,1,18,"(Questioning, Evidence)",1,0,1,0,0,0
+Scaffolded,Delta,phuc,1,19,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Delta,ngoc,1,20,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Delta,son,1,21,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,quan,1,22,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,ngoc,1,23,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,son,1,24,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,phuc,1,25,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,son,1,26,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,quan,1,27,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Delta,quan,1,28,(Planning),0,0,0,1,0,0
+Scaffolded,Delta,son,1,29,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,1,30,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,quan,1,31,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Delta,phuc,1,32,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,son,1,33,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,phuc,1,34,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,quan,1,35,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,quan,1,36,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,son,1,37,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Delta,phuc,1,38,"(Explaining, Evaluating, Off_Task)",0,1,0,0,1,1
+Scaffolded,Delta,quan,1,39,(Planning),0,0,0,1,0,0
+Scaffolded,Delta,phuc,1,40,"(Questioning, Planning, Off_Task)",1,0,0,1,0,1
+Scaffolded,Delta,quan,2,41,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,ngoc,2,42,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,son,2,43,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Delta,son,2,44,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,son,2,45,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,phuc,2,46,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,phuc,2,47,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,ngoc,2,48,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,phuc,2,49,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,2,50,(Planning),0,0,0,1,0,0
+Scaffolded,Delta,phuc,2,51,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,quan,2,52,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,2,53,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,phuc,2,54,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,son,2,55,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,quan,2,56,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,2,57,"(Evidence, Planning)",0,0,1,1,0,0
+Scaffolded,Delta,ngoc,2,58,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,ngoc,2,59,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,2,60,"(Questioning, Planning)",1,0,0,1,0,0
+Scaffolded,Delta,son,2,61,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Delta,phuc,2,62,(Off_Task),0,0,0,0,0,1
+Scaffolded,Delta,quan,2,63,"(Explaining, Planning, Evaluating)",0,1,0,1,1,0
+Scaffolded,Delta,son,2,64,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Delta,son,2,65,(Off_Task),0,0,0,0,0,1
+Scaffolded,Delta,quan,2,66,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,son,2,67,"(Evidence, Off_Task)",0,0,1,0,0,1
+Scaffolded,Delta,ngoc,2,68,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,phuc,2,69,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Delta,ngoc,2,70,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,ngoc,2,71,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,phuc,2,72,"(Questioning, Planning)",1,0,0,1,0,0
+Scaffolded,Delta,son,2,73,"(Explaining, Evidence, Evaluating)",0,1,1,0,1,0
+Scaffolded,Delta,son,2,74,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,phuc,2,75,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,son,2,76,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,2,77,"(Explaining, Planning)",0,1,0,1,0,0
+Scaffolded,Delta,son,2,78,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,phuc,2,79,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,ngoc,2,80,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,phuc,3,81,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,son,3,82,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,quan,3,83,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Delta,son,3,84,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,son,3,85,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,3,86,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,quan,3,87,(Questioning),1,0,0,0,0,0
+Scaffolded,Delta,son,3,88,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,ngoc,3,89,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,phuc,3,90,"(Questioning, Explaining, Evidence)",1,1,1,0,0,0
+Scaffolded,Delta,son,3,91,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,phuc,3,92,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Delta,quan,3,93,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,phuc,3,94,"(Explaining, Evidence, Evaluating)",0,1,1,0,1,0
+Scaffolded,Delta,son,3,95,"(Explaining, Evidence, Evaluating)",0,1,1,0,1,0
+Scaffolded,Delta,quan,3,96,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Delta,son,3,97,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Delta,quan,3,98,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Delta,quan,3,99,(Explaining),0,1,0,0,0,0
+Scaffolded,Delta,ngoc,3,100,(Questioning),1,0,0,0,0,0
+Scaffolded,Delta,phuc,3,101,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Delta,ngoc,3,102,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,son,3,103,(Evaluating),0,0,0,0,1,0
+Scaffolded,Delta,phuc,3,104,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,quan,3,105,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,3,106,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Delta,son,3,107,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,3,108,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,phuc,3,109,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,phuc,3,110,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Delta,ngoc,3,111,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Delta,quan,3,112,(Questioning),1,0,0,0,0,0
+Scaffolded,Delta,quan,3,113,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Delta,son,3,114,(uncoded),0,0,0,0,0,0
+Scaffolded,Delta,ngoc,3,115,"(Evidence, Planning)",0,0,1,1,0,0
+Scaffolded,Delta,quan,3,116,(Evidence),0,0,1,0,0,0
+Scaffolded,Delta,son,3,117,(Evaluating),0,0,0,0,1,0
+Scaffolded,Delta,quan,3,118,(Questioning),1,0,0,0,0,0
+Scaffolded,Delta,quan,3,119,(Questioning),1,0,0,0,0,0
+Scaffolded,Delta,phuc,3,120,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,tuan,1,1,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,1,2,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,trang,1,3,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,1,4,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,vy,1,5,(Evaluating),0,0,0,0,1,0
+Scaffolded,Ember,vy,1,6,(Evaluating),0,0,0,0,1,0
+Scaffolded,Ember,vy,1,7,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Ember,thao,1,8,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,1,9,"(Questioning, Evaluating)",1,0,0,0,1,0
+Scaffolded,Ember,vy,1,10,(Evidence),0,0,1,0,0,0
+Scaffolded,Ember,thao,1,11,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,vy,1,12,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Ember,tuan,1,13,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,tuan,1,14,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Ember,trang,1,15,"(Questioning, Explaining, Planning)",1,1,0,1,0,0
+Scaffolded,Ember,vy,1,16,(Evidence),0,0,1,0,0,0
+Scaffolded,Ember,trang,1,17,"(Explaining, Evidence, Evaluating)",0,1,1,0,1,0
+Scaffolded,Ember,thao,1,18,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,vy,1,19,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,vy,1,20,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,vy,1,21,"(Explaining, Off_Task)",0,1,0,0,0,1
+Scaffolded,Ember,tuan,1,22,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,thao,1,23,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,vy,1,24,"(Questioning, Explaining, Off_Task)",1,1,0,0,0,1
+Scaffolded,Ember,thao,1,25,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,thao,1,26,"(Explaining, Planning, Evaluating)",0,1,0,1,1,0
+Scaffolded,Ember,tuan,1,27,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,tuan,1,28,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,trang,1,29,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,1,30,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,1,31,(Evaluating),0,0,0,0,1,0
+Scaffolded,Ember,tuan,1,32,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Ember,thao,1,33,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Ember,trang,1,34,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,1,35,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Ember,trang,1,36,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Ember,tuan,1,37,(Evidence),0,0,1,0,0,0
+Scaffolded,Ember,thao,1,38,(Evaluating),0,0,0,0,1,0
+Scaffolded,Ember,thao,1,39,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,1,40,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,2,41,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,2,42,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,2,43,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,thao,2,44,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,thao,2,45,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,2,46,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Ember,trang,2,47,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,2,48,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,trang,2,49,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,trang,2,50,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,vy,2,51,"(Questioning, Evaluating)",1,0,0,0,1,0
+Scaffolded,Ember,vy,2,52,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,thao,2,53,"(Evidence, Planning)",0,0,1,1,0,0
+Scaffolded,Ember,tuan,2,54,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,thao,2,55,(Off_Task),0,0,0,0,0,1
+Scaffolded,Ember,tuan,2,56,(Planning),0,0,0,1,0,0
+Scaffolded,Ember,thao,2,57,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,2,58,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,vy,2,59,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,2,60,"(Evaluating, Off_Task)",0,0,0,0,1,1
+Scaffolded,Ember,thao,2,61,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Ember,trang,2,62,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,thao,2,63,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,2,64,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Ember,trang,2,65,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,2,66,"(Explaining, Evaluating)",0,1,0,0,1,0
+Scaffolded,Ember,trang,2,67,(Evidence),0,0,1,0,0,0
+Scaffolded,Ember,tuan,2,68,"(Questioning, Explaining, Off_Task)",1,1,0,0,0,1
+Scaffolded,Ember,trang,2,69,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,2,70,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,2,71,(Evidence),0,0,1,0,0,0
+Scaffolded,Ember,tuan,2,72,"(Evidence, Evaluating, Off_Task)",0,0,1,0,1,1
+Scaffolded,Ember,tuan,2,73,(Evidence),0,0,1,0,0,0
+Scaffolded,Ember,thao,2,74,"(Evidence, Evaluating, Off_Task)",0,0,1,0,1,1
+Scaffolded,Ember,tuan,2,75,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,trang,2,76,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Ember,vy,2,77,(Evaluating),0,0,0,0,1,0
+Scaffolded,Ember,tuan,2,78,(Evaluating),0,0,0,0,1,0
+Scaffolded,Ember,trang,2,79,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Ember,trang,2,80,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,thao,3,81,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,3,82,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,thao,3,83,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,3,84,(Off_Task),0,0,0,0,0,1
+Scaffolded,Ember,thao,3,85,(Planning),0,0,0,1,0,0
+Scaffolded,Ember,vy,3,86,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,trang,3,87,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Ember,trang,3,88,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,tuan,3,89,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,vy,3,90,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,thao,3,91,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Ember,vy,3,92,(Evidence),0,0,1,0,0,0
+Scaffolded,Ember,trang,3,93,(Evaluating),0,0,0,0,1,0
+Scaffolded,Ember,vy,3,94,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,thao,3,95,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,thao,3,96,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,trang,3,97,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,tuan,3,98,(Questioning),1,0,0,0,0,0
+Scaffolded,Ember,tuan,3,99,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,thao,3,100,(Planning),0,0,0,1,0,0
+Scaffolded,Ember,trang,3,101,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Ember,thao,3,102,(Evaluating),0,0,0,0,1,0
+Scaffolded,Ember,thao,3,103,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,thao,3,104,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,tuan,3,105,"(Questioning, Off_Task)",1,0,0,0,0,1
+Scaffolded,Ember,tuan,3,106,"(Planning, Off_Task)",0,0,0,1,0,1
+Scaffolded,Ember,vy,3,107,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,3,108,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,trang,3,109,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,tuan,3,110,"(Questioning, Explaining)",1,1,0,0,0,0
+Scaffolded,Ember,trang,3,111,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,3,112,(Off_Task),0,0,0,0,0,1
+Scaffolded,Ember,thao,3,113,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,3,114,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,trang,3,115,(Evidence),0,0,1,0,0,0
+Scaffolded,Ember,thao,3,116,"(Explaining, Evidence)",0,1,1,0,0,0
+Scaffolded,Ember,trang,3,117,(uncoded),0,0,0,0,0,0
+Scaffolded,Ember,thao,3,118,(Explaining),0,1,0,0,0,0
+Scaffolded,Ember,thao,3,119,"(Evidence, Evaluating)",0,0,1,0,1,0
+Scaffolded,Ember,tuan,3,120,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Fjord,sofia,1,1,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,alex,1,2,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,omar,1,3,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,sofia,1,4,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,maya,1,5,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Fjord,omar,1,6,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Fjord,omar,1,7,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Fjord,alex,1,8,"(Questioning, Evidence, Off_Task)",1,0,1,0,0,1
+Unscaffolded,Fjord,maya,1,9,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,alex,1,10,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,sofia,1,11,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,sofia,1,12,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Fjord,maya,1,13,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,omar,1,14,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,sofia,1,15,(Evidence),0,0,1,0,0,0
+Unscaffolded,Fjord,sofia,1,16,(Planning),0,0,0,1,0,0
+Unscaffolded,Fjord,maya,1,17,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,alex,1,18,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Fjord,omar,1,19,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,maya,1,20,(Planning),0,0,0,1,0,0
+Unscaffolded,Fjord,sofia,1,21,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,maya,1,22,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,sofia,1,23,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Fjord,alex,1,24,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Fjord,sofia,1,25,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,sofia,1,26,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Fjord,omar,1,27,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,sofia,1,28,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,omar,1,29,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Fjord,maya,1,30,"(Questioning, Explaining, Planning)",1,1,0,1,0,0
+Unscaffolded,Fjord,omar,1,31,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Fjord,sofia,1,32,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,alex,1,33,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Fjord,maya,1,34,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,alex,1,35,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,alex,1,36,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Fjord,alex,1,37,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,maya,1,38,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,sofia,1,39,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,omar,1,40,(Evidence),0,0,1,0,0,0
+Unscaffolded,Fjord,alex,2,41,(Planning),0,0,0,1,0,0
+Unscaffolded,Fjord,omar,2,42,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,maya,2,43,(Evidence),0,0,1,0,0,0
+Unscaffolded,Fjord,omar,2,44,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,alex,2,45,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,alex,2,46,"(Questioning, Planning, Off_Task)",1,0,0,1,0,1
+Unscaffolded,Fjord,omar,2,47,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,maya,2,48,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,maya,2,49,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,maya,2,50,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Fjord,alex,2,51,"(Questioning, Planning, Off_Task)",1,0,0,1,0,1
+Unscaffolded,Fjord,omar,2,52,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Fjord,omar,2,53,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Fjord,sofia,2,54,"(Explaining, Evidence, Off_Task)",0,1,1,0,0,1
+Unscaffolded,Fjord,alex,2,55,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Fjord,sofia,2,56,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Fjord,omar,2,57,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Fjord,alex,2,58,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,alex,2,59,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Fjord,sofia,2,60,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,maya,2,61,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Fjord,omar,2,62,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,alex,2,63,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,alex,2,64,"(Questioning, Explaining, Evidence)",1,1,1,0,0,0
+Unscaffolded,Fjord,maya,2,65,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Fjord,omar,2,66,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,alex,2,67,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Fjord,alex,2,68,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Fjord,alex,2,69,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Fjord,omar,2,70,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Fjord,alex,2,71,(Planning),0,0,0,1,0,0
+Unscaffolded,Fjord,omar,2,72,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,sofia,2,73,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Fjord,maya,2,74,"(Explaining, Evaluating, Off_Task)",0,1,0,0,1,1
+Unscaffolded,Fjord,maya,2,75,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,alex,2,76,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,omar,2,77,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Fjord,omar,2,78,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,sofia,2,79,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,alex,2,80,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Fjord,alex,3,81,"(Questioning, Evaluating)",1,0,0,0,1,0
+Unscaffolded,Fjord,maya,3,82,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Fjord,alex,3,83,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Fjord,alex,3,84,(Planning),0,0,0,1,0,0
+Unscaffolded,Fjord,alex,3,85,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Fjord,maya,3,86,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,omar,3,87,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,maya,3,88,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Fjord,omar,3,89,"(Questioning, Explaining, Off_Task)",1,1,0,0,0,1
+Unscaffolded,Fjord,alex,3,90,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Fjord,maya,3,91,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,alex,3,92,(Planning),0,0,0,1,0,0
+Unscaffolded,Fjord,omar,3,93,(Planning),0,0,0,1,0,0
+Unscaffolded,Fjord,alex,3,94,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,omar,3,95,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,maya,3,96,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,sofia,3,97,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Fjord,omar,3,98,(Evidence),0,0,1,0,0,0
+Unscaffolded,Fjord,omar,3,99,(Evidence),0,0,1,0,0,0
+Unscaffolded,Fjord,omar,3,100,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Fjord,sofia,3,101,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,alex,3,102,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Fjord,maya,3,103,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Fjord,omar,3,104,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,sofia,3,105,(Planning),0,0,0,1,0,0
+Unscaffolded,Fjord,sofia,3,106,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,alex,3,107,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,maya,3,108,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Fjord,sofia,3,109,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Fjord,sofia,3,110,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,maya,3,111,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,sofia,3,112,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,omar,3,113,(Questioning),1,0,0,0,0,0
+Unscaffolded,Fjord,alex,3,114,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Fjord,sofia,3,115,(uncoded),0,0,0,0,0,0
+Unscaffolded,Fjord,omar,3,116,"(Questioning, Evaluating)",1,0,0,0,1,0
+Unscaffolded,Fjord,omar,3,117,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Fjord,maya,3,118,(Explaining),0,1,0,0,0,0
+Unscaffolded,Fjord,maya,3,119,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Fjord,maya,3,120,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,leo,1,1,(Evidence),0,0,1,0,0,0
+Unscaffolded,Grove,nina,1,2,(Evidence),0,0,1,0,0,0
+Unscaffolded,Grove,leo,1,3,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Grove,leo,1,4,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Grove,ravi,1,5,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ella,1,6,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Grove,nina,1,7,"(Explaining, Planning)",0,1,0,1,0,0
+Unscaffolded,Grove,nina,1,8,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Grove,nina,1,9,(Evidence),0,0,1,0,0,0
+Unscaffolded,Grove,nina,1,10,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ravi,1,11,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,ella,1,12,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,leo,1,13,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ravi,1,14,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,leo,1,15,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,leo,1,16,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ella,1,17,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,nina,1,18,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Grove,leo,1,19,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Grove,ravi,1,20,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,1,21,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,nina,1,22,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,ella,1,23,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,nina,1,24,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,1,25,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,leo,1,26,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Grove,ravi,1,27,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Grove,ella,1,28,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,1,29,"(Evidence, Evaluating, Off_Task)",0,0,1,0,1,1
+Unscaffolded,Grove,ravi,1,30,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Grove,ella,1,31,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ravi,1,32,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ravi,1,33,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,1,34,"(Questioning, Explaining, Off_Task)",1,1,0,0,0,1
+Unscaffolded,Grove,ravi,1,35,"(Evaluating, Off_Task)",0,0,0,0,1,1
+Unscaffolded,Grove,nina,1,36,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Grove,nina,1,37,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,leo,1,38,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,ella,1,39,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,1,40,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Grove,nina,2,41,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ravi,2,42,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Grove,nina,2,43,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Grove,nina,2,44,(Evidence),0,0,1,0,0,0
+Unscaffolded,Grove,nina,2,45,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Grove,ravi,2,46,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Grove,ella,2,47,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Grove,ravi,2,48,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ravi,2,49,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ravi,2,50,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Grove,leo,2,51,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,ravi,2,52,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,ravi,2,53,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,leo,2,54,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,ella,2,55,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,leo,2,56,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Grove,nina,2,57,(Evidence),0,0,1,0,0,0
+Unscaffolded,Grove,ella,2,58,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,ella,2,59,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,nina,2,60,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Grove,leo,2,61,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Grove,leo,2,62,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,leo,2,63,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Grove,nina,2,64,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ravi,2,65,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ravi,2,66,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,leo,2,67,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,ravi,2,68,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,leo,2,69,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,nina,2,70,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,leo,2,71,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Grove,leo,2,72,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Grove,ella,2,73,(Evidence),0,0,1,0,0,0
+Unscaffolded,Grove,leo,2,74,(Evidence),0,0,1,0,0,0
+Unscaffolded,Grove,ella,2,75,"(Planning, Evaluating)",0,0,0,1,1,0
+Unscaffolded,Grove,nina,2,76,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,2,77,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,ravi,2,78,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,2,79,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Grove,nina,2,80,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Grove,ravi,3,81,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ella,3,82,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,3,83,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Grove,leo,3,84,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Grove,ella,3,85,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Grove,leo,3,86,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,leo,3,87,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ravi,3,88,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Grove,ravi,3,89,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,ravi,3,90,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,leo,3,91,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,3,92,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,leo,3,93,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Grove,nina,3,94,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Grove,leo,3,95,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Grove,ravi,3,96,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Grove,ravi,3,97,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,ravi,3,98,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,leo,3,99,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,nina,3,100,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Grove,ella,3,101,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,nina,3,102,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,leo,3,103,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Grove,nina,3,104,(Planning),0,0,0,1,0,0
+Unscaffolded,Grove,ella,3,105,"(Explaining, Planning)",0,1,0,1,0,0
+Unscaffolded,Grove,nina,3,106,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Grove,ravi,3,107,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ravi,3,108,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Grove,leo,3,109,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,nina,3,110,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,ravi,3,111,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,ella,3,112,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Grove,leo,3,113,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ravi,3,114,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ravi,3,115,(Explaining),0,1,0,0,0,0
+Unscaffolded,Grove,ella,3,116,"(Explaining, Off_Task)",0,1,0,0,0,1
+Unscaffolded,Grove,ravi,3,117,(Questioning),1,0,0,0,0,0
+Unscaffolded,Grove,leo,3,118,(uncoded),0,0,0,0,0,0
+Unscaffolded,Grove,leo,3,119,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Grove,ravi,3,120,"(Questioning, Evaluating, Off_Task)",1,0,0,0,1,1
+Unscaffolded,Harbor,zoe,1,1,"(Explaining, Evidence, Planning)",0,1,1,1,0,0
+Unscaffolded,Harbor,zoe,1,2,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,zoe,1,3,"(Evidence, Planning)",0,0,1,1,0,0
+Unscaffolded,Harbor,sam,1,4,"(Evidence, Planning)",0,0,1,1,0,0
+Unscaffolded,Harbor,ivy,1,5,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Harbor,zoe,1,6,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Harbor,sam,1,7,"(Planning, Evaluating)",0,0,0,1,1,0
+Unscaffolded,Harbor,noah,1,8,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,sam,1,9,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,noah,1,10,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Harbor,noah,1,11,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,sam,1,12,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,sam,1,13,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,zoe,1,14,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,noah,1,15,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,sam,1,16,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,noah,1,17,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,ivy,1,18,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,noah,1,19,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Harbor,sam,1,20,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,zoe,1,21,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,ivy,1,22,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Harbor,noah,1,23,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,zoe,1,24,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,ivy,1,25,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,sam,1,26,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Harbor,zoe,1,27,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Harbor,ivy,1,28,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,sam,1,29,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,noah,1,30,"(Questioning, Explaining, Off_Task)",1,1,0,0,0,1
+Unscaffolded,Harbor,ivy,1,31,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,noah,1,32,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,ivy,1,33,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,sam,1,34,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,zoe,1,35,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,ivy,1,36,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,sam,1,37,"(Explaining, Planning)",0,1,0,1,0,0
+Unscaffolded,Harbor,ivy,1,38,"(Explaining, Off_Task)",0,1,0,0,0,1
+Unscaffolded,Harbor,noah,1,39,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,ivy,1,40,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Harbor,ivy,2,41,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Harbor,noah,2,42,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Harbor,ivy,2,43,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,zoe,2,44,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,ivy,2,45,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Harbor,ivy,2,46,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Harbor,sam,2,47,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,zoe,2,48,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,sam,2,49,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,noah,2,50,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Harbor,sam,2,51,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,zoe,2,52,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,sam,2,53,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,zoe,2,54,"(Questioning, Evaluating)",1,0,0,0,1,0
+Unscaffolded,Harbor,sam,2,55,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Harbor,sam,2,56,"(Questioning, Planning, Off_Task)",1,0,0,1,0,1
+Unscaffolded,Harbor,ivy,2,57,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,sam,2,58,"(Explaining, Evidence, Planning, Off_Task)",0,1,1,1,0,1
+Unscaffolded,Harbor,noah,2,59,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,ivy,2,60,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,ivy,2,61,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,zoe,2,62,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,noah,2,63,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,ivy,2,64,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,noah,2,65,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,sam,2,66,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Harbor,ivy,2,67,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,noah,2,68,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,zoe,2,69,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,sam,2,70,"(Questioning, Explaining, Evaluating, Off_Task)",1,1,0,0,1,1
+Unscaffolded,Harbor,sam,2,71,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Harbor,ivy,2,72,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Harbor,ivy,2,73,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,noah,2,74,(Evidence),0,0,1,0,0,0
+Unscaffolded,Harbor,zoe,2,75,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,zoe,2,76,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,ivy,2,77,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Harbor,ivy,2,78,"(Questioning, Planning, Off_Task)",1,0,0,1,0,1
+Unscaffolded,Harbor,sam,2,79,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Harbor,ivy,2,80,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,sam,3,81,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,ivy,3,82,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Harbor,zoe,3,83,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,sam,3,84,"(Explaining, Planning, Off_Task)",0,1,0,1,0,1
+Unscaffolded,Harbor,zoe,3,85,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Harbor,noah,3,86,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,noah,3,87,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Harbor,ivy,3,88,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,ivy,3,89,"(Questioning, Explaining, Off_Task)",1,1,0,0,0,1
+Unscaffolded,Harbor,sam,3,90,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,noah,3,91,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,sam,3,92,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Harbor,sam,3,93,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,ivy,3,94,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,ivy,3,95,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Harbor,zoe,3,96,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,sam,3,97,(Evidence),0,0,1,0,0,0
+Unscaffolded,Harbor,sam,3,98,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,sam,3,99,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,noah,3,100,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,zoe,3,101,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,noah,3,102,(Evidence),0,0,1,0,0,0
+Unscaffolded,Harbor,sam,3,103,(Questioning),1,0,0,0,0,0
+Unscaffolded,Harbor,zoe,3,104,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,noah,3,105,"(Explaining, Planning)",0,1,0,1,0,0
+Unscaffolded,Harbor,ivy,3,106,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Harbor,zoe,3,107,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,ivy,3,108,(Planning),0,0,0,1,0,0
+Unscaffolded,Harbor,zoe,3,109,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,sam,3,110,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,sam,3,111,"(Questioning, Planning, Off_Task)",1,0,0,1,0,1
+Unscaffolded,Harbor,zoe,3,112,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Harbor,ivy,3,113,(uncoded),0,0,0,0,0,0
+Unscaffolded,Harbor,ivy,3,114,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Harbor,zoe,3,115,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,noah,3,116,(Evidence),0,0,1,0,0,0
+Unscaffolded,Harbor,ivy,3,117,(Evidence),0,0,1,0,0,0
+Unscaffolded,Harbor,ivy,3,118,(Explaining),0,1,0,0,0,0
+Unscaffolded,Harbor,sam,3,119,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Harbor,ivy,3,120,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Iris,mia,1,1,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,eli,1,2,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,mia,1,3,(Evidence),0,0,1,0,0,0
+Unscaffolded,Iris,mia,1,4,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Iris,mia,1,5,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,mia,1,6,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,mia,1,7,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,ana,1,8,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,mia,1,9,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,eli,1,10,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,ana,1,11,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Iris,mia,1,12,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,mia,1,13,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,kai,1,14,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,eli,1,15,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Iris,ana,1,16,(Evidence),0,0,1,0,0,0
+Unscaffolded,Iris,eli,1,17,"(Questioning, Evidence)",1,0,1,0,0,0
+Unscaffolded,Iris,ana,1,18,"(Evidence, Planning)",0,0,1,1,0,0
+Unscaffolded,Iris,eli,1,19,"(Explaining, Evidence, Planning)",0,1,1,1,0,0
+Unscaffolded,Iris,mia,1,20,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,kai,1,21,"(Questioning, Evidence, Evaluating)",1,0,1,0,1,0
+Unscaffolded,Iris,mia,1,22,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,ana,1,23,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,mia,1,24,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,ana,1,25,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,kai,1,26,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,eli,1,27,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,eli,1,28,"(Questioning, Evaluating)",1,0,0,0,1,0
+Unscaffolded,Iris,ana,1,29,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,kai,1,30,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,kai,1,31,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,kai,1,32,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Iris,mia,1,33,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Iris,ana,1,34,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Iris,kai,1,35,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Iris,eli,1,36,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,mia,1,37,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Iris,mia,1,38,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Iris,kai,1,39,"(Evaluating, Off_Task)",0,0,0,0,1,1
+Unscaffolded,Iris,eli,1,40,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Iris,eli,2,41,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,eli,2,42,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,mia,2,43,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Iris,mia,2,44,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Iris,eli,2,45,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,mia,2,46,"(Questioning, Explaining, Evidence)",1,1,1,0,0,0
+Unscaffolded,Iris,kai,2,47,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,kai,2,48,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Iris,ana,2,49,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,mia,2,50,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,eli,2,51,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,eli,2,52,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Iris,mia,2,53,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,kai,2,54,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,eli,2,55,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,kai,2,56,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Iris,mia,2,57,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,ana,2,58,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,mia,2,59,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Iris,eli,2,60,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,kai,2,61,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,mia,2,62,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Iris,kai,2,63,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,mia,2,64,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,kai,2,65,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Iris,mia,2,66,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,ana,2,67,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,kai,2,68,"(Explaining, Off_Task)",0,1,0,0,0,1
+Unscaffolded,Iris,ana,2,69,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,ana,2,70,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,mia,2,71,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Iris,mia,2,72,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,mia,2,73,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,kai,2,74,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,mia,2,75,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Iris,mia,2,76,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Iris,eli,2,77,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,mia,2,78,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,eli,2,79,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Iris,kai,2,80,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Iris,ana,3,81,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,kai,3,82,"(Questioning, Explaining, Off_Task)",1,1,0,0,0,1
+Unscaffolded,Iris,mia,3,83,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,mia,3,84,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,mia,3,85,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Iris,ana,3,86,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,mia,3,87,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,ana,3,88,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,ana,3,89,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,mia,3,90,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,eli,3,91,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,mia,3,92,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,mia,3,93,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,kai,3,94,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,mia,3,95,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Iris,kai,3,96,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Iris,eli,3,97,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,eli,3,98,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Iris,eli,3,99,(Evidence),0,0,1,0,0,0
+Unscaffolded,Iris,eli,3,100,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,eli,3,101,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Iris,kai,3,102,"(Evaluating, Off_Task)",0,0,0,0,1,1
+Unscaffolded,Iris,kai,3,103,(Planning),0,0,0,1,0,0
+Unscaffolded,Iris,mia,3,104,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Iris,kai,3,105,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,eli,3,106,(Questioning),1,0,0,0,0,0
+Unscaffolded,Iris,ana,3,107,"(Questioning, Evidence, Off_Task)",1,0,1,0,0,1
+Unscaffolded,Iris,ana,3,108,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Iris,eli,3,109,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,eli,3,110,"(Explaining, Off_Task)",0,1,0,0,0,1
+Unscaffolded,Iris,mia,3,111,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,mia,3,112,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Iris,kai,3,113,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,ana,3,114,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,ana,3,115,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,kai,3,116,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Iris,ana,3,117,(uncoded),0,0,0,0,0,0
+Unscaffolded,Iris,kai,3,118,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Iris,ana,3,119,(Explaining),0,1,0,0,0,0
+Unscaffolded,Iris,eli,3,120,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Juniper,ben,1,1,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,tom,1,2,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Juniper,lea,1,3,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,tom,1,4,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,ben,1,5,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,lea,1,6,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,uma,1,7,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Juniper,tom,1,8,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,lea,1,9,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Juniper,lea,1,10,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,uma,1,11,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Juniper,uma,1,12,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,lea,1,13,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,tom,1,14,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,tom,1,15,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,ben,1,16,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,lea,1,17,"(Questioning, Evaluating)",1,0,0,0,1,0
+Unscaffolded,Juniper,ben,1,18,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,ben,1,19,"(Questioning, Evidence)",1,0,1,0,0,0
+Unscaffolded,Juniper,lea,1,20,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,tom,1,21,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,lea,1,22,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,lea,1,23,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,uma,1,24,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Juniper,uma,1,25,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,tom,1,26,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Juniper,uma,1,27,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,lea,1,28,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Juniper,uma,1,29,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,ben,1,30,"(Questioning, Planning)",1,0,0,1,0,0
+Unscaffolded,Juniper,lea,1,31,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,lea,1,32,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,tom,1,33,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,ben,1,34,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,tom,1,35,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,lea,1,36,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,ben,1,37,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Juniper,lea,1,38,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,tom,1,39,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Juniper,tom,1,40,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Juniper,lea,2,41,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Juniper,ben,2,42,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,lea,2,43,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,lea,2,44,"(Questioning, Explaining, Evaluating)",1,1,0,0,1,0
+Unscaffolded,Juniper,uma,2,45,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,lea,2,46,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,uma,2,47,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,lea,2,48,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,ben,2,49,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,tom,2,50,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Juniper,lea,2,51,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Juniper,tom,2,52,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,uma,2,53,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,lea,2,54,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Juniper,lea,2,55,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,uma,2,56,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Juniper,ben,2,57,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,ben,2,58,"(Evidence, Planning, Evaluating)",0,0,1,1,1,0
+Unscaffolded,Juniper,tom,2,59,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,lea,2,60,(Evidence),0,0,1,0,0,0
+Unscaffolded,Juniper,lea,2,61,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,lea,2,62,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,uma,2,63,"(Questioning, Evidence)",1,0,1,0,0,0
+Unscaffolded,Juniper,lea,2,64,"(Explaining, Evaluating)",0,1,0,0,1,0
+Unscaffolded,Juniper,lea,2,65,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,ben,2,66,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,uma,2,67,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,tom,2,68,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Juniper,tom,2,69,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Juniper,tom,2,70,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,ben,2,71,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,lea,2,72,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,ben,2,73,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,uma,2,74,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Juniper,tom,2,75,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,ben,2,76,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,ben,2,77,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,lea,2,78,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,ben,2,79,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,uma,2,80,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,ben,3,81,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Juniper,lea,3,82,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,ben,3,83,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,ben,3,84,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,ben,3,85,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,tom,3,86,"(Planning, Off_Task)",0,0,0,1,0,1
+Unscaffolded,Juniper,uma,3,87,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,uma,3,88,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,tom,3,89,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,tom,3,90,"(Evidence, Planning)",0,0,1,1,0,0
+Unscaffolded,Juniper,uma,3,91,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,ben,3,92,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,lea,3,93,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,tom,3,94,"(Questioning, Off_Task)",1,0,0,0,0,1
+Unscaffolded,Juniper,uma,3,95,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,tom,3,96,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,uma,3,97,"(Questioning, Explaining)",1,1,0,0,0,0
+Unscaffolded,Juniper,uma,3,98,"(Evidence, Evaluating)",0,0,1,0,1,0
+Unscaffolded,Juniper,ben,3,99,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,lea,3,100,"(Evidence, Off_Task)",0,0,1,0,0,1
+Unscaffolded,Juniper,lea,3,101,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,tom,3,102,(Questioning),1,0,0,0,0,0
+Unscaffolded,Juniper,tom,3,103,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,tom,3,104,"(Explaining, Evidence)",0,1,1,0,0,0
+Unscaffolded,Juniper,lea,3,105,"(Evidence, Off_Task)",0,0,1,0,0,1
+Unscaffolded,Juniper,tom,3,106,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,uma,3,107,(Evaluating),0,0,0,0,1,0
+Unscaffolded,Juniper,ben,3,108,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,uma,3,109,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,uma,3,110,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,uma,3,111,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,tom,3,112,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,uma,3,113,"(Questioning, Evidence)",1,0,1,0,0,0
+Unscaffolded,Juniper,ben,3,114,(Off_Task),0,0,0,0,0,1
+Unscaffolded,Juniper,uma,3,115,(Planning),0,0,0,1,0,0
+Unscaffolded,Juniper,tom,3,116,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,ben,3,117,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,ben,3,118,(uncoded),0,0,0,0,0,0
+Unscaffolded,Juniper,lea,3,119,(Explaining),0,1,0,0,0,0
+Unscaffolded,Juniper,ben,3,120,(Explaining),0,1,0,0,0,0

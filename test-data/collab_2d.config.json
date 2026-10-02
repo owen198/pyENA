@@ -1,0 +1,53 @@
+{
+  "format": "pyena-platform-config",
+  "version": 1,
+  "pyena": "ed788e0",
+  "source": {
+    "fileName": "collab_2d.csv",
+    "columns": [
+      "condition",
+      "team",
+      "student",
+      "activity",
+      "line",
+      "utterance",
+      "Questioning",
+      "Explaining",
+      "Evidence",
+      "Planning",
+      "Evaluating",
+      "Off_Task"
+    ]
+  },
+  "model": {
+    "codes": [
+      "Questioning",
+      "Explaining",
+      "Evidence",
+      "Planning",
+      "Evaluating",
+      "Off_Task"
+    ],
+    "units": [
+      "condition",
+      "student"
+    ],
+    "conversation": [
+      "team",
+      "activity"
+    ],
+    "metadata": [
+      "team"
+    ],
+    "window": "MovingStanzaWindow",
+    "windowBack": 4,
+    "windowForward": 0,
+    "rotation": "svd",
+    "dimensions": 2,
+    "groupColumn": "condition",
+    "groups": [
+      "Scaffolded",
+      "Unscaffolded"
+    ]
+  }
+}

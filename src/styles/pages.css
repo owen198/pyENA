@@ -1,0 +1,963 @@
+/* IdeaLens — the product register's pages around the workspace:
+   the nav's new pieces, menus, the theme question, the analysis history,
+   settings, and the workspace blocks added in v0.02 (coding schema, run
+   summary, interpretation). Tokens only, as in platform.css. */
+
+/* A link that looks like a button reads as one: no underline. */
+a.ml-btn {
+  text-decoration: none;
+}
+
+/* Long tips (the Demo note, a code's meaning from the schema) wrap rather than
+   run past the edge of a phone, where even hidden they widen the page. */
+.ml-tip {
+  white-space: normal;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 2 * var(--space-4)));
+  line-height: 1.4;
+}
+
+/* ============================== Nav ============================== */
+
+.pf-nav {
+  flex-wrap: wrap;
+  row-gap: var(--space-2);
+}
+.pf-nav .ml-nav__links {
+  flex: 0 0 auto;
+}
+.pf-nav__end {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+.pf-theme-btn,
+.pf-account-btn {
+  min-height: 44px;
+  gap: var(--space-2);
+}
+.pf-theme-btn .ml-icon {
+  flex: none;
+}
+
+/* The analysis's name and save state, beside the section links. */
+.pf-project {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  flex: 1 1 240px;
+}
+.pf-project__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--ink-secondary);
+  border-radius: var(--radius-sm);
+}
+.pf-project__back:hover {
+  color: var(--brand);
+}
+.pf-project__name {
+  min-width: 0;
+  max-width: 36ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 4px var(--space-2);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--ink);
+  cursor: text;
+}
+.pf-project__name:hover {
+  border-color: var(--border);
+}
+.pf-project__input {
+  width: min(36ch, 100%);
+  padding-block: 4px;
+}
+.pf-save {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-secondary);
+  white-space: nowrap;
+}
+.pf-save__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--brand);
+}
+.pf-save__dot.is-busy {
+  background: var(--ink-secondary);
+  animation: pf-save-pulse 1.2s ease-in-out infinite;
+}
+.pf-save__dot.is-error {
+  background: var(--accent);
+}
+@keyframes pf-save-pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-save__dot.is-busy {
+    animation: none;
+  }
+}
+
+/* ============================== Menus and popovers ============================== */
+
+.pf-menu-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.pf-menu {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  min-width: 240px;
+  padding: var(--space-2);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-modal);
+}
+.pf-menu--end {
+  right: 0;
+}
+.pf-menu--start {
+  left: 0;
+}
+.pf-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 40px;
+  padding: var(--space-2) var(--space-3);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+.pf-menu__item:hover,
+.pf-menu__item:focus-visible {
+  background: var(--brand-surface);
+  color: var(--brand);
+}
+.pf-menu__item:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: -2px;
+}
+.pf-menu__item[aria-checked="true"] {
+  color: var(--brand);
+}
+.pf-menu__item--danger:hover,
+.pf-menu__item--danger:focus-visible {
+  background: var(--accent-surface);
+  color: var(--ink);
+}
+.pf-menu__text {
+  flex: 1;
+}
+.pf-menu__check {
+  flex: none;
+}
+.pf-menu__note {
+  padding: var(--space-2) var(--space-3);
+  max-width: 30ch;
+}
+.pf-menu__note:first-child {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--space-1);
+}
+.pf-menu__note:last-child {
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-1);
+}
+
+/* A non-blocking question in a popover: the theme prompt. */
+.pf-popover {
+  position: fixed;
+  top: 76px;
+  right: var(--space-4);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(380px, calc(100vw - 2 * var(--space-4)));
+  padding: var(--space-5);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-modal);
+  animation: pf-popover-in 250ms ease-out;
+}
+.pf-popover__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.pf-popover__title .ml-icon {
+  flex: none;
+  color: var(--brand);
+}
+.pf-popover__extra {
+  align-self: flex-start;
+  padding-inline: 0;
+}
+@keyframes pf-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-popover {
+    animation: none;
+  }
+}
+
+/* ============================== Pages ============================== */
+
+.pf-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--surface);
+}
+.pf-page__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 1120px;
+  padding: var(--space-7) var(--space-8) var(--space-9);
+}
+.pf-page__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+.pf-page__title {
+  font: var(--text-h1);
+  margin-top: var(--space-2);
+}
+.pf-page__lead {
+  max-width: 62ch;
+  color: var(--ink-secondary);
+}
+/* A whole page waiting on one thing: opening an analysis, checking a session. */
+.pf-page-state {
+  display: grid;
+  place-items: center;
+  min-height: 60vh;
+  padding: var(--space-7) var(--space-4);
+}
+.pf-page-state .ml-empty {
+  max-width: 520px;
+}
+
+.pf-skip {
+  position: absolute;
+  left: var(--space-4);
+  top: -48px;
+  z-index: 200;
+  padding: var(--space-2) var(--space-4);
+  background: var(--brand);
+  color: var(--on-brand);
+  border-radius: var(--radius-md);
+  font: var(--text-button);
+  text-decoration: none;
+}
+.pf-skip:focus {
+  top: var(--space-4);
+}
+
+/* ============================== Analysis history ============================== */
+
+/* Index rows on the page, divided by hairlines: a list of research objects, not cards. */
+.pf-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+.pf-history__row {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+.pf-history__num {
+  align-self: start;
+  padding-top: 6px;
+}
+.pf-history__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.pf-history__title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.pf-history__title:hover {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pf-history__finding {
+  margin-top: var(--space-1);
+  color: var(--ink-secondary);
+}
+.pf-history__state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  text-align: right;
+}
+
+/* ============================== Settings ============================== */
+
+.pf-settings {
+  max-width: 760px;
+}
+.pf-settings__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+}
+.pf-settings__title {
+  font: var(--text-h3);
+}
+.pf-choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.pf-choice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+.pf-choice:hover {
+  border-color: var(--brand);
+}
+/* Selected: brand ring and fill plus a check mark, never colour alone. */
+.pf-choice[aria-checked="true"] {
+  border-color: var(--brand);
+  background: var(--brand-surface);
+}
+.pf-choice__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.pf-choice__check {
+  margin-left: auto;
+  color: var(--brand);
+}
+.pf-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 420px;
+}
+
+/* ============================== Workspace additions ============================== */
+
+.pf-rail .ml-btn.pf-btn--block {
+  width: 100%;
+  justify-content: center;
+}
+
+/* The coding schema, beside the dataset on Upload. */
+.pf-schema {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+.pf-schema__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font: var(--text-label);
+}
+.pf-drop--compact {
+  padding: var(--space-4);
+  gap: var(--space-3);
+}
+.pf-drop--compact .pf-note {
+  max-width: 40ch;
+}
+
+/* The run summary: what will run, term above value. */
+.pf-summary {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.pf-summary__row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+}
+.pf-summary dt {
+  color: var(--ink-secondary);
+}
+.pf-summary dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* The coding schema table on Preview. */
+.pf-schema-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.pf-schema-table th,
+.pf-schema-table td {
+  padding: var(--space-3) var(--space-3) var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+.pf-schema-table thead th {
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+.pf-schema-table tbody th {
+  white-space: nowrap;
+}
+.pf-schema-table tbody tr:nth-child(even) {
+  background: var(--surface-soft);
+}
+.pf-tab__count {
+  margin-left: var(--space-2);
+  color: var(--ink-secondary);
+}
+.pf-colhead__meaning {
+  display: block;
+  max-width: 24ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-secondary);
+  font-weight: 400;
+}
+
+/* The interpretation: a reading column. */
+.pf-interpret {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 72ch;
+}
+.pf-interpret__lead {
+  max-width: 68ch;
+}
+.pf-interpret__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+.pf-interpret__history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-interpret__history li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* ============================== Narrow screens ============================== */
+
+@media (max-width: 899px) {
+  .pf-nav {
+    gap: var(--space-3);
+  }
+  .pf-nav .ml-nav__links {
+    order: 3;
+    flex: 1 0 100%;
+  }
+  .pf-project {
+    order: 4;
+    flex: 1 0 100%;
+  }
+  .pf-theme-btn__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .pf-page__main {
+    padding: var(--space-6) var(--space-4) var(--space-8);
+  }
+  .pf-page__title {
+    font: var(--text-h2);
+  }
+  .pf-history__row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2) var(--space-4);
+  }
+  .pf-history__num {
+    grid-column: 1 / -1;
+    padding-top: 0;
+  }
+  .pf-history__state {
+    grid-column: 1;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: left;
+  }
+  .pf-history__row .pf-menu-wrap {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+  }
+  .pf-history__open {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: start;
+  }
+  .pf-choices {
+    grid-template-columns: 1fr;
+  }
+  .pf-popover {
+    top: auto;
+    bottom: var(--space-4);
+  }
+}
+
+/* ============================== The team, connected to you ============================== */
+
+/* ConnectArt: three connections draw themselves from the team to you in turn,
+   hold, fade and draw again (4.8s each, 1.6s apart, so one arrives every 1.6s);
+   the team's nodes bloom in and out on a staggered 3.2s breath, and yours
+   blooms as each connection reaches it. A looping exception the owner asked
+   for, like the step band's flowers; reduced motion shows it still. */
+.ca {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
+}
+.ca-node,
+.ca-you {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ca-node {
+  animation: ca-bloom 3.2s ease-in-out calc(var(--n) * 0.45s) infinite;
+}
+.ca-you {
+  animation: ca-arrive 1.6s ease-out 1.68s infinite;
+}
+.ca-edge {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: ca-flow 4.8s ease-in-out calc(var(--e) * 1.6s) infinite;
+}
+.ca.is-connected .ca-edge {
+  stroke: var(--brand);
+  stroke-width: 3.5;
+  animation: ca-flow-made 3.2s ease-in-out calc(var(--e) * 0.5s) infinite;
+  stroke-dashoffset: 0;
+}
+@keyframes ca-flow {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  35%,
+  70% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+/* Connected: the lines stay, and breathe with the nodes. */
+@keyframes ca-flow-made {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+@keyframes ca-bloom {
+  0%,
+  100% {
+    transform: scale(0.88);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+}
+@keyframes ca-arrive {
+  0% {
+    transform: scale(1.22);
+  }
+  45%,
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ca-node,
+  .ca-you,
+  .ca-edge,
+  .ca.is-connected .ca-edge {
+    animation: none;
+  }
+  .ca-edge {
+    stroke-dashoffset: 0;
+    opacity: 0.6;
+  }
+}
+
+/* The sign-in question about product news, in the Modal. */
+.pf-news {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.pf-news__art {
+  max-width: 300px;
+  align-self: center;
+  width: 100%;
+}
+
+/* ============================== The first-time tutorial ============================== */
+
+/* The spotlight: a brand ring around the real control, and the rest of the page
+   under the system's scrim (ink at 40%, deeper in the dark theme, as .ml-scrim).
+   Neither takes a click: the page underneath stays usable. */
+.pf-tour__spot,
+.pf-tour__dim {
+  position: fixed;
+  z-index: 40;
+  pointer-events: none;
+}
+.pf-tour__spot {
+  border: 2px solid var(--brand);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 100vmax rgba(27, 27, 27, 0.4);
+  transition:
+    top 250ms ease,
+    left 250ms ease,
+    width 250ms ease,
+    height 250ms ease;
+}
+.pf-tour__dim {
+  inset: 0;
+  background: rgba(27, 27, 27, 0.12);
+}
+:root[data-theme="dark"] .pf-tour__spot {
+  box-shadow: 0 0 0 100vmax rgba(27, 27, 27, 0.72);
+}
+
+/* The instruction panel: a popover, so it takes the system's one shadow. It sits
+   above the connection panel's phone sheet (48) and below modals (50). */
+.pf-tour {
+  position: fixed;
+  z-index: 49;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(360px, calc(100vw - 2 * var(--space-4)));
+  padding: var(--space-5);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-modal);
+}
+.pf-tour--paused {
+  right: var(--space-4);
+  bottom: var(--space-4);
+}
+/* The caret points from the panel's edge to the control. */
+.pf-tour::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.pf-tour--none::before {
+  display: none;
+}
+.pf-tour--bottom::before {
+  top: -7px;
+  left: calc(var(--caret) - 6px);
+  border-right: none;
+  border-bottom: none;
+}
+.pf-tour--top::before {
+  bottom: -7px;
+  left: calc(var(--caret) - 6px);
+  border-left: none;
+  border-top: none;
+}
+.pf-tour--right::before {
+  left: -7px;
+  top: calc(var(--caret) - 6px);
+  border-top: none;
+  border-right: none;
+}
+.pf-tour--left::before {
+  right: -7px;
+  top: calc(var(--caret) - 6px);
+  border-bottom: none;
+  border-left: none;
+}
+.pf-tour__progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.pf-tour__dots {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-tour__dots li {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ink-secondary);
+  border-radius: var(--radius-full);
+}
+.pf-tour__dots li.is-done {
+  background: var(--brand-surface);
+  border-color: var(--brand);
+}
+.pf-tour__dots li.is-current {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.pf-tour__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 24px;
+  line-height: 1.15;
+  font-weight: 400;
+}
+.pf-tour__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pf-tour__body p {
+  margin: 0;
+}
+/* The control to press, named exactly and set in bold. */
+.pf-tour__body b {
+  font-weight: 700;
+  color: var(--ink);
+}
+.pf-tour__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-5);
+}
+.pf-tour__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+.pf-tour__skip {
+  margin-right: auto;
+}
+.pf-tour__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+/* When the control is in a modal, the tutorial sits above it. */
+.pf-tour__spot.is-over-modal {
+  z-index: 55;
+  box-shadow: none;
+}
+.pf-tour.is-over-modal {
+  z-index: 56;
+}
+/* Where to click: a mouse pointer whose tip stands on the control, a brand dot
+   under the tip, and a ring that goes out from it like a tap. It glides in from
+   the instruction panel, then taps until the step is done. Never takes a click. */
+.pf-tour__pointer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 49;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.pf-tour__pointer.is-moving {
+  transition: transform 800ms cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+.pf-tour__arrow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  display: block;
+  line-height: 0;
+  transform-origin: 2px 2px;
+}
+.pf-tour__pointer.is-arrived .pf-tour__arrow {
+  animation: pf-tour-press 1.6s ease-in-out infinite;
+}
+/* The dot marks the exact spot; the ring around it is the tap. */
+.pf-tour__tap {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--brand);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.pf-tour__pointer.is-arrived .pf-tour__tap {
+  opacity: 1;
+}
+.pf-tour__tap::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--brand);
+  border-radius: var(--radius-full);
+  opacity: 0;
+}
+.pf-tour__pointer.is-arrived .pf-tour__tap::after {
+  animation: pf-tour-tap 1.6s ease-out infinite;
+}
+@keyframes pf-tour-press {
+  0%,
+  20%,
+  60%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  30%,
+  45% {
+    transform: translate(1px, 1px) scale(0.9);
+  }
+}
+@keyframes pf-tour-tap {
+  0%,
+  28% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  34% {
+    opacity: 1;
+    transform: scale(0.45);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-tour__spot {
+    transition: none;
+  }
+  /* Still: the pointer stands on the control with a quiet ring. */
+  .pf-tour__pointer.is-arrived .pf-tour__arrow,
+  .pf-tour__pointer.is-arrived .pf-tour__tap::after {
+    animation: none;
+  }
+  .pf-tour__pointer.is-arrived .pf-tour__tap::after {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+}
+
+/* The one-time feature notice sits at the lower left, clear of the theme question and the connection window. */
+.pf-feature-notice {
+  top: auto;
+  right: auto;
+  bottom: var(--space-4);
+  left: var(--space-4);
+}

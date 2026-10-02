@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="IdeaLens. See how ideas connect. Bring in coded research and watch its ideas connect: a network in 2D, then in depth, with each connection explained." />
+    <meta property="og:title" content="IdeaLens" />
+    <meta property="og:description" content="See how ideas connect." />
+    <meta name="application-name" content="IdeaLens" />
+    <title>IdeaLens. See how ideas connect.</title>
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/ds/fonts/Figtree-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/ds/fonts/EBGaramond-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
+    <!-- The IdeaLens design system, linked verbatim from public/ds (npm run sync:ds). -->
+    <link rel="stylesheet" href="/ds/tokens.css" />
+    <link rel="stylesheet" href="/ds/components/bundle.css" />
+    <!-- The theme is set before the first paint so a dark page never flashes light (src/theme/theme.ts). -->
+    <script>
+      (function () {
+        var mode = null;
+        try { mode = localStorage.getItem("pyena-platform:theme"); } catch (e) {}
+        var dark = mode === "dark" || (mode === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "paper";
+      })();
+    </script>
+  </head>
+  <body class="ml-root">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

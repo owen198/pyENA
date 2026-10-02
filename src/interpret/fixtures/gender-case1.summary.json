@@ -1,0 +1,963 @@
+{
+  "groups": {
+    "group_column": "group",
+    "group_a_label": "A",
+    "group_b_label": "B"
+  },
+  "model": {
+    "units": 20,
+    "edges": 36,
+    "codes": [
+      "expectation_L1",
+      "expectation_L2",
+      "expectation_L3",
+      "friendliness_L1",
+      "friendliness_L2",
+      "friendliness_L3",
+      "violence_L1",
+      "violence_L2",
+      "violence_L3"
+    ],
+    "rotation_dimensions": 2,
+    "eigenvalues": [
+      0.0819603061554522,
+      1.7144300666642538
+    ],
+    "explained_variance_ratio": [
+      0.04562499743683392,
+      0.9543750025631661
+    ]
+  },
+  "points": {
+    "group_a": {
+      "n": 10,
+      "mean_point": [
+        -0.14314355220848432,
+        -1.2490009027033011e-17
+      ],
+      "median_point": [
+        -0.15676596439654963,
+        -0.03976823778957538
+      ],
+      "confidence_interval_95": {
+        "dimension_1": [
+          -0.20707901591270528,
+          -0.07920808850426338
+        ],
+        "dimension_2": [
+          -0.21898509215479234,
+          0.21898509215479234
+        ]
+      }
+    },
+    "group_b": {
+      "n": 10,
+      "mean_point": [
+        0.14314355220848424,
+        2.9815559743351372e-18
+      ],
+      "median_point": [
+        0.12321936233253616,
+        -0.013824015596229937
+      ],
+      "confidence_interval_95": {
+        "dimension_1": [
+          0.012537609869086808,
+          0.27374949454788167
+        ],
+        "dimension_2": [
+          -0.2225469980603553,
+          0.2225469980603553
+        ]
+      }
+    }
+  },
+  "statistics": {
+    "welch_t_test": {
+      "dimension_1": {
+        "t_statistic": -4.453628442777233,
+        "p_value": 0.0006409273839388141,
+        "degrees_of_freedom": 13.079246099659347,
+        "mean_x": -0.14314355220848432,
+        "mean_y": 0.14314355220848424,
+        "sd_x": 0.08937561540342887,
+        "sd_y": 0.18257451804729388,
+        "n_x": 10,
+        "n_y": 10,
+        "confidence_interval_95": [
+          -0.4250739342843035,
+          -0.14750027454963363
+        ],
+        "cohens_d": -1.9917231889152849
+      },
+      "dimension_2": {
+        "t_statistic": -3.1657505192480605e-17,
+        "p_value": 1.0,
+        "degrees_of_freedom": 17.99531614668393,
+        "mean_x": -1.2490009027033011e-17,
+        "mean_y": -8.120674271916429e-18,
+        "sd_x": 0.3061200504629957,
+        "sd_y": 0.3110992515804153,
+        "n_x": 10,
+        "n_y": 10,
+        "confidence_interval_95": [
+          -0.28997240618227,
+          0.28997240618227
+        ],
+        "cohens_d": -1.415766672168784e-17
+      }
+    },
+    "mann_whitney_u": {
+      "dimension_1": {
+        "u_statistic": 8.0,
+        "u_complement": 92.0,
+        "w_statistic_r_style": 8.0,
+        "p_value": 0.0007252809110394249,
+        "median_x": -0.15676596439654963,
+        "median_y": 0.12321936233253616,
+        "n_x": 10,
+        "n_y": 10,
+        "effect_r_approx": 0.7557551546182799
+      },
+      "dimension_2": {
+        "u_statistic": 49.0,
+        "u_complement": 51.0,
+        "w_statistic_r_style": 49.0,
+        "p_value": 0.9705124596765464,
+        "median_x": -0.03976823778957538,
+        "median_y": -0.013824015596229937,
+        "n_x": 10,
+        "n_y": 10,
+        "effect_r_approx": 0.008265752300168914
+      }
+    },
+    "anova": {
+      "dimension_1": {
+        "f_statistic": 19.834806306314356,
+        "p_value": 0.0003068504812898173,
+        "mean_x": -0.14314355220848432,
+        "mean_y": 0.14314355220848424,
+        "n_x": 10,
+        "n_y": 10
+      },
+      "dimension_2": {
+        "f_statistic": -2.3671287477330624e-33,
+        "p_value": NaN,
+        "mean_x": -1.2490009027033011e-17,
+        "mean_y": -8.120674271916429e-18,
+        "n_x": 10,
+        "n_y": 10
+      }
+    },
+    "chi_square": {
+      "basis": "Binary code presence counts per row within each group.",
+      "group_a_rows": 100,
+      "group_b_rows": 100,
+      "overall": {
+        "chi_square": 4.461849226391008,
+        "p_value": 0.813237728660303,
+        "degrees_of_freedom": 8,
+        "observed": [
+          [
+            31.0,
+            38.0,
+            24.0,
+            25.0,
+            30.0,
+            31.0,
+            26.0,
+            32.0,
+            33.0
+          ],
+          [
+            22.0,
+            35.0,
+            32.0,
+            34.0,
+            31.0,
+            30.0,
+            23.0,
+            30.0,
+            32.0
+          ]
+        ],
+        "expected": [
+          [
+            26.549165120593692,
+            36.567717996289424,
+            28.051948051948052,
+            29.554730983302413,
+            30.556586270871986,
+            30.556586270871986,
+            24.545454545454547,
+            31.05751391465677,
+            32.560296846011134
+          ],
+          [
+            26.450834879406308,
+            36.432282003710576,
+            27.948051948051948,
+            29.445269016697587,
+            30.443413729128014,
+            30.443413729128014,
+            24.454545454545453,
+            30.94248608534323,
+            32.439703153988866
+          ]
+        ]
+      },
+      "per_code": [
+        {
+          "code": "expectation_L1",
+          "group_a_present": 31,
+          "group_b_present": 22,
+          "group_a_rate": 0.31,
+          "group_b_rate": 0.22,
+          "chi_square": 1.6429213194711847,
+          "p_value": 0.19992512225859072,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              26.5,
+              73.5
+            ],
+            [
+              26.5,
+              73.5
+            ]
+          ]
+        },
+        {
+          "code": "expectation_L2",
+          "group_a_present": 38,
+          "group_b_present": 35,
+          "group_a_rate": 0.38,
+          "group_b_rate": 0.35,
+          "chi_square": 0.08629058354007119,
+          "p_value": 0.768946965929963,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              36.5,
+              63.5
+            ],
+            [
+              36.5,
+              63.5
+            ]
+          ]
+        },
+        {
+          "code": "expectation_L3",
+          "group_a_present": 24,
+          "group_b_present": 32,
+          "group_a_rate": 0.24,
+          "group_b_rate": 0.32,
+          "chi_square": 1.2152777777777777,
+          "p_value": 0.2702893848016955,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              28.0,
+              72.0
+            ],
+            [
+              28.0,
+              72.0
+            ]
+          ]
+        },
+        {
+          "code": "friendliness_L1",
+          "group_a_present": 25,
+          "group_b_present": 34,
+          "group_a_rate": 0.25,
+          "group_b_rate": 0.34,
+          "chi_square": 1.5386464719317225,
+          "p_value": 0.21481938758064367,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              29.5,
+              70.5
+            ],
+            [
+              29.5,
+              70.5
+            ]
+          ]
+        },
+        {
+          "code": "friendliness_L2",
+          "group_a_present": 30,
+          "group_b_present": 31,
+          "group_a_rate": 0.3,
+          "group_b_rate": 0.31,
+          "chi_square": 0.0,
+          "p_value": 1.0,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              30.5,
+              69.5
+            ],
+            [
+              30.5,
+              69.5
+            ]
+          ]
+        },
+        {
+          "code": "friendliness_L3",
+          "group_a_present": 31,
+          "group_b_present": 30,
+          "group_a_rate": 0.31,
+          "group_b_rate": 0.3,
+          "chi_square": 0.0,
+          "p_value": 1.0,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              30.5,
+              69.5
+            ],
+            [
+              30.5,
+              69.5
+            ]
+          ]
+        },
+        {
+          "code": "violence_L1",
+          "group_a_present": 26,
+          "group_b_present": 23,
+          "group_a_rate": 0.26,
+          "group_b_rate": 0.23,
+          "chi_square": 0.10812271928639004,
+          "p_value": 0.742291599283373,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              24.5,
+              75.5
+            ],
+            [
+              24.5,
+              75.5
+            ]
+          ]
+        },
+        {
+          "code": "violence_L2",
+          "group_a_present": 32,
+          "group_b_present": 30,
+          "group_a_rate": 0.32,
+          "group_b_rate": 0.3,
+          "chi_square": 0.02337540906965872,
+          "p_value": 0.8784848751120462,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              31.0,
+              69.0
+            ],
+            [
+              31.0,
+              69.0
+            ]
+          ]
+        },
+        {
+          "code": "violence_L3",
+          "group_a_present": 33,
+          "group_b_present": 32,
+          "group_a_rate": 0.33,
+          "group_b_rate": 0.32,
+          "chi_square": 0.0,
+          "p_value": 1.0,
+          "degrees_of_freedom": 1,
+          "expected": [
+            [
+              32.5,
+              67.5
+            ],
+            [
+              32.5,
+              67.5
+            ]
+          ]
+        }
+      ]
+    },
+    "goodness_of_fit": {
+      "n_non_zero_units": 20,
+      "co_registration_correlations": {
+        "dimension_1": {
+          "pearson": 0.8178399164475241,
+          "spearman": 0.8406015037593983
+        },
+        "dimension_2": {
+          "pearson": 0.9699364749623995,
+          "spearman": 0.9488721804511278
+        }
+      },
+      "summary": "Co-registration fit is mixed; inspect dimension-level correlations before interpreting the visualization strongly."
+    }
+  },
+  "axis_interpretation": {
+    "dimension_1": {
+      "basis": "Heuristic summary based on node positions in the co-registered ENA space.",
+      "positive_pole_codes": [
+        {
+          "code": "friendliness_L1",
+          "coordinate": 3.693706787857197
+        },
+        {
+          "code": "friendliness_L2",
+          "coordinate": 3.4103309056855986
+        },
+        {
+          "code": "friendliness_L3",
+          "coordinate": 2.3229897843602267
+        }
+      ],
+      "negative_pole_codes": [
+        {
+          "code": "expectation_L1",
+          "coordinate": -4.094918122003393
+        },
+        {
+          "code": "expectation_L2",
+          "coordinate": -3.3319939592372796
+        },
+        {
+          "code": "expectation_L3",
+          "coordinate": -1.757512487108269
+        }
+      ]
+    },
+    "dimension_2": {
+      "basis": "Heuristic summary based on node positions in the co-registered ENA space.",
+      "positive_pole_codes": [
+        {
+          "code": "friendliness_L2",
+          "coordinate": 3.269557756623714
+        },
+        {
+          "code": "friendliness_L1",
+          "coordinate": 1.390194874427973
+        },
+        {
+          "code": "violence_L3",
+          "coordinate": 1.0873581121366171
+        }
+      ],
+      "negative_pole_codes": [
+        {
+          "code": "expectation_L3",
+          "coordinate": -3.840958057364456
+        },
+        {
+          "code": "expectation_L1",
+          "coordinate": -2.8150083637592664
+        },
+        {
+          "code": "violence_L1",
+          "coordinate": -1.0124868127681568
+        }
+      ]
+    }
+  },
+  "networks": {
+    "group_a_mean_network": [
+      {
+        "edge": "expectation_L1__expectation_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__expectation_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L2__expectation_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__friendliness_L1",
+        "weight": 0.12518268920456938
+      },
+      {
+        "edge": "expectation_L2__friendliness_L1",
+        "weight": 0.18806544381515322
+      },
+      {
+        "edge": "expectation_L3__friendliness_L1",
+        "weight": 0.061893368353331216
+      },
+      {
+        "edge": "expectation_L1__friendliness_L2",
+        "weight": 0.12399807383490495
+      },
+      {
+        "edge": "expectation_L2__friendliness_L2",
+        "weight": 0.16558620390697582
+      },
+      {
+        "edge": "expectation_L3__friendliness_L2",
+        "weight": 0.12356474313730374
+      },
+      {
+        "edge": "friendliness_L1__friendliness_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__friendliness_L3",
+        "weight": 0.12424925759941215
+      },
+      {
+        "edge": "expectation_L2__friendliness_L3",
+        "weight": 0.1745678298000516
+      },
+      {
+        "edge": "expectation_L3__friendliness_L3",
+        "weight": 0.15890520381268075
+      },
+      {
+        "edge": "friendliness_L1__friendliness_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "friendliness_L2__friendliness_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__violence_L1",
+        "weight": 0.12059496040192594
+      },
+      {
+        "edge": "expectation_L2__violence_L1",
+        "weight": 0.17290965869018401
+      },
+      {
+        "edge": "expectation_L3__violence_L1",
+        "weight": 0.09046926070680279
+      },
+      {
+        "edge": "friendliness_L1__violence_L1",
+        "weight": 0.09555127488268544
+      },
+      {
+        "edge": "friendliness_L2__violence_L1",
+        "weight": 0.10304006327942328
+      },
+      {
+        "edge": "friendliness_L3__violence_L1",
+        "weight": 0.1404717243001348
+      },
+      {
+        "edge": "expectation_L1__violence_L2",
+        "weight": 0.1613102775617454
+      },
+      {
+        "edge": "expectation_L2__violence_L2",
+        "weight": 0.1889688609896525
+      },
+      {
+        "edge": "expectation_L3__violence_L2",
+        "weight": 0.10383839822497934
+      },
+      {
+        "edge": "friendliness_L1__violence_L2",
+        "weight": 0.0774276399285058
+      },
+      {
+        "edge": "friendliness_L2__violence_L2",
+        "weight": 0.12742274437010587
+      },
+      {
+        "edge": "friendliness_L3__violence_L2",
+        "weight": 0.1946422579419474
+      },
+      {
+        "edge": "violence_L1__violence_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__violence_L3",
+        "weight": 0.1536636117654677
+      },
+      {
+        "edge": "expectation_L2__violence_L3",
+        "weight": 0.15610891055713433
+      },
+      {
+        "edge": "expectation_L3__violence_L3",
+        "weight": 0.15147609637073828
+      },
+      {
+        "edge": "friendliness_L1__violence_L3",
+        "weight": 0.15346705295876223
+      },
+      {
+        "edge": "friendliness_L2__violence_L3",
+        "weight": 0.21357316875938542
+      },
+      {
+        "edge": "friendliness_L3__violence_L3",
+        "weight": 0.09412642718939687
+      },
+      {
+        "edge": "violence_L1__violence_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "violence_L2__violence_L3",
+        "weight": 0.0
+      }
+    ],
+    "group_b_mean_network": [
+      {
+        "edge": "expectation_L1__expectation_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__expectation_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L2__expectation_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__friendliness_L1",
+        "weight": 0.13734826825408447
+      },
+      {
+        "edge": "expectation_L2__friendliness_L1",
+        "weight": 0.16392391211420138
+      },
+      {
+        "edge": "expectation_L3__friendliness_L1",
+        "weight": 0.14300178368435051
+      },
+      {
+        "edge": "expectation_L1__friendliness_L2",
+        "weight": 0.07006800602419153
+      },
+      {
+        "edge": "expectation_L2__friendliness_L2",
+        "weight": 0.21941258251034892
+      },
+      {
+        "edge": "expectation_L3__friendliness_L2",
+        "weight": 0.1490806166898034
+      },
+      {
+        "edge": "friendliness_L1__friendliness_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__friendliness_L3",
+        "weight": 0.10992145378311406
+      },
+      {
+        "edge": "expectation_L2__friendliness_L3",
+        "weight": 0.14548678939640544
+      },
+      {
+        "edge": "expectation_L3__friendliness_L3",
+        "weight": 0.16192250848929252
+      },
+      {
+        "edge": "friendliness_L1__friendliness_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "friendliness_L2__friendliness_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__violence_L1",
+        "weight": 0.08895050801050124
+      },
+      {
+        "edge": "expectation_L2__violence_L1",
+        "weight": 0.1354937526850422
+      },
+      {
+        "edge": "expectation_L3__violence_L1",
+        "weight": 0.09805883501061939
+      },
+      {
+        "edge": "friendliness_L1__violence_L1",
+        "weight": 0.17661895917930975
+      },
+      {
+        "edge": "friendliness_L2__violence_L1",
+        "weight": 0.0853340752285729
+      },
+      {
+        "edge": "friendliness_L3__violence_L1",
+        "weight": 0.09611495161540823
+      },
+      {
+        "edge": "expectation_L1__violence_L2",
+        "weight": 0.07857428791304522
+      },
+      {
+        "edge": "expectation_L2__violence_L2",
+        "weight": 0.1518408116655431
+      },
+      {
+        "edge": "expectation_L3__violence_L2",
+        "weight": 0.18825490710114576
+      },
+      {
+        "edge": "friendliness_L1__violence_L2",
+        "weight": 0.10138812864882
+      },
+      {
+        "edge": "friendliness_L2__violence_L2",
+        "weight": 0.23691781956501662
+      },
+      {
+        "edge": "friendliness_L3__violence_L2",
+        "weight": 0.11325545483260024
+      },
+      {
+        "edge": "violence_L1__violence_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__violence_L3",
+        "weight": 0.1192787605655462
+      },
+      {
+        "edge": "expectation_L2__violence_L3",
+        "weight": 0.1217286678212961
+      },
+      {
+        "edge": "expectation_L3__violence_L3",
+        "weight": 0.14861996105330127
+      },
+      {
+        "edge": "friendliness_L1__violence_L3",
+        "weight": 0.2012468570512834
+      },
+      {
+        "edge": "friendliness_L2__violence_L3",
+        "weight": 0.09867970654531195
+      },
+      {
+        "edge": "friendliness_L3__violence_L3",
+        "weight": 0.1526861853570601
+      },
+      {
+        "edge": "violence_L1__violence_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "violence_L2__violence_L3",
+        "weight": 0.0
+      }
+    ],
+    "subtracted_mean_network": [
+      {
+        "edge": "expectation_L1__expectation_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__expectation_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L2__expectation_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__friendliness_L1",
+        "weight": -0.012165579049515096
+      },
+      {
+        "edge": "expectation_L2__friendliness_L1",
+        "weight": 0.024141531700951846
+      },
+      {
+        "edge": "expectation_L3__friendliness_L1",
+        "weight": -0.0811084153310193
+      },
+      {
+        "edge": "expectation_L1__friendliness_L2",
+        "weight": 0.053930067810713425
+      },
+      {
+        "edge": "expectation_L2__friendliness_L2",
+        "weight": -0.05382637860337311
+      },
+      {
+        "edge": "expectation_L3__friendliness_L2",
+        "weight": -0.025515873552499665
+      },
+      {
+        "edge": "friendliness_L1__friendliness_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__friendliness_L3",
+        "weight": 0.014327803816298085
+      },
+      {
+        "edge": "expectation_L2__friendliness_L3",
+        "weight": 0.029081040403646147
+      },
+      {
+        "edge": "expectation_L3__friendliness_L3",
+        "weight": -0.003017304676611765
+      },
+      {
+        "edge": "friendliness_L1__friendliness_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "friendliness_L2__friendliness_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__violence_L1",
+        "weight": 0.0316444523914247
+      },
+      {
+        "edge": "expectation_L2__violence_L1",
+        "weight": 0.0374159060051418
+      },
+      {
+        "edge": "expectation_L3__violence_L1",
+        "weight": -0.007589574303816599
+      },
+      {
+        "edge": "friendliness_L1__violence_L1",
+        "weight": -0.08106768429662431
+      },
+      {
+        "edge": "friendliness_L2__violence_L1",
+        "weight": 0.01770598805085037
+      },
+      {
+        "edge": "friendliness_L3__violence_L1",
+        "weight": 0.04435677268472657
+      },
+      {
+        "edge": "expectation_L1__violence_L2",
+        "weight": 0.08273598964870019
+      },
+      {
+        "edge": "expectation_L2__violence_L2",
+        "weight": 0.037128049324109375
+      },
+      {
+        "edge": "expectation_L3__violence_L2",
+        "weight": -0.08441650887616642
+      },
+      {
+        "edge": "friendliness_L1__violence_L2",
+        "weight": -0.0239604887203142
+      },
+      {
+        "edge": "friendliness_L2__violence_L2",
+        "weight": -0.10949507519491075
+      },
+      {
+        "edge": "friendliness_L3__violence_L2",
+        "weight": 0.08138680310934715
+      },
+      {
+        "edge": "violence_L1__violence_L2",
+        "weight": 0.0
+      },
+      {
+        "edge": "expectation_L1__violence_L3",
+        "weight": 0.03438485119992149
+      },
+      {
+        "edge": "expectation_L2__violence_L3",
+        "weight": 0.03438024273583823
+      },
+      {
+        "edge": "expectation_L3__violence_L3",
+        "weight": 0.002856135317437003
+      },
+      {
+        "edge": "friendliness_L1__violence_L3",
+        "weight": -0.047779804092521166
+      },
+      {
+        "edge": "friendliness_L2__violence_L3",
+        "weight": 0.11489346221407347
+      },
+      {
+        "edge": "friendliness_L3__violence_L3",
+        "weight": -0.058559758167663234
+      },
+      {
+        "edge": "violence_L1__violence_L3",
+        "weight": 0.0
+      },
+      {
+        "edge": "violence_L2__violence_L3",
+        "weight": 0.0
+      }
+    ],
+    "subtracted_mean_network_top_edges": {
+      "group_a_stronger": [
+        {
+          "edge": "friendliness_L2__violence_L3",
+          "weight": 0.11489346221407347
+        },
+        {
+          "edge": "expectation_L1__violence_L2",
+          "weight": 0.08273598964870019
+        },
+        {
+          "edge": "friendliness_L3__violence_L2",
+          "weight": 0.08138680310934715
+        },
+        {
+          "edge": "expectation_L1__friendliness_L2",
+          "weight": 0.053930067810713425
+        },
+        {
+          "edge": "friendliness_L3__violence_L1",
+          "weight": 0.04435677268472657
+        }
+      ],
+      "group_b_stronger": [
+        {
+          "edge": "friendliness_L2__violence_L2",
+          "weight": -0.10949507519491075
+        },
+        {
+          "edge": "expectation_L3__violence_L2",
+          "weight": -0.08441650887616642
+        },
+        {
+          "edge": "expectation_L3__friendliness_L1",
+          "weight": -0.0811084153310193
+        },
+        {
+          "edge": "friendliness_L1__violence_L1",
+          "weight": -0.08106768429662431
+        },
+        {
+          "edge": "friendliness_L3__violence_L3",
+          "weight": -0.058559758167663234
+        }
+      ]
+    }
+  },
+  "data_context": {
+    "synthetic_data": true,
+    "group_seed": null,
+    "group_assignment": "Balanced random assignment by session_id",
+    "interpretation": "Demonstration only; random groups do not represent substantive populations."
+  }
+}

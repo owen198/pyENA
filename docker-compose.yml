@@ -1,0 +1,33 @@
+# The platform and its own MongoDB on one machine: a booth laptop, a lab
+# server, any VM. `docker compose up -d`, then open http://<machine>:8787.
+#
+# The database is reachable only by the platform, on Compose's private
+# network; its data lives in the `pyena-data` volume and survives restarts.
+# To use a hosted MongoDB instead, remove the `mongo` service and set
+# MONGODB_URI in a .env file next to this one (git ignores .env).
+
+services:
+  platform:
+    build: .
+    ports:
+      - "8787:8787"
+    environment:
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017}
+      MONGODB_DB: ${MONGODB_DB:-pyena}
+      # true once the site is served over HTTPS (behind a proxy or a host's TLS).
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      ALLOW_SIGNUP: ${ALLOW_SIGNUP:-true}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-}
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    volumes:
+      - pyena-data:/data/db
+    restart: unless-stopped
+
+volumes:
+  pyena-data:

@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+*.log
+
+# Local database and secrets never leave this machine
+.data
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
