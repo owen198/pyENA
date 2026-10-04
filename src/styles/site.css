@@ -1322,38 +1322,269 @@
   }
 }
 
-/* Citations as index rows, venue and pages in metadata (README: Research vocabulary). */
+/* The team's papers (Papers.tsx): a centred pair of cards, not a grid. Cards follow the
+   Cards README (surface fill, border, radius-md, never a shadow); the physical-paper feel
+   comes from a second sheet a few pixels under each card, drawn with the same hairline.
+   Each card opens on a design-system thumbnail: a light wash with one sticker of what the
+   paper is about, bleeding off its corner. The citation keeps the research vocabulary:
+   authors and year, the title in the serif, venue and pages in metadata. */
 .st-papers {
-  max-width: 880px;
+  --pair-gap: var(--space-8);
+  width: min(100%, 920px);
+  margin-inline: auto;
 }
-.st-paper-list {
-  margin: var(--space-4) 0 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--border);
-}
-.st-paper {
+.st-papers__head {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-4) 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-3);
   border-bottom: 1px solid var(--border);
 }
-.st-paper__title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  line-height: 1.25;
+.st-papers__head > * {
+  margin: 0;
 }
-.st-paper.is-empty .st-paper__title {
+
+/* The shared-author bracket: a thin line from the middle of one card to the middle of
+   the other, dropping to each card's top edge, the note set on the line. */
+.st-papers__link {
+  --reach: calc((100% - var(--pair-gap)) / 4);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-6);
+  padding-bottom: var(--space-5);
+}
+.st-papers__link::before,
+.st-papers__link::after {
+  content: "";
+  position: absolute;
+  left: var(--reach);
+  right: var(--reach);
+  pointer-events: none;
+}
+.st-papers__link::before {
+  top: 0.75em;
+  border-top: 1px solid var(--ink-secondary);
+}
+.st-papers__link::after {
+  top: 0.75em;
+  bottom: 0;
+  border-inline: 1px solid var(--ink-secondary);
+}
+.st-papers__dot {
+  position: absolute;
+  bottom: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.st-papers__dot--start {
+  left: calc(var(--reach) - 2.5px);
+}
+.st-papers__dot--end {
+  right: calc(var(--reach) - 2.5px);
+}
+.st-papers__shared {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0 var(--space-3);
+  background: var(--surface);
+  text-align: center;
+}
+.st-papers__shared .small {
   color: var(--ink-secondary);
 }
-.st-paper__links {
+
+.st-paper-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-7) var(--pair-gap);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.st-papers__link + .st-paper-grid {
+  margin-top: 0;
+}
+.st-paper-item {
+  position: relative;
+  display: flex;
+}
+.st-paper-item__sheet {
+  position: absolute;
+  inset: 0;
+  translate: 5px 6px;
+  rotate: 0.6deg;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.st-paper-item:nth-child(even) .st-paper-item__sheet {
+  translate: -5px 6px;
+  rotate: -0.6deg;
+}
+.st-paper-card {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.st-paper-card__thumb {
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+}
+.st-paper-card__number {
+  color: var(--ink-secondary);
+}
+.st-paper-card__sticker {
+  right: -22px;
+  bottom: -30px;
+  rotate: -6deg;
+}
+.st-paper-item:nth-child(even) .st-paper-card__sticker {
+  rotate: 7deg;
+}
+.st-paper-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0 var(--space-2) var(--space-1);
+}
+.st-paper-card__body p {
+  margin: 0;
+}
+/* h3 at the reduced card size (Cards README: Typography), in the serif at 400. */
+.st-paper-card__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.3;
+  margin: 0;
+}
+.st-paper-card__foot {
   display: flex;
   align-items: center;
   gap: var(--space-3);
   flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
 }
-.st-paper__links a,
+.st-paper-card__cite {
+  margin-left: auto;
+  padding-block: var(--space-1);
+  font-size: 14px;
+}
+.st-paper-card__citation {
+  padding: var(--space-3);
+  background: var(--surface-soft);
+  border-radius: var(--radius-sm);
+  color: var(--ink-secondary);
+}
+.st-paper-card__citation span {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--ink);
+  user-select: all;
+}
+
+/* The bloom across the heading's lower edge: its heads on the wash, its leaves and the
+   foot of its stem on the paper below, at the right of the content column. */
+.st-pagehead.st-pagehead--seam {
+  padding-bottom: calc(var(--space-8) + var(--space-5));
+}
+/* On the Papers page the heading, the bloom and the pair share one column. */
+.st-pagehead--seam .st-block,
+.st-seam {
+  max-width: 920px;
+}
+.st-seam {
+  position: relative;
+  z-index: 2;
+  width: calc(100% - 2 * var(--space-8));
+  height: 0;
+  margin-inline: auto;
+}
+.st-bloom {
+  position: absolute;
+  right: var(--space-4);
+  top: -180px;
+  width: 300px;
+  pointer-events: none;
+}
+.st-bloom svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.st-bloom__leader {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+.st-bloom__tip {
+  fill: var(--ink);
+}
+.st-bloom__label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  fill: var(--ink);
+}
+@media (max-width: 720px) {
+  .st-papers {
+    --pair-gap: var(--space-5);
+  }
+  .st-paper-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Stacked, the bracket has no two tops to reach: the note stays, as a plain line. */
+  .st-papers__link {
+    justify-content: flex-start;
+    margin-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+  .st-papers__link::before,
+  .st-papers__link::after,
+  .st-papers__dot {
+    display: none;
+  }
+  .st-papers__shared {
+    padding: 0;
+    text-align: left;
+  }
+  .st-pagehead.st-pagehead--seam {
+    padding-bottom: calc(var(--space-7) + 72px);
+  }
+  .st-seam {
+    width: calc(100% - 2 * var(--space-5));
+  }
+  .st-bloom {
+    right: -12px;
+    top: -112px;
+    width: 196px;
+  }
+}
+@media (min-width: 721px) and (max-width: 960px) {
+  .st-papers {
+    --pair-gap: var(--space-6);
+  }
+}
+.st-paper-card__foot a,
 .op__link,
 .st-footer a {
   display: inline-flex;
@@ -2352,4 +2583,178 @@ html.pt-inner * {
 }
 .st-wait--canvas .label {
   color: inherit;
+}
+
+/* ============================== Entrances (Team and Papers) ============================== */
+
+/* README Motion: a source's metadata resolves in after it appears; a sticker fades and
+   drifts in 8-12px once, 300-400ms; nothing bounces; reduced motion cuts to the end.
+   Every entrance below fills backwards only, so once it ends the page's own styles
+   (and on /team the scroll story's inline transforms) take over untouched. */
+@keyframes st-sticker-drift {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+}
+@keyframes st-card-settle {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+}
+@keyframes st-fade {
+  from {
+    opacity: 0;
+  }
+}
+/* Hidden until it starts, so a round cap never shows as a dot at the start of an undrawn line. */
+@keyframes st-draw {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+}
+/* scale, not transform: the node ellipses keep their own rotate() attribute. */
+@keyframes st-unfold {
+  from {
+    opacity: 0;
+    scale: 0.15;
+  }
+}
+@keyframes st-reach {
+  from {
+    clip-path: inset(0 50% 0 50%);
+  }
+}
+@keyframes op-card-deal {
+  from {
+    opacity: 0;
+    translate: 28px 36px;
+    scale: 1.06;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Papers: the heading rises in line by line, then its sticker drifts in. */
+  .st-pagehead--enter .st-block > * {
+    animation: st-hero-rise 460ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+  .st-pagehead--enter .st-block > :nth-child(2) {
+    animation-delay: 70ms;
+  }
+  .st-pagehead--enter .st-block > :nth-child(3) {
+    animation-delay: 140ms;
+  }
+  .st-pagehead--enter > .ml-sticker {
+    animation: st-sticker-drift 380ms ease-out 360ms backwards;
+  }
+
+  /* The pair: each card (with its sheet) lifts a few pixels into place in order, from the
+     last one when scrolled back up to; then its sticker drifts in, its links resolve, and
+     the shared-author bracket draws out from its note to both cards. */
+  .st-papers__pair.is-waiting .st-paper-item,
+  .st-papers__pair.is-waiting .st-papers__link {
+    opacity: 0;
+  }
+  .st-papers__pair.is-in .st-paper-item {
+    --at: calc(120ms + var(--i) * 110ms);
+    animation: st-card-settle 460ms cubic-bezier(0.16, 1, 0.3, 1) var(--at) backwards;
+  }
+  .st-papers__pair.is-in.is-from-above .st-paper-item {
+    --at: calc(120ms + (var(--n, 1) - 1 - var(--i)) * 110ms);
+  }
+  .st-papers__pair.is-in .st-paper-card__sticker {
+    animation: st-sticker-drift 360ms ease-out calc(var(--at) + 240ms) backwards;
+  }
+  .st-papers__pair.is-in .st-paper-card__foot {
+    animation: st-fade 260ms ease-out calc(var(--at) + 320ms) backwards;
+  }
+  .st-papers__pair.is-in .st-papers__shared {
+    animation: st-fade 240ms ease-out 520ms backwards;
+  }
+  .st-papers__pair.is-in .st-papers__link::before {
+    animation: st-reach 320ms cubic-bezier(0.16, 1, 0.3, 1) 620ms backwards;
+  }
+  .st-papers__pair.is-in .st-papers__link::after,
+  .st-papers__pair.is-in .st-papers__dot {
+    animation: st-fade 200ms ease-out 860ms backwards;
+  }
+
+  /* The bloom draws itself once the heading has risen: the stem, then the branches, the
+     leaves unfold, the dashed edges appear, the node heads open from the focal one out,
+     and last the two numbered notes are written in. Under a second and a half in all. */
+  .st-bloom.is-waiting svg {
+    opacity: 0;
+  }
+  .st-bloom.is-in .st-bloom__stem,
+  .st-bloom.is-in .st-bloom__branch,
+  .st-bloom.is-in .st-bloom__leader {
+    stroke-dasharray: 1;
+  }
+  .st-bloom.is-in .st-bloom__stem {
+    animation: st-draw 380ms ease-out 260ms backwards;
+  }
+  .st-bloom.is-in .st-bloom__branch {
+    animation: st-draw 280ms ease-out 480ms backwards;
+  }
+  .st-bloom.is-in .st-bloom__leaf,
+  .st-bloom.is-in .st-bloom__node {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .st-bloom.is-in .st-bloom__leaf {
+    animation: st-unfold 280ms cubic-bezier(0.16, 1, 0.3, 1) 520ms backwards;
+  }
+  .st-bloom.is-in .st-bloom__leaf + .st-bloom__leaf {
+    animation-delay: 580ms;
+  }
+  .st-bloom.is-in .st-bloom__edge {
+    animation: st-fade 220ms ease-out 700ms backwards;
+  }
+  .st-bloom.is-in .st-bloom__node {
+    animation: st-unfold 300ms cubic-bezier(0.16, 1, 0.3, 1) 720ms backwards;
+  }
+  .st-bloom.is-in .st-bloom__node:nth-of-type(2) {
+    animation-delay: 800ms;
+  }
+  .st-bloom.is-in .st-bloom__node:nth-of-type(3) {
+    animation-delay: 860ms;
+  }
+  .st-bloom.is-in .st-bloom__leader {
+    animation: st-draw 240ms ease-out 1000ms backwards;
+  }
+  .st-bloom.is-in .st-bloom__note,
+  .st-bloom.is-in .st-bloom__tip,
+  .st-bloom.is-in .st-bloom__label {
+    animation: st-fade 220ms ease-out 1160ms backwards;
+  }
+
+  /* Team: the introduction rises in line by line; on the desktop story the portraits are
+     then laid onto the paper one after another into their scattered places, and the
+     stickers drift in last. Phones keep their own per-person arrival (.is-revealing). */
+  .op__intro > * {
+    animation: st-hero-rise 480ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+  .op__intro > :nth-child(2) {
+    animation-delay: 80ms;
+  }
+  .op__intro > :nth-child(3) {
+    animation-delay: 160ms;
+  }
+  .op__intro > :nth-child(4) {
+    animation-delay: 240ms;
+  }
+  .op.is-story .op__card {
+    animation: op-card-deal 560ms cubic-bezier(0.16, 1, 0.3, 1) calc(260ms + var(--i, 0) * 90ms) backwards;
+  }
+  .op__sticker .ml-sticker {
+    animation: st-sticker-drift 380ms ease-out 760ms backwards;
+  }
+  .op__sticker--cluster .ml-sticker {
+    animation-delay: 880ms;
+  }
 }

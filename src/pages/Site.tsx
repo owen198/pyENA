@@ -2,12 +2,11 @@
 // scroll, the footer, and the Team and Papers pages it links to.
 
 import { useEffect, useId, useState, type MouseEvent, type ReactNode } from "react";
-import { OUR_PAPERS, type Paper } from "../content/site";
 import { PYENA_COMMIT } from "../engine/version";
 import { Link, navigate, useLocation } from "../router";
 import { useSession } from "../state/session";
 import { DemoTag, LibraryLink, ThemeMenu } from "../components/Chrome";
-import { ArrowIcon, Logo } from "../ui/marks";
+import { Logo } from "../ui/marks";
 import { NodeClusterSticker } from "../ui/stickers";
 import { OurPeople } from "./OurPeople";
 
@@ -205,8 +204,31 @@ export function SiteFooter() {
 // Team and Papers
 // ---------------------------------------------------------------------------
 
-/** A page of the canvas register: a light wash heading, then the content on paper. */
-export function SitePage({ eyebrow, title, lead, children }: { eyebrow: string; title: string; lead: string; children: ReactNode }) {
+/**
+ * A page of the canvas register: a light wash heading, then the content on paper.
+ * With `entrance`, the heading rises in on load and its sticker drifts in after it.
+ * With `seam`, that drawing replaces the corner sticker and sits across the
+ * heading's lower edge, half on the wash and half on the paper below.
+ * With `grid`, the wash carries the canvas register's live plot grid, the
+ * notebook lines scrolling right to left (never used behind real data).
+ */
+export function SitePage({
+  eyebrow,
+  title,
+  lead,
+  entrance = false,
+  seam,
+  grid = false,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  lead: ReactNode;
+  entrance?: boolean;
+  seam?: ReactNode;
+  grid?: boolean;
+  children: ReactNode;
+}) {
   const titleId = useId();
   // A statement, not an expression: scrollTo returns a Promise in newer browsers,
   // and an effect may only return a clean-up function.
@@ -220,8 +242,10 @@ export function SitePage({ eyebrow, title, lead, children }: { eyebrow: string; 
       </a>
       <SiteNav />
       <main aria-labelledby={titleId}>
-        <header className="ml-canvas ml-canvas--blue st-pagehead">
-          <NodeClusterSticker className="ml-sticker--lg st-pagehead__sticker" />
+        <header
+          className={`ml-canvas ml-canvas--blue st-pagehead${entrance ? " st-pagehead--enter" : ""}${seam ? " st-pagehead--seam" : ""}${grid ? " ml-canvas--grid" : ""}`}
+        >
+          {!seam && <NodeClusterSticker className="ml-sticker--lg st-pagehead__sticker" />}
           <div className="st-block">
             <p className="metadata pf-ink-secondary">{eyebrow}</p>
             <h1 className="st-pagehead__title" id={titleId}>
@@ -230,6 +254,7 @@ export function SitePage({ eyebrow, title, lead, children }: { eyebrow: string; 
             <p className="body-lg st-lead">{lead}</p>
           </div>
         </header>
+        {seam && <div className="st-seam">{seam}</div>}
         <section className="st-section" id="content">
           <div className="st-block">{children}</div>
         </section>
@@ -262,55 +287,5 @@ export function TeamPage() {
       </main>
       <SiteFooter />
     </div>
-  );
-}
-
-export function PapersPage() {
-  return (
-    <SitePage
-      eyebrow="Papers"
-      title="Papers"
-      lead="Papers by the IdeaLens team."
-    >
-      <div className="st-papers">
-        <h2 className="st-h3">Our papers</h2>
-        <ol className="st-paper-list">
-          {OUR_PAPERS.map((paper) => (
-            <PaperEntry key={paper.title} paper={paper} />
-          ))}
-        </ol>
-      </div>
-    </SitePage>
-  );
-}
-
-function PaperEntry({ paper }: { paper: Paper }) {
-  return (
-    <li className="st-paper">
-      <span className="small">
-        {paper.authors} ({paper.year})
-      </span>
-      <p className="st-paper__title">{paper.title}</p>
-      <span className="metadata pf-ink-secondary">
-        {paper.venue}
-        {paper.pages ? ` / ${paper.pages}` : ""}
-      </span>
-      {paper.note && <p className="small pf-note">{paper.note}</p>}
-      {(paper.doi || paper.url) && (
-        <span className="st-paper__links">
-          <a
-            className="small"
-            href={paper.doi ? `https://doi.org/${paper.doi}` : paper.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {paper.doi ? `doi.org/${paper.doi}` : paper.url!.replace(/^https?:\/\//, "")}
-            <ArrowIcon size={14} className="pf-icon--out" />
-            <span className="pf-visually-hidden">, opens in a new tab</span>
-          </a>
-          {paper.openAccess && <span className="ml-tag">Open access</span>}
-        </span>
-      )}
-    </li>
   );
 }

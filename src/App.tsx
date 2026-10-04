@@ -1,7 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import type { ProjectSummary } from "../shared/api";
 import { api } from "./api/client";
-import { PapersPage, TeamPage } from "./pages/Site";
+import { TeamPage } from "./pages/Site";
+import { PapersPage } from "./pages/Papers";
 import { StoryStage, type StageId } from "./pages/landing/StoryStage";
 import { hasHandoff, peekHandoffName } from "./state/handoff";
 import { AppNav, ThemePrompt } from "./components/Chrome";

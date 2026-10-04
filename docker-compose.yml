@@ -19,6 +19,10 @@ services:
       ALLOW_SIGNUP: ${ALLOW_SIGNUP:-true}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-}
+      # Used when ANTHROPIC_API_KEY is empty. The values come from the server's own
+      # .env next to this file; the image never contains them (.dockerignore).
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
     depends_on:
       - mongo
     restart: unless-stopped

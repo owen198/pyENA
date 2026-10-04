@@ -632,7 +632,16 @@ Where this build differs from the plan:
   - The consent drawing loops: three connections from the team draw themselves
     to "you" in turn (4.8 seconds each, one arriving every 1.6), hold and fade,
     while the nodes bloom on the same 3.2-second breath.
-  - Under reduced motion both are still.
+  - On the Papers page a Network bloom drawing sits across the heading's lower
+    edge and draws itself in once when the heading arrives (stem, branches,
+    leaves, edges, node heads, then two numbered notes for papers 01 and 02;
+    about 1.4 seconds), and again each time it scrolls back into view. It
+    never loops or moves at rest.
+  - Under reduced motion all of these are still.
+- The Papers brief asked for a very soft shadow under the paper cards and a
+  slight parallax on their pictures. The design-system README allows one
+  shadow (modals) and no sticker parallax, so the cards get a second offset
+  sheet drawn with the same hairline instead, and the pictures stay still.
 - The plan's monospace code block, its metadata-styled "Select all binary"
   button, its number-beside-title rail headings and its two-accent stale bar
   were changed to follow the design-system README.

@@ -30,7 +30,16 @@ export interface Paper {
   openAccess?: boolean;
   /** One sentence on why it is here. */
   note?: string;
+  /**
+   * The card's picture, drawn from the design system: a sticker (one of the
+   * analysis's own objects, so pick the one the paper is about) on a light
+   * wash. Left out, the Papers page picks one by the paper's place in the list.
+   */
+  thumbnail?: { sticker: PaperSticker; field: "blue" | "red" | "paper" };
 }
+
+/** The stickers a paper card can carry (src/ui/stickers.tsx). */
+export type PaperSticker = "network-bloom" | "node-cluster" | "coded-talk" | "stanza-window" | "projected-points";
 
 /** Where everyone on the team is from. */
 export const NCCU = "National Chengchi University";
@@ -53,6 +62,8 @@ export const OUR_PAPERS: Paper[] = [
     venue: "arXiv preprint arXiv:2603.03307",
     doi: "10.48550/arXiv.2603.03307",
     openAccess: true,
+    // Automated coding of talk: the coded-talk sticker.
+    thumbnail: { sticker: "coded-talk", field: "blue" },
   },
   {
     authors: "Dávalos Vega, S. M., Chuang, K.-Z., Lopez Lorenzana, M. M., Tseng, Y., & Lu, O. H. T.",
@@ -60,6 +71,8 @@ export const OUR_PAPERS: Paper[] = [
     title: "The influence of digital self-efficacy on students' learning outcomes in a programming course",
     venue: "ICLEA 2026: 2nd International Conference on Learning Evidence and Analytics",
     url: "https://library.apsce.net/index.php/ICLEA/article/view/6307",
+    // Students placed by their measures: the projected-points sticker.
+    thumbnail: { sticker: "projected-points", field: "red" },
   },
 ];
 
