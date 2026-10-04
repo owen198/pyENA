@@ -2,14 +2,14 @@
 // scroll, the footer, and the Team and Papers pages it links to.
 
 import { useEffect, useId, useState, type MouseEvent, type ReactNode } from "react";
-import { METHOD_PAPERS, OUR_PAPERS, OUR_PAPERS_PLACES, TEAM, type Paper } from "../content/site";
+import { OUR_PAPERS, type Paper } from "../content/site";
 import { PYENA_COMMIT } from "../engine/version";
 import { Link, navigate, useLocation } from "../router";
 import { useSession } from "../state/session";
 import { DemoTag, LibraryLink, ThemeMenu } from "../components/Chrome";
-import { pad } from "../steps";
 import { ArrowIcon, Logo } from "../ui/marks";
 import { NodeClusterSticker } from "../ui/stickers";
+import { OurPeople } from "./OurPeople";
 
 /** Sections of the landing page, in the order the page tells its story. */
 export const LANDING_SECTIONS = [
@@ -240,30 +240,28 @@ export function SitePage({ eyebrow, title, lead, children }: { eyebrow: string; 
 }
 
 export function TeamPage() {
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, []);
   return (
-    <SitePage eyebrow="Team" title="Meet the team" lead="The people building IdeaLens.">
-      <ul className="st-team">
-        {TEAM.map((member, index) => (
-          <li key={index} className="ml-card st-member">
-            <span className="metadata pf-ink-secondary">Member {pad(index + 1)}</span>
-            <h2 className={`st-member__name${member.name ? "" : " is-empty"}`}>{member.name ?? "To be added"}</h2>
-            <p className="small">{member.role ?? <span className="pf-note">Role to be added</span>}</p>
-            <p className="small pf-note">{member.affiliation ?? "Affiliation to be added"}</p>
-            {member.url && (
-              <a className="small" href={member.url} target="_blank" rel="noopener noreferrer">
-                Profile
-                <ArrowIcon size={14} className="pf-icon--out" />
-                <span className="pf-visually-hidden">, opens in a new tab</span>
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
-      <p className="small st-credit">
-        The analysis itself is the pyENA library by owen198, run unchanged at commit {PYENA_COMMIT.slice(0, 7)}.{" "}
-        <LibraryLink>See the library</LibraryLink>
-      </p>
-    </SitePage>
+    <div className="st-page">
+      <a className="pf-skip" href="#after-people">
+        Skip past the team
+      </a>
+      <SiteNav />
+      <main>
+        <OurPeople />
+        <section className="st-section st-after-people" id="after-people">
+          <div className="st-block">
+            <p className="small st-credit">
+              The analysis itself is the pyENA library by owen198, run unchanged at commit {PYENA_COMMIT.slice(0, 7)}.{" "}
+              <LibraryLink>See the library</LibraryLink>
+            </p>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
 
@@ -272,30 +270,15 @@ export function PapersPage() {
     <SitePage
       eyebrow="Papers"
       title="Papers"
-      lead="Our own papers, and the method the platform runs and the guide its interpretation follows."
+      lead="Papers by the IdeaLens team."
     >
       <div className="st-papers">
-        <div>
-          <h2 className="st-h3">Our papers</h2>
-          <ol className="st-paper-list">
-            {OUR_PAPERS.length > 0
-              ? OUR_PAPERS.map((paper) => <PaperEntry key={paper.title} paper={paper} />)
-              : Array.from({ length: OUR_PAPERS_PLACES }, (_, index) => (
-                  <li key={index} className="st-paper is-empty">
-                    <span className="metadata pf-ink-secondary">Paper {pad(index + 1)}</span>
-                    <p className="st-paper__title">To be added</p>
-                  </li>
-                ))}
-          </ol>
-        </div>
-        <div>
-          <h2 className="st-h3">The method behind pyENA</h2>
-          <ol className="st-paper-list">
-            {METHOD_PAPERS.map((paper) => (
-              <PaperEntry key={paper.title} paper={paper} />
-            ))}
-          </ol>
-        </div>
+        <h2 className="st-h3">Our papers</h2>
+        <ol className="st-paper-list">
+          {OUR_PAPERS.map((paper) => (
+            <PaperEntry key={paper.title} paper={paper} />
+          ))}
+        </ol>
       </div>
     </SitePage>
   );
@@ -313,10 +296,15 @@ function PaperEntry({ paper }: { paper: Paper }) {
         {paper.pages ? ` / ${paper.pages}` : ""}
       </span>
       {paper.note && <p className="small pf-note">{paper.note}</p>}
-      {paper.doi && (
+      {(paper.doi || paper.url) && (
         <span className="st-paper__links">
-          <a className="small" href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer">
-            doi.org/{paper.doi}
+          <a
+            className="small"
+            href={paper.doi ? `https://doi.org/${paper.doi}` : paper.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {paper.doi ? `doi.org/${paper.doi}` : paper.url!.replace(/^https?:\/\//, "")}
             <ArrowIcon size={14} className="pf-icon--out" />
             <span className="pf-visually-hidden">, opens in a new tab</span>
           </a>

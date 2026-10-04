@@ -5,7 +5,12 @@
 export interface TeamMember {
   name: string | null;
   role: string | null;
-  affiliation: string | null;
+  /** Shown under the role when set; left out otherwise. */
+  affiliation?: string | null;
+  /** A few sentences about them, in their own words; shown when set, never invented to fill the space. */
+  bio?: string;
+  /** A portrait in public/people, as "/people/name.jpg"; optional. */
+  photo?: string;
   /** A page about them (a profile, a lab page); optional. */
   url?: string;
 }
@@ -20,56 +25,41 @@ export interface Paper {
   pages?: string;
   /** Without the https://doi.org/ prefix. */
   doi?: string;
+  /** Where to read it when there is no DOI. */
+  url?: string;
   openAccess?: boolean;
   /** One sentence on why it is here. */
   note?: string;
 }
 
-/** The team building the platform: to be added. */
+/** Where everyone on the team is from. */
+export const NCCU = "National Chengchi University";
+
+/** The team building the platform, in the order the Team page introduces them. */
 export const TEAM: TeamMember[] = [
-  { name: null, role: null, affiliation: null },
-  { name: null, role: null, affiliation: null },
-  { name: null, role: null, affiliation: null },
+  { name: "Owen (Hsin-Tse) Lu", role: "Co-founder & CEO", affiliation: NCCU, photo: "/people/owen.jpg" },
+  { name: "Nessa (Linh Nhi) Hoang", role: "Co-founder & Product CTO", affiliation: NCCU, photo: "/people/nessa.jpg" },
+  { name: "Susan Milagros Dávalos Vega", role: "Co-founder & CPO", affiliation: NCCU, photo: "/people/susan.jpg" },
+  { name: "Ruby (Chin-Ju) Lin", role: "Co-founder & Technical Support Lead", affiliation: NCCU, photo: "/people/ruby.jpg" },
+  { name: "Joe K.Z. CHUANG", role: "Business Development", affiliation: NCCU, photo: "/people/joe.jpg" },
 ];
 
-/** Papers the team publishes: to be added. */
-export const OUR_PAPERS: Paper[] = [];
-
-/** How many empty places "Our papers" shows until it has entries. */
-export const OUR_PAPERS_PLACES = 2;
-
-/** The method the platform runs, and the guide its interpretation follows. */
-export const METHOD_PAPERS: Paper[] = [
+/** The team's own papers, the only ones the Papers page shows. */
+export const OUR_PAPERS: Paper[] = [
   {
-    authors: "Tan, Y., Swiecki, Z., Ruis, A. R., & Shaffer, D.",
-    year: 2024,
-    title: "Epistemic network analysis and ordered network analysis in learning analytics",
-    venue: "In M. Saqr & S. López-Pernas (Eds.), Learning analytics methods and tutorials (Springer)",
-    pages: "pp. 569–636",
-    doi: "10.1007/978-3-031-54464-4_18",
+    authors: "Lu, O. H. T., & Hsu, T. T. Y.",
+    year: 2026,
+    title: "TopicENA: Enabling epistemic network analysis at scale through automated topic-based coding",
+    venue: "arXiv preprint arXiv:2603.03307",
+    doi: "10.48550/arXiv.2603.03307",
     openAccess: true,
-    note: "A step-by-step tutorial on the method, from coded data to networks, statistics and interpretation.",
   },
   {
-    authors: "Shaffer, D. W., Collier, W., & Ruis, A. R.",
-    year: 2016,
-    title:
-      "A tutorial on epistemic network analysis: Analyzing the structure of connections in cognitive, social, and interaction data",
-    venue: "Journal of Learning Analytics, 3(3)",
-    pages: "pp. 9–45",
-    doi: "10.18608/jla.2016.33.3",
-    openAccess: true,
-    note: "One of the two sources pyENA's interpretation guide follows.",
-  },
-  {
-    authors: "Shaffer, D. W., & Ruis, A. R.",
-    year: 2017,
-    title: "Epistemic network analysis: A worked example of theory-based learning analytics",
-    venue: "In C. Lang, G. Siemens, A. Wise, & D. Gašević (Eds.), Handbook of learning analytics (SoLAR)",
-    pages: "pp. 175–187",
-    doi: "10.18608/hla17.015",
-    openAccess: true,
-    note: "The other source pyENA's interpretation guide follows.",
+    authors: "Dávalos Vega, S. M., Chuang, K.-Z., Lopez Lorenzana, M. M., Tseng, Y., & Lu, O. H. T.",
+    year: 2026,
+    title: "The influence of digital self-efficacy on students' learning outcomes in a programming course",
+    venue: "ICLEA 2026: 2nd International Conference on Learning Evidence and Analytics",
+    url: "https://library.apsce.net/index.php/ICLEA/article/view/6307",
   },
 ];
 

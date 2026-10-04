@@ -17,6 +17,7 @@ const recent = new Map<string, number[]>();
 function tooMany(req: Request): boolean {
   const key = req.ip ?? "unknown";
   const now = Date.now();
+  for (const [address, list] of recent) if (list.every((time) => now - time >= 60 * 60 * 1000)) recent.delete(address);
   const times = (recent.get(key) ?? []).filter((time) => now - time < 60 * 60 * 1000);
   times.push(now);
   recent.set(key, times);

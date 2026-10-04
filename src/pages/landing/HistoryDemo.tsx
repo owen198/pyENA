@@ -1,10 +1,11 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import type { ProjectSummary } from "../../../shared/api";
 import { api } from "../../api/client";
 import { REPOSITORY_SAMPLES } from "../../data/samples";
 import { Link, navigate } from "../../router";
 import { setHandoff } from "../../state/handoff";
 import { useSession } from "../../state/session";
+import { useArrival } from "../../ui/useArrival";
 
 const date = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
@@ -99,47 +100,4 @@ export function HistoryDemo() {
       </div>
     </section>
   );
-}
-
-/**
- * The section arrives every time it comes into view, scrolling down or up:
- * once it has left the screen entirely it resets, and it arrives again from
- * the side it is entered from. Until the page's script has run it is simply
- * shown (no class at all); under reduced motion, or without
- * IntersectionObserver, it stays at rest.
- */
-function useArrival() {
-  const ref = useRef<HTMLElement>(null);
-  const [state, setState] = useState<"" | " is-waiting" | " is-in" | " is-in is-from-above">("");
-  useEffect(() => {
-    const element = ref.current;
-    if (!element || typeof IntersectionObserver === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    // Already on screen (a reload part-way down the page): shown as it is, and arrives on the next visit.
-    const box = element.getBoundingClientRect();
-    if (!(box.top < window.innerHeight && box.bottom > 0)) setState(" is-waiting");
-
-    // In: well inside the window, from below (scrolling down) or from above (scrolling up).
-    const enter = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const fromAbove = entry.boundingClientRect.top < 0;
-          setState((current) => (current === " is-waiting" ? (fromAbove ? " is-in is-from-above" : " is-in") : current));
-        }
-      },
-      { rootMargin: "-18% 0px -18% 0px" },
-    );
-    // Out: no longer on screen at all, so the next visit plays it again.
-    const leave = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => !entry.isIntersecting)) setState(" is-waiting");
-    });
-    enter.observe(element);
-    leave.observe(element);
-    return () => {
-      enter.disconnect();
-      leave.disconnect();
-    };
-  }, []);
-  return { ref, state };
 }

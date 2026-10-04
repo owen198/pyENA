@@ -132,7 +132,12 @@ were not built here (no Docker on this machine).
 listed:
 
 1. **Hero.** The line as the one statement, one sentence,
-   and the waitlist (an address and **Join the waitlist**).
+   and the waitlist (an address and **Join the waitlist**). On load the line is
+   typed out letter by letter, and its last word flips through *meet*, *link*
+   and *relate* to land on *connect*, a step closer each time; the rest of the
+   hero rises in as the typing finishes and the stickers settle around it. It
+   plays once and rests (pure CSS, `HeroTitle.tsx`); screen readers get the
+   plain sentence, and under reduced motion it is simply "See how ideas connect."
 2. **How it works** (`#showcase`). One real network, carried by the scroll
    through six chapters: **01 Ideas** (RS.data's six codes, each on its own),
    **02 Connect** (connections draw in, by weight), **03 Understand** (the codes
@@ -164,7 +169,10 @@ listed:
    above and bottom row first when scrolling up. Once it has left the screen it
    resets for the next visit (shown at rest under reduced motion).
 5. **Waitlist** (`#waitlist`). The same list as the hero's, beside the team
-   connecting to "you"; joining in one place shows as joined in both.
+   connecting to "you"; joining in one place shows as joined in both. Like
+   History and the How it works heading, it arrives each time it scrolls into
+   view (the drawing from the left, the form from the right), and is shown at
+   rest under reduced motion.
 6. **Footer.** The line, the sections, **Privacy Policy** and **Terms of
    Service**.
 
@@ -274,9 +282,17 @@ waitlist, Write with Claude, the CDN, browser storage). The contact address
 reads "to be added" until `CONTACT_EMAIL` in `src/content/site.ts` is set.
 
 **Team and Papers** (`/team`, `/papers`). Their own pages, from
-`src/content/site.ts`: the team and "Our papers" show as "To be added" until that
-file is filled in, and "The method behind pyENA" cites Tan, Swiecki, Ruis and
-Shaffer (2024) and the two Shaffer papers pyENA's interpretation guide follows.
+`src/content/site.ts`. The Team page is **Our people** (`OurPeople.tsx`): on
+paper with the plot grid, the introduction beside everyone's card laid loosely on
+the desk; scrolling, each person comes into focus in turn (their card to the
+middle, name, role and NCCU beside it, the others waiting at the edges), and after
+the last the cards gather into one row above "Keep in touch with us" and the
+waitlist (the same list as the landing page's), which hold before the page
+carries on. Tabbing into a person or the waitlist scrolls the story to it. Phones and reduced
+motion get the same people in order, portrait first. Portraits are in
+`public/people/`; a person's `bio` shows only once it is written there. The Papers
+page shows only the team's own papers (`OUR_PAPERS` in `src/content/site.ts`):
+Lu & Hsu (2026), TopicENA on arXiv, and Dávalos Vega et al. (2026) at ICLEA 2026.
 
 **Product news, by consent.** Signed in, the consent goes on the account
 (`PUT` / `DELETE /api/me/news`). Until an account has agreed, IdeaLens asks

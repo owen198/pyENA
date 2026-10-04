@@ -8,6 +8,14 @@ import express from "express";
 import { createApi } from "./app.ts";
 import { config } from "./config.ts";
 
+// A crash should say why in the host's log. An unhandled rejection already
+// ends the process (Node's default); this only makes sure the reason is logged.
+process.on("unhandledRejection", (reason) => console.error("Unhandled rejection:", reason));
+process.on("uncaughtException", (error) => {
+  console.error("Uncaught exception:", error);
+  process.exit(1);
+});
+
 const dist = resolve(process.cwd(), "dist");
 if (!existsSync(resolve(dist, "index.html"))) {
   console.error("dist/ is missing. Run `npm run build` first.");

@@ -146,6 +146,168 @@
 .st-hero .ml-hero__sub {
   font-size: 18px;
 }
+
+/* The hero arrives once, on load. The statement is typed letter by letter behind a
+   single caret (HeroTitle.tsx times it); its last word then flips through meet,
+   link and relate to land on connect, a step closer each time. The rest rises in as
+   the typing finishes, and the stickers settle in around it. Nothing loops: it plays
+   once and rests, and reduced motion cuts to the end state (the sentence, on connect). */
+.st-type {
+  --flip: 420ms;
+  --hold: 380ms; /* a word's rest between flips */
+  --flip-step: calc(var(--flip) + var(--hold));
+  --flip-ease: cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+.st-type__word {
+  display: inline-block;
+  white-space: nowrap;
+}
+/* Letters keep their place from the start (hidden, not removed), so nothing moves as they appear. */
+.st-type__ch {
+  position: relative;
+  display: inline-block;
+  visibility: hidden;
+}
+.st-type__ch.is-on {
+  visibility: visible;
+}
+/* One caret, after the letter just typed: the height of the capitals, on the baseline. */
+.st-type__caret {
+  position: absolute;
+  left: 100%;
+  bottom: 0.2em;
+  width: 0.04em;
+  height: 0.66em;
+  margin-left: 0.02em;
+  background: currentColor;
+}
+/* When the last letter is in, it blinks once before the first flip. */
+.st-type__caret.is-resting {
+  animation: st-caret-rest 450ms steps(1) both;
+}
+@keyframes st-caret-rest {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  45.1%,
+  70% {
+    opacity: 0;
+  }
+  70.1%,
+  100% {
+    opacity: 1;
+  }
+}
+/* The flipping word: every candidate sits in one cell, so the slot is as wide as
+   the widest ("connect.") and the line never moves as the words turn over. */
+.st-flip {
+  display: inline-grid;
+}
+.st-flip__word {
+  grid-area: 1 / 1;
+  text-align: center;
+  opacity: 0;
+  transform-origin: 50% 55%;
+  backface-visibility: hidden;
+}
+.st-flip__word--typed {
+  opacity: 1;
+}
+/* The flip starts when .is-flipping is set, a pause after the last letter. */
+.is-flipping .st-flip__word--typed {
+  animation: st-flip-out var(--flip) var(--flip-ease) forwards;
+}
+.is-flipping .st-flip__word--mid {
+  animation:
+    st-flip-in var(--flip) var(--flip-ease) calc((var(--k) - 1) * var(--flip-step)) both,
+    st-flip-out var(--flip) var(--flip-ease) calc(var(--k) * var(--flip-step)) forwards;
+}
+.is-flipping .st-flip__word--final {
+  animation: st-flip-in var(--flip) var(--flip-ease) calc((var(--k) - 1) * var(--flip-step)) both;
+}
+@keyframes st-flip-in {
+  from {
+    opacity: 0;
+    transform: perspective(700px) rotateX(-88deg) translateY(-0.14em);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(700px) rotateX(0) translateY(0);
+  }
+}
+@keyframes st-flip-out {
+  from {
+    opacity: 1;
+    transform: perspective(700px) rotateX(0) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: perspective(700px) rotateX(88deg) translateY(0.14em);
+  }
+}
+/* The rest of the hero follows the typing. */
+.st-hero__body > :not(.st-hero__title) {
+  animation: st-hero-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.st-hero__body > :nth-child(2) {
+  animation-delay: 1100ms;
+}
+.st-hero__body > :nth-child(3) {
+  animation-delay: 1250ms;
+}
+.st-hero__body > :nth-child(4) {
+  animation-delay: 1400ms;
+}
+/* The stickers use translate and scale, not transform, so their tilt stays. */
+.st-hero > .ml-sticker {
+  animation: st-sticker-in 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.st-hero__bloom {
+  animation-delay: 250ms;
+}
+.st-hero__cluster {
+  animation-delay: 450ms;
+}
+.st-hero__finding {
+  animation-delay: 1500ms;
+}
+@keyframes st-hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@keyframes st-sticker-in {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+    scale: 0.92;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-type__ch {
+    visibility: visible;
+  }
+  .st-type__caret {
+    display: none;
+  }
+  .st-flip__word--typed {
+    opacity: 0;
+    animation: none;
+  }
+  .st-flip__word--mid {
+    animation: none;
+  }
+  .st-flip__word--final {
+    opacity: 1;
+    animation: none;
+  }
+  .st-hero__body > :not(.st-hero__title),
+  .st-hero > .ml-sticker {
+    animation: none;
+  }
+}
 .st-hero__more {
   margin-top: var(--space-4);
 }
@@ -675,6 +837,62 @@
   }
 }
 
+/* Sections that arrive as they scroll into view (useArrival), each time they do, from
+   the side they are entered from: the children rise into place in order. The closing
+   section's drawing comes in from the left and its form from the right. Reduced
+   motion shows them as they are. */
+.st-rise {
+  --arrive-dy: 1;
+}
+.st-rise.is-from-above {
+  --arrive-dy: -1;
+}
+.st-rise.is-waiting > * {
+  opacity: 0;
+}
+.st-rise.is-in > * {
+  animation: st-arrive-rise 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.st-rise.is-in > :nth-child(2) {
+  animation-delay: 80ms;
+}
+.st-rise.is-in > :nth-child(3) {
+  animation-delay: 160ms;
+}
+.st-rise.is-in > :nth-child(4) {
+  animation-delay: 240ms;
+}
+.st-connect {
+  overflow-x: clip;
+}
+.st-rise--sides.is-in > :first-child {
+  animation-name: st-arrive-from-left;
+  animation-duration: 760ms;
+}
+.st-rise--sides.is-in > :last-child {
+  animation-name: st-arrive-from-right;
+  animation-duration: 760ms;
+  animation-delay: 140ms;
+}
+@keyframes st-arrive-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-56px);
+  }
+}
+@keyframes st-arrive-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(56px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-rise > * {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
 /* ============================== Stay connected ============================== */
 
 .st-connect__inner {
@@ -774,37 +992,339 @@
   bottom: -46px;
   transform: rotate(8deg);
 }
-.st-team {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-5);
-  margin: 0 0 var(--space-6);
-  padding: 0;
-  list-style: none;
-}
-.st-member {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-5);
-}
-.st-member__name {
-  font-family: var(--font-serif);
-  font-size: 26px;
-  line-height: 1.15;
-  font-weight: 400;
-}
-.st-member__name.is-empty {
-  color: var(--ink-secondary);
-}
 .st-credit {
   color: var(--ink-secondary);
 }
+/* ============================== Our people (/team) ============================== */
+
+/* The team, introduced one at a time by the scroll (OurPeople.tsx). On paper, in the
+   canvas register: the light textured field with its plot grid, two stickers bleeding
+   off the edges, and each person on a flat card (border, radius-md, no shadow) like a
+   print laid on a desk. Base styles are the plain flow phones and reduced motion get;
+   .is-story adds the pinned scroll story on desktop. */
+.op {
+  --op-card: min(clamp(220px, 24vw, 340px), calc((100svh - 220px) * 0.7));
+  --op-margin: max(var(--space-8), calc((100% - 1180px) / 2));
+  /* The words keep clear of the cards waiting half off each edge. */
+  --op-words-inset: max(120px, var(--op-margin));
+}
+.op__stage {
+  padding: calc(var(--space-9) + 48px) var(--space-8) var(--space-9);
+}
+.op__sticker {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+.op__sticker .ml-sticker {
+  position: static;
+}
+.op__sticker--finding {
+  top: 16%;
+  right: -14px;
+  rotate: 10deg;
+}
+.op__sticker--cluster {
+  right: -54px;
+  bottom: -48px;
+  rotate: 9deg;
+}
+.op__intro {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+}
+.op__eyebrow,
+.op__count,
+.op__of {
+  color: var(--ink-secondary);
+}
+/* The one large statement on the page, in the serif at 400 (README: Typography). */
+.op__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(64px, 10.5vw, 160px);
+  line-height: 0.86;
+  margin: var(--space-3) 0 var(--space-5);
+}
+.op__lead {
+  max-width: 40ch;
+}
+.op__count {
+  display: inline-block;
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+.op__people {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-8);
+  max-width: 1180px;
+  margin: var(--space-8) auto 0;
+  padding: 0;
+  list-style: none;
+}
+.op__person {
+  display: grid;
+  grid-template-columns: var(--op-card) minmax(0, 1fr);
+  gap: var(--space-7);
+  align-items: center;
+}
+.op__person--left {
+  grid-template-columns: minmax(0, 1fr) var(--op-card);
+}
+.op__person--left .op__card {
+  order: 2;
+}
+/* A print on the desk: flat, bordered, a little off square. */
+.op__card {
+  position: relative;
+  width: var(--op-card);
+  margin: 0;
+  padding: var(--space-3) var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  rotate: -1.5deg;
+}
+.op__person--left .op__card {
+  rotate: 1.5deg;
+}
+.op__card-index {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  color: var(--ink-secondary);
+}
+/* A short red-pen tick beside the number (README: accent, a tiny emphasis mark). */
+.op__card-index::after {
+  content: "";
+  width: 14px;
+  height: 1.5px;
+  background: var(--accent);
+  rotate: -8deg;
+}
+.op__photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+}
+.op__card-name {
+  margin-top: var(--space-3);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.2;
+}
+.op__name {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(36px, 4.4vw, 60px);
+  line-height: 1.02;
+  margin: var(--space-2) 0 var(--space-3);
+}
+.op__role {
+  margin: 0;
+}
+.op__bio {
+  max-width: 46ch;
+  margin: var(--space-4) 0 0;
+}
+.op__where {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+  color: var(--ink-secondary);
+  max-width: 32ch;
+}
+.op__mark {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.op__link {
+  margin-top: var(--space-3);
+}
+/* Phones: each person settles in as it scrolls into view (never under reduced motion). */
+.op.is-revealing .op__person {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 420ms ease,
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.op.is-revealing .op__person.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- The scroll story (desktop, motion allowed) ----
+   The track is a screen for the introduction plus most of a screen per person, one
+   for the close and half of one holding it; the stage pins while it scrolls past, and OurPeople places the cards
+   and the words from the scroll position. Positions here are only where things start. */
+.op.is-story .op__track {
+  height: calc(100vh + (var(--n) + 1.5) * 90vh);
+}
+.op.is-story .op__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding: 0;
+}
+.op.is-story .op__intro {
+  position: absolute;
+  left: var(--op-margin);
+  top: 52%;
+  translate: 0 -50%;
+  width: min(40%, 520px);
+  will-change: transform, opacity;
+}
+.op.is-story .op__people {
+  position: absolute;
+  inset: 0;
+  display: block;
+  max-width: none;
+  margin: 0;
+}
+.op.is-story .op__person {
+  position: static;
+  display: block;
+}
+.op.is-story .op__card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  rotate: none;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+.op.is-story .op__words {
+  position: absolute;
+  top: 54%;
+  translate: 0 -50%;
+  z-index: 150;
+  width: min(30%, 420px);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.op.is-story .op__person--right .op__words {
+  left: var(--op-words-inset);
+}
+.op.is-story .op__person--left .op__words {
+  right: var(--op-words-inset);
+}
+.op__rail {
+  position: absolute;
+  z-index: 3;
+  left: var(--op-margin);
+  bottom: var(--space-6);
+  display: flex;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.op__rail li {
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-secondary);
+  transition:
+    color 200ms ease,
+    border-color 200ms ease;
+}
+.op__rail li.is-current {
+  color: var(--ink);
+  border-color: var(--brand);
+}
+/* The close: under everyone gathered in one row, the line and the waitlist. In plain
+   flow it simply follows the last person. */
+.op__outro {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: var(--space-9) auto 0;
+  text-align: center;
+}
+.op__outro-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.05;
+  margin: 0 0 var(--space-5);
+}
+.op__outro .st-wait {
+  max-width: 460px;
+  margin-inline: auto;
+  text-align: left;
+}
+.op.is-story .op__outro {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  translate: -50% 0;
+  width: min(680px, calc(100% - 2 * var(--space-6)));
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.st-after-people {
+  padding-top: var(--space-8);
+}
+@media (max-width: 899px) {
+  .op__stage {
+    padding: calc(var(--space-8) + 56px) var(--space-4) var(--space-8);
+  }
+  .op__people {
+    gap: var(--space-8);
+    margin-top: var(--space-7);
+  }
+  .op__person,
+  .op__person--left {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  .op__person--left .op__card {
+    order: 0;
+  }
+  /* Smaller prints on a phone, so a person's name and role sit on screen with their portrait. */
+  .op__card {
+    width: min(62%, 220px);
+    padding: var(--space-2) var(--space-2) var(--space-3);
+  }
+  .op__card-name {
+    font-size: 15px;
+  }
+  /* Alternate sides down the page, so the column still reads as prints laid by hand. */
+  .op__person--left .op__card {
+    justify-self: end;
+  }
+  .op__sticker--cluster {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .op__rail li {
+    transition: none;
+  }
+}
+
 /* Citations as index rows, venue and pages in metadata (README: Research vocabulary). */
 .st-papers {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-8);
+  max-width: 880px;
 }
 .st-paper-list {
   margin: var(--space-4) 0 0;
@@ -834,7 +1354,7 @@
   flex-wrap: wrap;
 }
 .st-paper__links a,
-.st-member a,
+.op__link,
 .st-footer a {
   display: inline-flex;
   align-items: center;
@@ -992,7 +1512,6 @@
     font: var(--text-h3);
   }
   .st-split,
-  .st-papers,
   .st-connect__inner {
     grid-template-columns: 1fr;
     gap: var(--space-6);
@@ -1023,7 +1542,6 @@
   .st-cta__points {
     display: none;
   }
-  .st-team,
   .st-pairs,
   .st-tiles {
     grid-template-columns: 1fr;

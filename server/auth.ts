@@ -95,6 +95,8 @@ function tooManyAttempts(key: string): boolean {
   return entry !== undefined && entry.count >= 10 && entry.until > Date.now();
 }
 function recordFailure(key: string) {
+  const now = Date.now();
+  for (const [name, item] of failures) if (item.until <= now) failures.delete(name);
   const entry = failures.get(key);
   const until = Date.now() + 15 * 60 * 1000;
   failures.set(key, { count: entry && entry.until > Date.now() ? entry.count + 1 : 1, until });

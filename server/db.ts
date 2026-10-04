@@ -103,9 +103,27 @@ export async function removeFile(bucket: GridFSBucket, id: ObjectId | null) {
   }
 }
 
+/**
+ * Connect, trying again for up to a minute. A host often starts this server
+ * seconds before its database accepts connections; exiting on the first miss
+ * turns that into a restart loop (and a 502 for every visitor meanwhile).
+ */
+async function connectClient(uri: string): Promise<MongoClient> {
+  const attempts = config.mongoUri ? 12 : 1;
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await MongoClient.connect(uri, { serverSelectionTimeoutMS: 5000 });
+    } catch (error) {
+      if (attempt >= attempts) throw error;
+      console.warn(`MongoDB is not answering yet (try ${attempt} of ${attempts}); trying again in 5 seconds.`);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+  }
+}
+
 export async function connect(): Promise<Database> {
   const local = config.mongoUri ? null : await localUri();
-  const client = await MongoClient.connect(config.mongoUri ?? local!.uri);
+  const client = await connectClient(config.mongoUri ?? local!.uri);
   const db = client.db(config.mongoDb);
 
   const users = db.collection<UserDoc>("users");

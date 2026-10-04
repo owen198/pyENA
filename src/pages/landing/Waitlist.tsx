@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { api, ApiError } from "../../api/client";
 import { ConnectArt } from "../../components/ConnectArt";
 import { FlagNote } from "../../ui/primitives";
+import { useArrival } from "../../ui/useArrival";
 
 /**
  * The exact words a person agrees to by joining. The server keeps them beside
@@ -115,6 +116,11 @@ function WaitlistForm({ tone }: { tone: "canvas" | "paper" }) {
   );
 }
 
+/** At the close of the Team page, on paper under "Keep in touch with us". */
+export function PeopleWaitlist() {
+  return <WaitlistForm tone="paper" />;
+}
+
 /** Near the top: on the hero's deep canvas, under the statement. */
 export function HeroWaitlist() {
   return <WaitlistForm tone="canvas" />;
@@ -124,9 +130,10 @@ export function HeroWaitlist() {
 export function WaitlistSection() {
   const joined = useWaitlist((store) => store.state.status === "done");
   const titleId = useId();
+  const arrival = useArrival<HTMLDivElement>();
   return (
     <section className="ml-canvas ml-canvas--blue st-section st-connect" id="waitlist" aria-labelledby={titleId}>
-      <div className="st-connect__inner">
+      <div className={`st-connect__inner st-rise st-rise--sides${arrival.state}`} ref={arrival.ref}>
         <figure className="st-connect__art">
           <ConnectArt connected={joined} label="The IdeaLens team, connecting to you" />
           <figcaption className="st-connect__names">

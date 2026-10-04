@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { FindingSticker, NetworkBloomSticker, NodeClusterSticker } from "../ui/stickers";
+import { HeroTitle } from "./landing/HeroTitle";
 import { HistoryDemo } from "./landing/HistoryDemo";
 import { Research } from "./landing/Research";
 import { Showcase } from "./landing/Showcase";
@@ -36,7 +37,7 @@ export function Landing() {
           <FindingSticker className="ml-sticker--sm st-hero__finding" />
           <div className="ml-hero st-hero__body">
             <h1 className="ml-hero__title st-hero__title" id="hero-title">
-              See how ideas connect.
+              <HeroTitle />
             </h1>
             <p className="ml-hero__sub">
               Bring in coded research and watch its ideas connect: a network you can read in 2D, turn in depth, and have

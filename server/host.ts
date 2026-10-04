@@ -10,6 +10,12 @@ import { mkdirSync } from "node:fs";
 import { networkInterfaces } from "node:os";
 import { resolve } from "node:path";
 
+// This serves plain http://, so a Secure session cookie would never come back
+// from the browser and nobody could stay signed in (and HSTS would be sent over
+// HTTP). .env's COOKIE_SECURE=true belongs to the HTTPS deployment, so it is
+// overridden here; only setting it in the shell for this command keeps it.
+if (process.env.COOKIE_SECURE === undefined) process.env.COOKIE_SECURE = "false";
+
 if (!process.env.MONGODB_URI) {
   const { MongoMemoryServer } = await import("mongodb-memory-server");
   const dbPath = resolve(process.cwd(), process.env.PYENA_DATA_DIR || ".data/mongo");

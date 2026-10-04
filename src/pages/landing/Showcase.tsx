@@ -19,6 +19,7 @@ import { DEMO, NODE_WEIGHT } from "../../content/demo";
 import { DEPTH, DEPTH_PAIR, distances, idea, nodeOf } from "../../content/depth";
 import { REPOSITORY_SAMPLES } from "../../data/samples";
 import { num } from "../../results/format";
+import { useArrival } from "../../ui/useArrival";
 import { scrollToSection } from "../Site";
 
 const A = DEMO.groups.a;
@@ -581,6 +582,7 @@ export function Showcase() {
   const steps = useRef<(HTMLElement | null)[]>([]);
   const drag = useRef<{ x: number; turn: number } | null>(null);
   const titleId = useId();
+  const headArrival = useArrival<HTMLDivElement>();
 
   // The reading line: the middle of the window, or just under the pinned drawing on a phone.
   useEffect(() => {
@@ -635,7 +637,7 @@ export function Showcase() {
 
   return (
     <section className="st-section st-show" id="showcase" aria-labelledby={titleId}>
-      <div className="st-block st-show__head">
+      <div className={`st-block st-show__head st-rise${headArrival.state}`} ref={headArrival.ref}>
         <p className="metadata pf-ink-secondary">How it works</p>
         <h2 className="st-h2" id={titleId}>
           Ideas, connections, depth, meaning
