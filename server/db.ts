@@ -104,36 +104,30 @@ export async function removeFile(bucket: GridFSBucket, id: ObjectId | null) {
 }
 
 /**
- * Connect, trying again for up to a minute. A host often starts this server
- * seconds before its database accepts connections; exiting on the first miss
- * turns that into a restart loop (and a 502 for every visitor meanwhile).
+ * One attempt. In production server/start.ts keeps trying while the site
+ * stays up, so a database that is late or misconfigured never takes the
+ * whole server down.
  */
-async function connectClient(uri: string): Promise<MongoClient> {
-  const attempts = config.mongoUri ? 12 : 1;
-  for (let attempt = 1; ; attempt++) {
-    try {
-      return await MongoClient.connect(uri, { serverSelectionTimeoutMS: 5000 });
-    } catch (error) {
-      if (attempt >= attempts) throw error;
-      console.warn(`MongoDB is not answering yet (try ${attempt} of ${attempts}); trying again in 5 seconds.`);
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-    }
-  }
-}
-
 export async function connect(): Promise<Database> {
   const local = config.mongoUri ? null : await localUri();
-  const client = await connectClient(config.mongoUri ?? local!.uri);
+  const client = await MongoClient.connect(config.mongoUri ?? local!.uri, { serverSelectionTimeoutMS: 5000 });
   const db = client.db(config.mongoDb);
 
   const users = db.collection<UserDoc>("users");
   const sessions = db.collection<SessionDoc>("sessions");
   const projects = db.collection<ProjectDoc>("projects");
-  await Promise.all([
-    users.createIndex({ username: 1 }, { unique: true }),
-    sessions.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }),
-    projects.createIndex({ userId: 1, updatedAt: -1 }),
-  ]);
+  try {
+    await Promise.all([
+      users.createIndex({ username: 1 }, { unique: true }),
+      sessions.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }),
+      projects.createIndex({ userId: 1, updatedAt: -1 }),
+    ]);
+  } catch (error) {
+    // Connected but not allowed to set up (a read-only user, say): do not leave the connection open.
+    await client.close();
+    await local?.stop();
+    throw error;
+  }
 
   return {
     db,

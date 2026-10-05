@@ -52,3 +52,12 @@ export async function apiText(path: string): Promise<string> {
   if (!response.ok) return fail(response, path);
   return response.text();
 }
+
+/**
+ * Tell the server's log what happened in the browser (an analysis finished,
+ * failed, or the engine did not load). Counts, timings and the error message
+ * only. Never waits, never fails the caller.
+ */
+export function report(event: { type: "analysis.done" | "analysis.failed" | "engine.failed" } & Record<string, unknown>) {
+  void send("POST", "/events", event).catch(() => undefined);
+}

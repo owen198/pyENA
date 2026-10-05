@@ -5,7 +5,9 @@
 import express, { type NextFunction, type Request, type Response } from "express";
 import { authRoutes, sessionMiddleware } from "./auth.ts";
 import { connect, type Database } from "./db.ts";
+import { eventRoutes } from "./events.ts";
 import { interpretRoutes } from "./interpret.ts";
+import { log } from "./log.ts";
 import { projectRoutes } from "./projects.ts";
 import { updateRoutes } from "./updates.ts";
 
@@ -16,6 +18,23 @@ export async function createApi(): Promise<{ app: express.Express; db: Database 
   app.set("trust proxy", 1);
 
   const api = express.Router();
+  // Every request, once answered: what, how it went, how long, for whom.
+  // Passing health checks (Docker's, every 30 s) and the browser's own
+  // reports (logged by events.ts) would only bury the rest.
+  api.use((req, res, next) => {
+    const started = performance.now();
+    res.on("finish", () => {
+      if (req.path === "/events" || (req.path === "/health" && res.statusCode === 200)) return;
+      log("api", {
+        method: req.method,
+        path: req.originalUrl.split("?")[0],
+        status: res.statusCode,
+        ms: Math.round(performance.now() - started),
+        user: req.user?.username,
+      });
+    });
+    next();
+  });
   // A 50 MB CSV travels as JSON text; allow for the encoding overhead.
   api.use(express.json({ limit: "60mb" }));
   // Mutations must come from this app's own scripts: a cross-site page cannot
@@ -43,6 +62,7 @@ export async function createApi(): Promise<{ app: express.Express; db: Database 
   api.use(projectRoutes(db));
   api.use(interpretRoutes());
   api.use(updateRoutes(db));
+  api.use(eventRoutes());
   api.use((_req, res) => void res.status(404).json({ error: "No such endpoint." }));
   api.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
     console.error(error);

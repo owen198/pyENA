@@ -12,8 +12,7 @@
     "vendor:pyena": "sh scripts/vendor-pyena.sh",
     "sync:ds": "sh scripts/sync-design-system.sh",
     "start": "NODE_ENV=production node server/start.ts",
-    "typecheck": "tsc -b && tsc -p server",
-    "host": "npm run build && NODE_ENV=production node server/host.ts"
+    "typecheck": "tsc -b && tsc -p server"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",

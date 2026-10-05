@@ -5,6 +5,7 @@
 
 import { create } from "zustand";
 import type { CodingSchema, ConnectionThread, Interpretation, ProjectDetail } from "../../shared/api";
+import { report } from "../api/client";
 import { CancelledError, engine, EngineRequestError, type EngineStatus } from "../engine/client";
 import type { EngineError, RunPhase } from "../engine/protocol";
 import { FIGURE_STYLE, PYENA_COMMIT } from "../engine/version";
@@ -370,7 +371,10 @@ export const useStore = create<State>((set, get) => {
       });
   };
 
-  engine.subscribe((status) => set({ engine: status }));
+  engine.subscribe((status) => {
+    set({ engine: status });
+    if (status.state === "failed") report({ type: "engine.failed", error: status.message });
+  });
 
   return {
     source: null,
@@ -606,6 +610,7 @@ export const useStore = create<State>((set, get) => {
       });
       persist();
 
+      const started = performance.now();
       try {
         const output = await engine.run(
           JSON.stringify(source.table.rows),
@@ -635,6 +640,13 @@ export const useStore = create<State>((set, get) => {
           run: { status: "succeeded", phase: null, error: null },
           step: 5,
         });
+        report({
+          type: "analysis.done",
+          ms: performance.now() - started,
+          rows: source.table.rows.length,
+          codes: model.codes.length,
+          figures: Object.keys(output.figures).length,
+        });
       } catch (error) {
         if (error instanceof CancelledError) {
           // Back to ready with the configuration intact; earlier results, if any, stay (stale if changed).
@@ -652,6 +664,14 @@ export const useStore = create<State>((set, get) => {
             ? error.error
             : { kind: "engine", message: (error as Error).message, detail: null };
         set({ run: { status: "failed", phase: null, error: engineError }, result: null, svgs: {} });
+        report({
+          type: "analysis.failed",
+          ms: performance.now() - started,
+          rows: source.table.rows.length,
+          codes: model.codes.length,
+          kind: engineError.kind,
+          error: engineError.message,
+        });
       }
     },
 

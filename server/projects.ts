@@ -7,6 +7,7 @@ import { ObjectId } from "mongodb";
 import type { ProjectDetail, ProjectOutputs, ProjectPatch, ProjectSummary } from "../shared/api.ts";
 import { requireUser } from "./auth.ts";
 import { readText, removeFile, writeText, type Database, type ProjectDoc } from "./db.ts";
+import { log, mb } from "./log.ts";
 
 const MAX_NAME = 120;
 
@@ -80,13 +81,26 @@ async function applyPatch(db: Database, doc: ProjectDoc, patch: ProjectPatch) {
   } else if (patch.source === null) {
     set.dataFileId = null;
   }
+  const outputsText = patch.outputs ? JSON.stringify(patch.outputs) : null;
   if (patch.outputs !== undefined) {
-    set.outputsFileId = patch.outputs ? await writeText(db.outputs, "outputs.json", JSON.stringify(patch.outputs), doc._id) : null;
+    set.outputsFileId = outputsText ? await writeText(db.outputs, "outputs.json", outputsText, doc._id) : null;
   }
 
   await db.projects.updateOne({ _id: doc._id }, { $set: set });
   if (set.dataFileId !== undefined) await removeFile(db.datasets, doc.dataFileId);
   if (set.outputsFileId !== undefined) await removeFile(db.outputs, doc.outputsFileId ?? null);
+  // What was saved and how big: large datasets and figure sets are the
+  // heaviest work this server does.
+  const fields = Object.keys(set).filter((key) => key !== "updatedAt");
+  if (fields.length) {
+    log(patch.result ? "analysis.saved" : "project.saved", {
+      project: doc._id.toHexString(),
+      fields: fields.join(","),
+      csvMB: typeof patch.csvText === "string" ? mb(Buffer.byteLength(patch.csvText)) : undefined,
+      rows: patch.result ? patch.result.rowCount : undefined,
+      outputsMB: outputsText ? mb(Buffer.byteLength(outputsText)) : undefined,
+    });
+  }
 }
 
 export function projectRoutes(db: Database) {
@@ -126,6 +140,7 @@ export function projectRoutes(db: Database) {
       interpretations: [],
     };
     await db.projects.insertOne(doc);
+    log("project.created", { user: req.user!.username, project: doc._id.toHexString() });
     await applyPatch(db, doc, patch);
     const saved = await db.projects.findOne({ _id: doc._id });
     res.status(201).json({ project: summarize(saved!) });
@@ -191,6 +206,7 @@ export function projectRoutes(db: Database) {
         : null,
     };
     await db.projects.insertOne(copy);
+    log("project.duplicated", { user: req.user!.username, from: doc._id.toHexString(), project: id.toHexString() });
     res.status(201).json({ project: summarize(copy) });
   });
 
@@ -200,6 +216,7 @@ export function projectRoutes(db: Database) {
     await db.projects.deleteOne({ _id: doc._id });
     await removeFile(db.datasets, doc.dataFileId);
     await removeFile(db.outputs, doc.outputsFileId ?? null);
+    log("project.deleted", { user: req.user!.username, project: doc._id.toHexString() });
     res.json({ ok: true });
   });
 

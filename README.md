@@ -75,15 +75,16 @@ docker build -t pyena-platform .
 docker run -p 8787:8787 -e MONGODB_URI="mongodb+srv://…" -e COOKIE_SECURE=true pyena-platform
 ```
 
-**One machine with its own database** (a booth laptop, a lab server):
+**One machine with Docker Compose** (the live site):
 
 ```bash
 docker compose up -d
 ```
 
-This starts the platform and MongoDB together (`docker-compose.yml`). The
-database is reachable only by the platform and keeps its data in a volume.
-Open `http://<machine>:8787`.
+This starts the platform only (`docker-compose.yml`). Its one database is the
+MongoDB Atlas cluster in `MONGODB_URI`, set in a `.env` next to
+`docker-compose.yml`; no MongoDB runs on the machine. Without `MONGODB_URI`,
+`docker compose up` stops with a message. Open `http://<machine>:8787`.
 
 **Without Docker** (Node 22.18 or later):
 

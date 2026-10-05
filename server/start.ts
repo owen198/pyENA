@@ -1,15 +1,31 @@
 // Production entry: `npm run build`, then `npm start` (or the Docker image).
 // Serves the built site from dist/ and the API under /api on one port.
 
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import compression from "compression";
 import express from "express";
 import { createApi } from "./app.ts";
 import { config } from "./config.ts";
+import { installTimestamps, log, mb } from "./log.ts";
 
-// A crash should say why in the host's log. An unhandled rejection already
-// ends the process (Node's default); this only makes sure the reason is logged.
+installTimestamps();
+
+/** The container's memory limit (cgroup v2), when there is one: a stop with no error near it is often this. */
+function memoryLimit(): string {
+  try {
+    const raw = readFileSync("/sys/fs/cgroup/memory.max", "utf8").trim();
+    return raw === "max" ? "none" : `${mb(Number(raw))}MB`;
+  } catch {
+    return "unknown";
+  }
+}
+log("server.starting", { node: process.version, pid: process.pid, memoryLimit: memoryLimit() });
+process.on("exit", (code) => log("server.exit", { code, uptimeMin: Math.round(process.uptime() / 60) }));
+
+// Problems should say why in the host's log. With this handler an unhandled
+// rejection is logged and the server keeps running; an uncaught exception
+// still ends it.
 process.on("unhandledRejection", (reason) => console.error("Unhandled rejection:", reason));
 process.on("uncaughtException", (error) => {
   console.error("Uncaught exception:", error);
@@ -22,7 +38,35 @@ if (!existsSync(resolve(dist, "index.html"))) {
   process.exit(1);
 }
 
-const { app, db } = await createApi();
+const app = express();
+app.disable("x-powered-by");
+app.set("trust proxy", 1);
+
+// The server listens at once and connects to the database behind it. Waiting
+// for the database before listening meant a wrong MONGODB_URI, a changed
+// password or an Atlas IP list without this host left nothing on the port:
+// the process exited, Docker restarted it, and every visitor got a 502. Now
+// the site loads, /api answers 503, and the log says what the database said.
+let api: Awaited<ReturnType<typeof createApi>> | null = null;
+app.use((req, res, next) => {
+  if (req.path !== "/api" && !req.path.startsWith("/api/")) return next();
+  if (api) return api.app(req, res, next);
+  res.status(503).json({ ok: false, error: "The database is not connected yet. Try again in a minute." });
+});
+
+async function connectApi() {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      api = await createApi();
+      log("db.connected", { database: config.mongoDb, attempt });
+      return;
+    } catch (error) {
+      log("db.failed", { attempt, error: (error as Error)?.message ?? String(error), retryIn: "10s" });
+      await new Promise((resolve) => setTimeout(resolve, 10_000));
+    }
+  }
+}
+void connectApi();
 
 // Headers every response carries. The platform frames only itself (the
 // landing page's tour), so other sites may not frame it.
@@ -70,9 +114,18 @@ const server = app.listen(config.port, () => {
   else console.log("No AI key is set (ANTHROPIC_API_KEY or OPENAI_API_KEY): only the built-in interpretation is offered.");
 });
 
+// Every 10 minutes: still alive, and how much memory it holds. The last
+// heartbeat before a silent stop says whether memory was climbing.
+setInterval(() => {
+  const memory = process.memoryUsage();
+  log("heartbeat", { uptimeMin: Math.round(process.uptime() / 60), rssMB: mb(memory.rss), heapMB: mb(memory.heapUsed), db: api ? "up" : "waiting" });
+}, 10 * 60 * 1000).unref();
+
 for (const signal of ["SIGINT", "SIGTERM"] as const) {
   process.on(signal, () => {
+    // Docker sends SIGTERM on `docker compose down`, `restart` or a redeploy.
+    log("server.stopping", { signal });
     server.close();
-    void db.close().then(() => process.exit(0));
+    void (api?.db.close() ?? Promise.resolve()).then(() => process.exit(0));
   });
 }

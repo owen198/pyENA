@@ -1,10 +1,11 @@
-# The platform and its own MongoDB on one machine: a booth laptop, a lab
-# server, any VM. `docker compose up -d`, then open http://<machine>:8787.
+# The platform on one machine, with its database on MongoDB Atlas.
+# `docker compose up -d`, then open http://<machine>:8787 (or the HTTPS
+# address in front of it).
 #
-# The database is reachable only by the platform, on Compose's private
-# network; its data lives in the `pyena-data` volume and survives restarts.
-# To use a hosted MongoDB instead, remove the `mongo` service and set
-# MONGODB_URI in a .env file next to this one (git ignores .env).
+# There is one database: the Atlas cluster in MONGODB_URI, set in a .env file
+# next to this one (git ignores .env). No MongoDB runs on this machine, so
+# nothing else competes with the platform for memory. Without MONGODB_URI,
+# `docker compose up` stops with a message instead of starting.
 
 services:
   platform:
@@ -12,7 +13,7 @@ services:
     ports:
       - "8787:8787"
     environment:
-      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017}
+      MONGODB_URI: ${MONGODB_URI:?Set MONGODB_URI (the Atlas connection string) in .env next to docker-compose.yml}
       MONGODB_DB: ${MONGODB_DB:-pyena}
       # true once the site is served over HTTPS (behind a proxy or a host's TLS).
       COOKIE_SECURE: ${COOKIE_SECURE:-false}
@@ -23,15 +24,4 @@ services:
       # .env next to this file; the image never contains them (.dockerignore).
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_MODEL: ${OPENAI_MODEL:-}
-    depends_on:
-      - mongo
     restart: unless-stopped
-
-  mongo:
-    image: mongo:7
-    volumes:
-      - pyena-data:/data/db
-    restart: unless-stopped
-
-volumes:
-  pyena-data:

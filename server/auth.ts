@@ -9,6 +9,7 @@ import type { ObjectId } from "mongodb";
 import type { PublicUser, ThemeMode, TutorialState } from "../shared/api.ts";
 import { config } from "./config.ts";
 import type { Database, UserDoc } from "./db.ts";
+import { log } from "./log.ts";
 
 const scryptAsync = promisify(scrypt) as (password: string, salt: Buffer, keylen: number) => Promise<Buffer>;
 
@@ -155,6 +156,7 @@ export function authRoutes(db: Database) {
     };
     const { insertedId } = await db.users.insertOne(user as UserDoc);
     await startSession(res, insertedId);
+    log("register.ok", { user: username });
     res.status(201).json({ user: publicUser({ ...user, _id: insertedId } as UserDoc) });
   });
 
@@ -162,21 +164,25 @@ export function authRoutes(db: Database) {
     const { username, password } = readCredentials(req);
     const key = `${req.ip}|${username}`;
     if (tooManyAttempts(key)) {
+      log("login.blocked", { user: username, ip: req.ip });
       return void res.status(429).json({ error: "Too many attempts. Wait 15 minutes and try again." });
     }
     const user = await db.users.findOne({ username });
     if (!user || !(await verifyPassword(password, user.passwordHash))) {
       recordFailure(key);
+      log("login.failed", { user: username, reason: user ? "wrong password" : "no such account", ip: req.ip });
       return void res.status(401).json({ error: "That username and password do not match an account." });
     }
     failures.delete(key);
     await startSession(res, user._id);
+    log("login.ok", { user: username });
     res.json({ user: publicUser(user) });
   });
 
   router.post("/auth/logout", async (req, res) => {
     const token = readCookie(req, COOKIE);
     if (token) await db.sessions.deleteOne({ _id: hashToken(token) });
+    if (req.user) log("logout", { user: req.user.username });
     setSessionCookie(res, "", 0);
     res.json({ ok: true });
   });
@@ -213,6 +219,7 @@ export function authRoutes(db: Database) {
     }
     if (next.length < 8) return void res.status(400).json({ field: "next", error: "Use at least 8 characters." });
     await db.users.updateOne({ _id: req.user!._id }, { $set: { passwordHash: await hashPassword(next) } });
+    log("password.changed", { user: req.user!.username });
     res.json({ ok: true });
   });
 

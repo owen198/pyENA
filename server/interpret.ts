@@ -11,6 +11,7 @@ import express from "express";
 import type { ConnectionRequest, InterpretRequest, InterpretStatus } from "../shared/api.ts";
 import { requireUser } from "./auth.ts";
 import { config } from "./config.ts";
+import { log } from "./log.ts";
 import { OpenAIError, streamOpenAI, type ChatTurn } from "./openai.ts";
 
 const SKILL = readFileSync(fileURLToPath(new URL("./skills/interpret-ena-results/SKILL.md", import.meta.url)), "utf8");
@@ -165,11 +166,13 @@ export function interpretRoutes() {
         const reply = await streamOpenAI(CONNECTION_SYSTEM, connectionTurns(body!), (text) => send({ type: "text", text }), abort.signal);
         if (reply.refused) send({ type: "error", error: "Unable to analyse this connection right now." });
         else send({ type: "done", model: reply.model, truncated: reply.truncated });
+        log("ai.ok", { task: "connection", provider: "openai", model: reply.model, refused: reply.refused || undefined, truncated: reply.truncated || undefined });
         open = false;
         res.end();
       } catch (error) {
         open = false;
-        if (res.writableEnded || req.destroyed) return;
+        if (res.writableEnded || req.destroyed) return void log("ai.cancelled", { task: "connection", provider: "openai" });
+        log("ai.failed", { task: "connection", provider: "openai", status: (error as OpenAIError).status, error: (error as Error)?.message });
         const failure = error instanceof OpenAIError ? openaiFailure(error) : { status: 502, message: "Unable to analyse this connection right now." };
         if (started) {
           send({ type: "error", error: failure.message });
@@ -205,11 +208,13 @@ export function interpretRoutes() {
       const message = await stream.finalMessage();
       if (message.stop_reason === "refusal") send({ type: "error", error: "Unable to analyse this connection right now." });
       else send({ type: "done", model: message.model, truncated: message.stop_reason === "max_tokens" });
+      log("ai.ok", { task: "connection", provider: "claude", model: message.model, stop: message.stop_reason });
       open = false;
       res.end();
     } catch (error) {
       open = false;
-      if (res.writableEnded || req.destroyed) return;
+      if (res.writableEnded || req.destroyed) return void log("ai.cancelled", { task: "connection", provider: "claude" });
+      log("ai.failed", { task: "connection", provider: "claude", status: (error as { status?: number }).status, error: (error as Error)?.message });
       const message =
         error instanceof Anthropic.AuthenticationError
           ? "The server's Anthropic API key was not accepted."
@@ -245,8 +250,10 @@ export function interpretRoutes() {
           return void res.status(422).json({ error: "The AI declined to write this interpretation. The built-in interpretation is still available." });
         }
         if (!text.trim()) return void res.status(502).json({ error: "The AI returned no text. Try again." });
+        log("ai.ok", { task: "interpret", provider: "openai", model: reply.model, truncated: reply.truncated || undefined });
         res.json({ text: text.trim(), model: reply.model, truncated: reply.truncated });
       } catch (error) {
+        log("ai.failed", { task: "interpret", provider: "openai", status: (error as OpenAIError).status, error: (error as Error)?.message });
         const failure = error instanceof OpenAIError ? openaiFailure(error) : { status: 502, message: "Unable to reach the AI right now. Try again shortly." };
         res.status(failure.status).json({ error: failure.message });
       }
@@ -276,8 +283,10 @@ export function interpretRoutes() {
         .join("\n\n")
         .trim();
       if (!text) return void res.status(502).json({ error: "Claude returned no text. Try again." });
+      log("ai.ok", { task: "interpret", provider: "claude", model: message.model, stop: message.stop_reason });
       res.json({ text, model: message.model, truncated: message.stop_reason === "max_tokens" });
     } catch (error) {
+      log("ai.failed", { task: "interpret", provider: "claude", status: (error as { status?: number }).status, error: (error as Error)?.message });
       if (error instanceof Anthropic.AuthenticationError) {
         res.status(503).json({ error: "The server's Anthropic API key was not accepted." });
       } else if (error instanceof Anthropic.RateLimitError) {
