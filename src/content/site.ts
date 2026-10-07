@@ -50,7 +50,7 @@ export const TEAM: TeamMember[] = [
   { name: "Nessa (Linh Nhi) Hoang", role: "Co-founder & Product CTO", affiliation: NCCU, photo: "/people/nessa.jpg" },
   { name: "Susan Milagros Dávalos Vega", role: "Co-founder & CPO", affiliation: NCCU, photo: "/people/susan.jpg" },
   { name: "Ruby (Chin-Ju) Lin", role: "Co-founder & Technical Support Lead", affiliation: NCCU, photo: "/people/ruby.jpg" },
-  { name: "Joe K.Z. CHUANG", role: "Business Development", affiliation: NCCU, photo: "/people/joe.jpg" },
+  { name: "Joe K.Z. CHUANG", role: "Co-founder & Business Development", affiliation: NCCU, photo: "/people/joe.jpg" },
 ];
 
 /** The team's own papers, the only ones the Papers page shows. */

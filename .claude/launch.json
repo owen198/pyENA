@@ -13,15 +13,6 @@
         "--strictPort"
       ],
       "port": 5173
-    },
-    {
-      "name": "pyena-host",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": [
-        "run",
-        "host"
-      ],
-      "port": 8787
     }
   ]
 }
