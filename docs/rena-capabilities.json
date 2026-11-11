@@ -1,0 +1,518 @@
+{
+  "reference_version": "0.3.0",
+  "export_count": 85,
+  "runtime_requires_R": false,
+  "capabilities": [
+    {
+      "rENA_api": "accumulate",
+      "python_api": "accumulate",
+      "status": "Experimental",
+      "limits": "Undirected accumulation follows the legacy window path. Ordered=True uses temporal transitions, not a full tma tensor implementation."
+    },
+    {
+      "rENA_api": "add_group",
+      "python_api": "add_group",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "add_network",
+      "python_api": "add_network",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "add_nodes",
+      "python_api": "add_nodes",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "add_points",
+      "python_api": "add_points",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "add_trajectory",
+      "python_api": "add_trajectory",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "as_trajectory",
+      "python_api": "as_trajectory",
+      "status": "Native implementation",
+      "limits": "Index bases and separators follow the documented Python schema; not all helpers have separate R oracle cases."
+    },
+    {
+      "rENA_api": "as.ena.co.occurrence",
+      "python_api": "as_ena_co_occurrence",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "as.ena.matrix",
+      "python_api": "as_ena_matrix",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "as.ena.metadata",
+      "python_api": "as_ena_metadata",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "as.qe.code",
+      "python_api": "as_qe_code",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "as.qe.data",
+      "python_api": "as_qe_data",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "as.qe.horizon",
+      "python_api": "as_qe_horizon",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "as.qe.metadata",
+      "python_api": "as_qe_metadata",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "as.qe.unit",
+      "python_api": "as_qe_unit",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "center",
+      "python_api": "center",
+      "status": "Native implementation",
+      "limits": "Hooks/serialization/reprojection are tested for functional behavior; all R option combinations are not established."
+    },
+    {
+      "rENA_api": "check_range",
+      "python_api": "check_range",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "clear",
+      "python_api": "clear",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "codes",
+      "python_api": "codes",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "combn_c2",
+      "python_api": "combn_c2",
+      "status": "Native implementation",
+      "limits": "Index bases and separators follow the documented Python schema; not all helpers have separate R oracle cases."
+    },
+    {
+      "rENA_api": "connection.matrix",
+      "python_api": "connection_matrix",
+      "status": "Native implementation",
+      "limits": "Index bases and separators follow the documented Python schema; not all helpers have separate R oracle cases."
+    },
+    {
+      "rENA_api": "define",
+      "python_api": "define",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "directed_node_positions",
+      "python_api": "directed_node_positions",
+      "status": "Validated cases",
+      "limits": "Both C² node-position formulas are checked on a well-conditioned matrix; degenerate systems may differ by solver."
+    },
+    {
+      "rENA_api": "directed_node_positions_with_ground_response_added",
+      "python_api": "directed_node_positions_with_ground_response_added",
+      "status": "Validated cases",
+      "limits": "Both C² node-position formulas are checked on a well-conditioned matrix; degenerate systems may differ by solver."
+    },
+    {
+      "rENA_api": "ena",
+      "python_api": "ena",
+      "status": "Validated cases",
+      "limits": "96 undirected accumulation configurations and 12 complete 3D model configurations are compared against R; this does not cover every optional parameter."
+    },
+    {
+      "rENA_api": "ena_correlation",
+      "python_api": "ena_correlation",
+      "status": "Validated cases",
+      "limits": "Shared group means/medians, pairwise Pearson/Spearman, Fisher intervals and absolute Cohen d are checked on finite test samples."
+    },
+    {
+      "rENA_api": "ena.accumulate.data",
+      "python_api": "accumulate_data",
+      "status": "Validated cases",
+      "limits": "96 undirected accumulation configurations and 12 complete 3D model configurations are compared against R; this does not cover every optional parameter."
+    },
+    {
+      "rENA_api": "ena.conversations",
+      "python_api": "ena_conversations",
+      "status": "Native implementation",
+      "limits": "Index bases and separators follow the documented Python schema; not all helpers have separate R oracle cases."
+    },
+    {
+      "rENA_api": "ena.correlations",
+      "python_api": "ena_correlations",
+      "status": "Validated cases",
+      "limits": "Shared group means/medians, pairwise Pearson/Spearman, Fisher intervals and absolute Cohen d are checked on finite test samples."
+    },
+    {
+      "rENA_api": "ena.group",
+      "python_api": "ena_group",
+      "status": "Validated cases",
+      "limits": "Shared group means/medians, pairwise Pearson/Spearman, Fisher intervals and absolute Cohen d are checked on finite test samples."
+    },
+    {
+      "rENA_api": "ena.make.set",
+      "python_api": "make_set",
+      "status": "Validated cases",
+      "limits": "96 undirected accumulation configurations and 12 complete 3D model configurations are compared against R; this does not cover every optional parameter."
+    },
+    {
+      "rENA_api": "ena.plot",
+      "python_api": "ena_plot",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "ena.plot.group",
+      "python_api": "add_group",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "ena.plot.network",
+      "python_api": "add_network",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "ena.plot.points",
+      "python_api": "add_points",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "ena.plot.trajectory",
+      "python_api": "add_trajectory",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "ena.plotter",
+      "python_api": "ena_plotter",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "ena.rotate.by.generalized",
+      "python_api": "generalized_rotation",
+      "status": "Validated cases",
+      "limits": "Single numeric and categorical GMR directions and one generalized rotation case are checked; multiple predictors use experimental CV."
+    },
+    {
+      "rENA_api": "ena.rotate.by.hena.regression",
+      "python_api": "regression_rotation",
+      "status": "Partial",
+      "limits": "OLS forward/reverse formulas use a restricted safe grammar; x-only forward regression has an R oracle. Other R regression_2 conventions are not fully established."
+    },
+    {
+      "rENA_api": "ena.rotate.by.hena.regression_2",
+      "python_api": "regression_rotation",
+      "status": "Partial",
+      "limits": "OLS forward/reverse formulas use a restricted safe grammar; x-only forward regression has an R oracle. Other R regression_2 conventions are not fully established."
+    },
+    {
+      "rENA_api": "ena.rotate.by.mean",
+      "python_api": "rotate_by_means",
+      "status": "Validated cases",
+      "limits": "96 undirected accumulation configurations and 12 complete 3D model configurations are compared against R; this does not cover every optional parameter."
+    },
+    {
+      "rENA_api": "ena.rotation.h",
+      "python_api": "hena_rotation",
+      "status": "Validated cases",
+      "limits": "Numeric x/y with a control is checked; full R formula evaluation and arbitrary interactions are not claimed."
+    },
+    {
+      "rENA_api": "ena.svd",
+      "python_api": "svd_rotation",
+      "status": "Validated cases",
+      "limits": "96 undirected accumulation configurations and 12 complete 3D model configurations are compared against R; this does not cover every optional parameter."
+    },
+    {
+      "rENA_api": "ena.writeup",
+      "python_api": "ena_writeup",
+      "status": "Partial",
+      "limits": "Text/Markdown/HTML/JSON reports are supported. Rmarkdown/Pandoc/Word templates are not implemented."
+    },
+    {
+      "rENA_api": "ENAdata",
+      "python_api": "ENAData",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "ENAplot",
+      "python_api": "ENAPlot",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "ENARotationSet",
+      "python_api": "ENARotationSet",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "ENAset",
+      "python_api": "ENASet",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "find_binary_cols",
+      "python_api": "find_binary_cols",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "find_code_cols",
+      "python_api": "find_code_cols",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "find_dimension_cols",
+      "python_api": "find_dimension_cols",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "find_meta_cols",
+      "python_api": "find_meta_cols",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "fun_cohens.d",
+      "python_api": "fun_cohens_d",
+      "status": "Validated cases",
+      "limits": "Shared group means/medians, pairwise Pearson/Spearman, Fisher intervals and absolute Cohen d are checked on finite test samples."
+    },
+    {
+      "rENA_api": "fun_skip_sphere_norm",
+      "python_api": "fun_skip_sphere_norm",
+      "status": "Validated cases",
+      "limits": "96 undirected accumulation configurations and 12 complete 3D model configurations are compared against R; this does not cover every optional parameter."
+    },
+    {
+      "rENA_api": "fun_sphere_norm",
+      "python_api": "sphere_normalize",
+      "status": "Validated cases",
+      "limits": "96 undirected accumulation configurations and 12 complete 3D model configurations are compared against R; this does not cover every optional parameter."
+    },
+    {
+      "rENA_api": "get_x1_main_effect",
+      "python_api": "get_x1_main_effect",
+      "status": "Experimental",
+      "limits": "Native group elastic-net CV has a controlled fold/lambda interface, but does not reproduce glmnet defaults/path exactly."
+    },
+    {
+      "rENA_api": "gmr",
+      "python_api": "gmr",
+      "status": "Validated cases",
+      "limits": "Single numeric and categorical GMR directions and one generalized rotation case are checked; multiple predictors use experimental CV."
+    },
+    {
+      "rENA_api": "group",
+      "python_api": "ena_plotter",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "horizon",
+      "python_api": "horizon",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "is.qe.code",
+      "python_api": "is_qe_code",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "is.qe.data",
+      "python_api": "is_qe_data",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "is.qe.horizon",
+      "python_api": "is_qe_horizon",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "is.qe.metadata",
+      "python_api": "is_qe_metadata",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "is.qe.unit",
+      "python_api": "is_qe_unit",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "means_rotate",
+      "python_api": "means_rotate",
+      "status": "Native implementation",
+      "limits": "Index bases and separators follow the documented Python schema; not all helpers have separate R oracle cases."
+    },
+    {
+      "rENA_api": "merge_columns_c",
+      "python_api": "merge_columns",
+      "status": "Native implementation",
+      "limits": "Index bases and separators follow the documented Python schema; not all helpers have separate R oracle cases."
+    },
+    {
+      "rENA_api": "metadata",
+      "python_api": "metadata",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "methods_report",
+      "python_api": "methods_report",
+      "status": "Partial",
+      "limits": "Text/Markdown/HTML/JSON reports are supported. Rmarkdown/Pandoc/Word templates are not implemented."
+    },
+    {
+      "rENA_api": "methods_report_stream",
+      "python_api": "methods_report_stream",
+      "status": "Partial",
+      "limits": "Text/Markdown/HTML/JSON reports are supported. Rmarkdown/Pandoc/Word templates are not implemented."
+    },
+    {
+      "rENA_api": "model",
+      "python_api": "model",
+      "status": "Native implementation",
+      "limits": "Hooks/serialization/reprojection are tested for functional behavior; all R option combinations are not established."
+    },
+    {
+      "rENA_api": "move_nodes_to_unit_circle",
+      "python_api": "move_nodes_to_unit_circle",
+      "status": "Native implementation",
+      "limits": "Circular placement/updated centroids have native tests; exact rENA ordering/tie cases remain unverified."
+    },
+    {
+      "rENA_api": "move_nodes_to_unit_circle_with_equal_space",
+      "python_api": "move_nodes_to_unit_circle_with_equal_space",
+      "status": "Native implementation",
+      "limits": "Circular placement/updated centroids have native tests; exact rENA ordering/tie cases remain unverified."
+    },
+    {
+      "rENA_api": "namesToAdjacencyKey",
+      "python_api": "names_to_adjacency_key",
+      "status": "Native implementation",
+      "limits": "Index bases and separators follow the documented Python schema; not all helpers have separate R oracle cases."
+    },
+    {
+      "rENA_api": "optimize",
+      "python_api": "optimize",
+      "status": "Native implementation",
+      "limits": "Hooks/serialization/reprojection are tested for functional behavior; all R option combinations are not established."
+    },
+    {
+      "rENA_api": "project",
+      "python_api": "project",
+      "status": "Native implementation",
+      "limits": "Hooks/serialization/reprojection are tested for functional behavior; all R option combinations are not established."
+    },
+    {
+      "rENA_api": "project_in",
+      "python_api": "project_in",
+      "status": "Native implementation",
+      "limits": "Hooks/serialization/reprojection are tested for functional behavior; all R option combinations are not established."
+    },
+    {
+      "rENA_api": "reclassify",
+      "python_api": "reclassify",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "remove_meta_data",
+      "python_api": "remove_meta_data",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "rotate",
+      "python_api": "rotate",
+      "status": "Native implementation",
+      "limits": "Hooks/serialization/reprojection are tested for functional behavior; all R option combinations are not established."
+    },
+    {
+      "rENA_api": "show",
+      "python_api": "show",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "sphere_norm",
+      "python_api": "sphere_normalize",
+      "status": "Validated cases",
+      "limits": "96 undirected accumulation configurations and 12 complete 3D model configurations are compared against R; this does not cover every optional parameter."
+    },
+    {
+      "rENA_api": "units",
+      "python_api": "units",
+      "status": "Python equivalent",
+      "limits": "R S3/R6 data schemas are represented by Python role/array classes, not binary-compatible objects."
+    },
+    {
+      "rENA_api": "vector_to_ut",
+      "python_api": "vector_to_ut",
+      "status": "Native implementation",
+      "limits": "Index bases and separators follow the documented Python schema; not all helpers have separate R oracle cases."
+    },
+    {
+      "rENA_api": "with_means",
+      "python_api": "with_means",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    },
+    {
+      "rENA_api": "with_trajectory",
+      "python_api": "with_trajectory",
+      "status": "Partial",
+      "limits": "Native Matplotlib layers and Plotly animation cover the listed views. Style/API option parity, network saturation/opacity layers and all R plot management behavior are not complete."
+    }
+  ],
+  "warning": "A mapped API is not proof of complete behavioral/numerical parity. Inspect status and limits."
+}

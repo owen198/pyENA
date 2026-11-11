@@ -17,7 +17,7 @@ It currently supports:
 - machine-readable ENA reporting written to `statistical_summary.json`
 - dimension-generic statistical reporting for every retained ENA dimension
 - an `interpret-ena-results` Codex skill for report interpretation
-- automatic Mann-Whitney U method selection: `exact` at `300` rows or fewer per group, `asymptotic` above `300`
+- R 4.5.2-compatible Mann–Whitney U method selection: exact for both groups smaller than 50 without ties, otherwise a tie-corrected normal approximation with continuity correction
 - Welch t-test, Mann-Whitney / Wilcoxon-style summaries, ANOVA, chi-square summaries, and goodness-of-fit reporting used in the examples
 
 ## Files
@@ -156,10 +156,10 @@ This repository includes a reusable Codex skill named `interpret-ena-results` un
 
 `pyENA` automatically chooses the Mann-Whitney U computation method based on group size:
 
-- if both groups have `300` rows or fewer, it uses `method="exact"`
-- if either group has more than `300` rows, it uses `method="asymptotic"`
+- if both groups contain fewer than `50` observations and there are no ties, it uses `method="exact"`
+- otherwise it uses `method="asymptotic"` with tie and continuity corrections (R 4.5.2 defaults)
 
-This keeps small-sample analyses exact while preventing large-sample runs from becoming impractically slow.
+The selected method, presence of ties, and continuity correction are recorded in the summary. R's two-sample W equals the first group's U; `u_min` records the smaller complementary U.
 
 ## Output Files
 
@@ -244,7 +244,7 @@ The JSON currently reports the following indicators and related descriptions.
 | `p_value` | inside `welch_t_test`, `mann_whitney_u`, `anova`, and `chi_square` | The probability of observing a result at least this extreme under the null hypothesis. |
 | Degrees of freedom | `statistics.welch_t_test.*.degrees_of_freedom` | The Welch-Satterthwaite degrees of freedom used for the t-test. |
 | Mean and SD by group | `statistics.welch_t_test.*.mean_x`, `mean_y`, `sd_x`, `sd_y` | Descriptive statistics for the two groups on each ENA dimension. |
-| Cohen's d | `statistics.welch_t_test.*.cohens_d` | Standardized group difference size for each ENA dimension. |
+| Cohen's d | `statistics.welch_t_test.*.cohens_d` | Absolute standardized group difference matching rENA; `signed_cohens_d` retains direction. |
 | 95% confidence interval for mean difference | `statistics.welch_t_test.*.confidence_interval_95` | Confidence interval for the difference between group means on each dimension. |
 | Mann-Whitney U | `statistics.mann_whitney_u.dimension_*` | Non-parametric test of whether the two groups differ in their projected ENA coordinates on each retained dimension. |
 | U statistic | `statistics.mann_whitney_u.*.u_statistic` | The Mann-Whitney U value for the dimension-level comparison. |
@@ -256,8 +256,8 @@ The JSON currently reports the following indicators and related descriptions.
 | Overall chi-square | `statistics.chi_square.overall` | Chi-square test over the two-by-code contingency table. |
 | Per-code chi-square | `statistics.chi_square.per_code` | Separate chi-square summaries for each code, including group counts, rates, and expected values. |
 | Goodness of fit | `statistics.goodness_of_fit` | Co-registration fit between the visualized ENA point space and the underlying network centroids reconstructed from node positions. |
-| Co-registration correlations | `statistics.goodness_of_fit.co_registration_correlations` | Pearson and Spearman correlations for each ENA dimension between observed points and fitted centroids. Higher values indicate a closer match between the visualization and the original model geometry. |
-| Explained variance ratio | `model.explained_variance_ratio` | The proportion of retained variance captured by each plotted dimension. |
+| Co-registration correlations | `statistics.goodness_of_fit.co_registration_correlations` | Pearson and Spearman correlations of all pairwise point differences versus pairwise centroid differences, matching rENA's definition. |
+| Explained variance ratio | `model.explained_variance_ratio` | The projected sample variance on each retained axis divided by total pre-projection sample variance. Truncated dimensions need not sum to 100%. |
 | Mean network | `networks.group_a_mean_network`, `networks.group_b_mean_network` | Average edge weights for each group. These show the representative co-occurrence structure for the group. |
 | Subtracted mean network | `networks.subtracted_mean_network` | Edge-by-edge difference computed as `group_a_mean_network - group_b_mean_network`. Positive values indicate stronger edges for group A, negative values indicate stronger edges for group B. |
 | Top edge differences | `networks.subtracted_mean_network_top_edges` | The strongest positive and negative edges in the subtraction network. |
@@ -598,3 +598,53 @@ To install it for Codex, copy or symlink that folder into your local Codex skill
 ```bash
 ln -s "$(pwd)/skills/interpret-ena-results" ~/.codex/skills/interpret-ena-results
 ```
+
+
+## Native rENA alignment extensions
+
+See [docs/rena-alignment.md](docs/rena-alignment.md) for the compatibility matrix,
+examples and limits. The installed rENA 0.3.0 / R 4.5.2 implementation is the test
+reference. **R is not used by the library at runtime.** It is only needed to run
+the executable reference tests and comparison scripts.
+
+The core now includes configurable normalization/centering/rotation/projection
+and node methods, reusable JSON rotation models, group reducers, safe role and
+adjacency utilities, trajectory views/animation, circular node layouts, and
+text/Markdown/HTML/JSON methods reports. Additional GMR, hENA and regression
+rotations are native NumPy/SciPy implementations.
+
+Native multi-predictor elastic-net CV and ordered temporal accumulation are
+**experimental** and emit warnings: glmnet's CV path and tma context-tensor
+semantics have not been established as equivalent. Formula support is limited
+to the documented safe grammar; unsupported expressions raise an error.
+This release does **not** claim complete equivalence for all rENA API settings.
+
+Compatibility changes: SVD eigenvalues use n−1 scaling; means-rotation
+eigenvalues are unavailable (`null` in JSON); explained variance uses the full
+space; Cohen's d is absolute; R-style W is U for the first group. Native means
+rotation no longer applies handbook-specific axis-sign heuristics. Axis signs
+may differ from earlier plots without changing network geometry.
+
+
+### Reproduce RS.data validation
+
+The RS workflow and R reference runners are included in `validation/`; no
+scripts from `outputs/` are required. With this source installed and the R
+reference dependencies available:
+
+```sh
+MPLBACKEND=Agg python -m unittest discover -s tests -v
+python validation/run_rs_workflow.py
+python validation/compare_rs.py --dimensions 2
+python validation/compare_rs.py --dimensions 3
+```
+
+The commands use `datasets/RS.data.csv` relative to the checkout and write to
+`outputs/rs_validation/` by default. `--data` and `--output` override these paths.
+The comparison reports cover 122 checks in 2D and 156 checks in 3D. Reused R
+references must match both the data fingerprint and requested dimensions.
+R is needed only for the comparison scripts/reference tests, not for analysis.
+
+Refitting with `rotate()` now preserves the model's preprocessing and fitting
+settings unless explicitly overridden. Regression formulas encode only the
+predictors they reference, so unused constant metadata does not cause errors.
