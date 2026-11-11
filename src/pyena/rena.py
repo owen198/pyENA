@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import csv
 import json
+from .reporting import json_safe
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
@@ -194,7 +195,7 @@ def svd_rotation(points_for_projection: np.ndarray, dimensions: int = 2) -> tupl
     _, singular_values, vt = np.linalg.svd(points_for_projection, full_matrices=False)
     dims = min(dimensions, vt.shape[0])
     rotation = vt[:dims].T
-    eigenvalues = singular_values[:dims] ** 2
+    eigenvalues = singular_values[:dims] ** 2 / max(len(points_for_projection) - 1, 1)
     return rotation, eigenvalues
 
 
@@ -214,19 +215,19 @@ def rotate_by_mean(
     mean_diff = data[mask_a].mean(axis=0) - data[mask_b].mean(axis=0)
     diff_norm = np.linalg.norm(mean_diff)
     if diff_norm == 0:
-        return svd_rotation(data, dimensions=dimensions)
+        raise ValueError("Means rotation is undefined when group mean networks coincide.")
 
     primary_axis = mean_diff / diff_norm
     residual = data - np.outer(data @ primary_axis, primary_axis)
 
     if dimensions <= 1:
         rotation = primary_axis.reshape(-1, 1)
-        return rotation, np.array([diff_norm**2], dtype=float)
+        return rotation, np.array([], dtype=float)
 
     _, singular_values, vt = np.linalg.svd(residual, full_matrices=False)
     remainder = vt[: max(dimensions - 1, 0)].T
     rotation = np.column_stack([primary_axis, remainder[:, : dimensions - 1]])
-    eigenvalues = np.concatenate(([diff_norm**2], singular_values[: dimensions - 1] ** 2))
+    eigenvalues = np.array([], dtype=float)  # rENA means rotation does not supply eigenvalues.
     return rotation, eigenvalues
 
 
@@ -249,6 +250,8 @@ class ENAData:
     unit_labels: list[str]
     unit_metadata: list[dict[str, object]]
     trajectory_steps: list[tuple[object, ...]] | None = None
+    ordered: bool = False
+    accumulation_options: dict[str, object] = field(default_factory=dict)
 
 
 @dataclass
@@ -261,7 +264,10 @@ class ENASet:
     points: np.ndarray
     center_vector: np.ndarray
     node_positions: np.ndarray
-
+    rotation_method: str = "unknown"
+    centroids: np.ndarray | None = None
+    fit_metadata: dict[str, object] = field(default_factory=dict)
+    rotation_set: object | None = None
     @property
     def unit_labels(self) -> list[str]:
         return self.enadata.unit_labels
@@ -313,70 +319,147 @@ def _validate_welch_variance(x: np.ndarray, y: np.ndarray) -> None:
         )
 
 
-def welch_ttest(x: np.ndarray, y: np.ndarray) -> dict[str, float | list[float]]:
+def _test_vector(values: np.ndarray, minimum: int, name: str) -> np.ndarray:
+    values = np.asarray(values, dtype=float)
+    if values.ndim != 1 or not np.all(np.isfinite(values)):
+        raise ValueError(f"{name} requires a finite one-dimensional sample.")
+    if values.size < minimum:
+        raise ValueError(f"{name} requires at least {minimum} observations per group.")
+    return values
+
+
+def ena_correlations(points: np.ndarray, centroids: np.ndarray) -> dict[str, dict[str, float]]:
+    """rENA::ena.correlations: correlate all pairwise differences, per axis.
+
+    These are not correlations of the original unit-coordinate columns.
+    """
     from scipy import stats
 
-    x = np.asarray(x, dtype=float)
-    y = np.asarray(y, dtype=float)
-    _validate_minimum_group_sizes(x, y, test_name="Welch t-test", min_n=2)
-    var_x = float(np.var(x, ddof=1))
-    var_y = float(np.var(y, ddof=1))
-    _validate_welch_variance(x, y)
-    result = stats.ttest_ind(x, y, equal_var=False)
+    points, centroids = np.asarray(points, float), np.asarray(centroids, float)
+    if points.ndim != 2 or points.shape != centroids.shape:
+        raise ValueError("Points and centroids must have matching matrix shapes.")
+    i, j = np.triu_indices(len(points), 1)
+    p, c = points[i]-points[j], centroids[i]-centroids[j]
+    result = {}
+    for dim in range(points.shape[1]):
+        valid = len(p) >= 2 and np.ptp(p[:, dim]) > 0 and np.ptp(c[:, dim]) > 0
+        result[f"dimension_{dim+1}"] = {
+            "pearson": float(stats.pearsonr(p[:, dim], c[:, dim]).statistic) if valid else float('nan'),
+            "spearman": float(stats.spearmanr(p[:, dim], c[:, dim]).statistic) if valid else float('nan'),
+        }
+    return result
 
-    mean_diff = float(x.mean() - y.mean())
-    n_x = len(x)
-    n_y = len(y)
-    se = np.sqrt(var_x / n_x + var_y / n_y)
-    df = (var_x / n_x + var_y / n_y) ** 2 / (
-        ((var_x / n_x) ** 2) / (n_x - 1) + ((var_y / n_y) ** 2) / (n_y - 1)
-    )
-    t_crit = stats.t.ppf(0.975, df)
-    ci = [mean_diff - t_crit * se, mean_diff + t_crit * se]
 
-    pooled_sd = np.sqrt(
-        ((n_x - 1) * var_x + (n_y - 1) * var_y) / max((n_x + n_y - 2), 1)
-    )
-    cohens_d = 0.0 if pooled_sd == 0 else mean_diff / pooled_sd
+def ena_correlation(points: np.ndarray, centroids: np.ndarray, conf_level: float = .95) -> np.ndarray:
+    """rENA::ena_correlation: Pearson r and Fisher CI using pair count.
 
+    Reproduces the package formula; pairs share units and are not independent.
+    """
+    from scipy import stats
+
+    if not 0 < conf_level < 1:
+        raise ValueError("conf_level must be between zero and one.")
+    correlations = ena_correlations(points, centroids)
+    pair_count = len(points)*(len(points)-1)//2
+    out = []
+    for values in correlations.values():
+        r = values["pearson"]
+        if pair_count > 3 and np.isfinite(r):
+            if abs(r) >= 1:
+                lo = hi = r
+            else:
+                margin = stats.norm.ppf((1+conf_level)/2)/np.sqrt(pair_count-3)
+                lo, hi = np.tanh([np.arctanh(r)-margin, np.arctanh(r)+margin])
+        else:
+            lo = hi = float('nan')
+        out.append([r, float(lo), float(hi)])
+    return np.asarray(out)
+
+
+def summarize_group(
+    ena_set: ENASet,
+    metadata_key: str,
+    group_value: object,
+    method: Callable[[np.ndarray], float] = np.mean,
+) -> dict[str, object]:
+    """Aggregate each point/edge column, like rENA::ena.group(method=...).
+
+    Pass np.median or a scalar callable for another summary statistic.
+    """
+    mask = group_mask(ena_set, metadata_key, group_value)
+    if not mask.any():
+        raise ValueError("The selected group contains no units.")
     return {
-        "t_statistic": float(result.statistic),
-        "p_value": float(result.pvalue),
-        "degrees_of_freedom": float(df),
-        "mean_x": float(x.mean()),
-        "mean_y": float(y.mean()),
-        "sd_x": float(np.std(x, ddof=1)),
-        "sd_y": float(np.std(y, ddof=1)),
-        "n_x": int(n_x),
-        "n_y": int(n_y),
-        "confidence_interval_95": [float(ci[0]), float(ci[1])],
-        "cohens_d": float(cohens_d),
+        "n": int(mask.sum()),
+        "points": np.apply_along_axis(method, 0, ena_set.points[mask]),
+        "line_weights": np.apply_along_axis(method, 0, ena_set.line_weights[mask]),
     }
 
 
-def mann_whitney(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
+
+def welch_ttest(x: np.ndarray, y: np.ndarray) -> dict[str, object]:
+    """Two-sided Welch test; absolute Cohen's d matches rENA::fun_cohens.d.
+
+    signed_cohens_d retains the directional effect reported by older pyENA.
+    """
     from scipy import stats
 
-    x = np.asarray(x, dtype=float)
-    y = np.asarray(y, dtype=float)
-    _validate_minimum_group_sizes(x, y, test_name="Mann-Whitney U test", min_n=1)
-    method = "asymptotic" if max(len(x), len(y)) > 300 else "exact"
-    result = stats.mannwhitneyu(x, y, alternative="two-sided", method=method)
-    u_stat = float(result.statistic)
-    u_complement = float(len(x) * len(y) - u_stat)
-    w_stat = min(u_stat, u_complement)
-    z_score = stats.norm.ppf(result.pvalue / 2.0) if result.pvalue > 0 else float("-inf")
-    effect_r = abs(z_score) / np.sqrt(len(x) + len(y))
+    x = _test_vector(x, 2, "Welch t-test")
+    y = _test_vector(y, 2, "Welch t-test")
+    nx, ny = len(x), len(y)
+    vx, vy = x.var(ddof=1), y.var(ddof=1)
+    se = np.sqrt(vx / nx + vy / ny)
+    if se < 10 * np.finfo(float).eps * max(abs(x.mean()), abs(y.mean())) or se == 0:
+        raise ValueError("Welch t-test is undefined: data are essentially constant.")
+    result = stats.ttest_ind(x, y, equal_var=False)
+    df = (vx/nx + vy/ny)**2 / ((vx/nx)**2/(nx-1) + (vy/ny)**2/(ny-1))
+    diff = float(x.mean() - y.mean())
+    margin = stats.t.ppf(.975, df) * se
+    pooled = np.sqrt(((nx-1)*vx + (ny-1)*vy)/(nx+ny-2))
+    signed_d = diff / pooled
     return {
-        "u_statistic": u_stat,
-        "u_complement": u_complement,
-        "w_statistic_r_style": w_stat,
-        "p_value": float(result.pvalue),
-        "median_x": float(np.median(x)),
-        "median_y": float(np.median(y)),
-        "n_x": int(len(x)),
-        "n_y": int(len(y)),
-        "effect_r_approx": float(effect_r),
+        "t_statistic": float(result.statistic), "p_value": float(result.pvalue),
+        "degrees_of_freedom": float(df), "standard_error": float(se),
+        "mean_x": float(x.mean()), "mean_y": float(y.mean()),
+        "sd_x": float(x.std(ddof=1)), "sd_y": float(y.std(ddof=1)),
+        "n_x": nx, "n_y": ny,
+        "confidence_interval_95": [float(diff-margin), float(diff+margin)],
+        "cohens_d": float(abs(signed_d)), "signed_cohens_d": float(signed_d),
+        "alternative": "two-sided", "null_difference": 0.0,
+        "method": "Welch Two Sample t-test",
+    }
+
+
+def mann_whitney(x: np.ndarray, y: np.ndarray) -> dict[str, object]:
+    """Match stats::wilcox.test defaults in R 4.5.2 (rENA 0.3.0).
+
+    R's two-sample W is the first sample's U, not min(Ux, Uy).
+    """
+    from scipy import stats
+
+    x = _test_vector(x, 1, "Mann-Whitney U")
+    y = _test_vector(y, 1, "Mann-Whitney U")
+    combined = np.concatenate([x, y])
+    ties = np.unique(combined).size != combined.size
+    exact = len(x) < 50 and len(y) < 50 and not ties
+    method = "exact" if exact else "asymptotic"
+    result = stats.mannwhitneyu(x, y, alternative="two-sided", method=method,
+                                use_continuity=not exact)
+    u = float(result.statistic)
+    other = float(len(x)*len(y)-u)
+    # R returns an undefined p-value when every observation is identical.
+    p = float('nan') if np.unique(combined).size == 1 else float(result.pvalue)
+    z = stats.norm.ppf(p/2)
+    return {
+        "u_statistic": u, "u_complement": other, "u_min": min(u, other),
+        "w_statistic_r_style": u, "p_value": p,
+        "median_x": float(np.median(x)), "median_y": float(np.median(y)),
+        "n_x": len(x), "n_y": len(y),
+        "effect_r_approx": float(abs(z)/np.sqrt(len(combined))),
+        "rank_biserial_correlation": 2*u/(len(x)*len(y))-1,
+        "method": method, "ties_present": bool(ties),
+        "continuity_correction": not exact, "alternative": "two-sided",
+        "null_location_shift": 0.0,
     }
 
 
@@ -421,19 +504,31 @@ def summarize_group_point_tests(
 
 
 def one_way_anova(x: np.ndarray, y: np.ndarray) -> dict[str, float]:
+    """Two-group classical ANOVA using nonnegative sums of squares.
+
+    Computing the between-group term from the mean difference avoids the
+    negative roundoff F values (and NaN p values) that f_oneway can return when
+    means-rotation groups coincide on a residual dimension.
+    """
     from scipy import stats
 
-    x = np.asarray(x, dtype=float)
-    y = np.asarray(y, dtype=float)
-    _validate_minimum_group_sizes(x, y, test_name="One-way ANOVA", min_n=2)
-    result = stats.f_oneway(x, y)
+    x = _test_vector(x, 2, "One-way ANOVA")
+    y = _test_vector(y, 2, "One-way ANOVA")
+    n_x, n_y = len(x), len(y)
+    mean_x, mean_y = float(x.mean()), float(y.mean())
+    between = (n_x * n_y / (n_x + n_y)) * (mean_x - mean_y) ** 2
+    within = float(np.sum((x - mean_x) ** 2) + np.sum((y - mean_y) ** 2))
+    if within == 0:
+        f_statistic = float("inf") if between > 0 else float("nan")
+    else:
+        f_statistic = between / (within / (n_x + n_y - 2))
     return {
-        "f_statistic": float(result.statistic),
-        "p_value": float(result.pvalue),
-        "mean_x": float(x.mean()),
-        "mean_y": float(y.mean()),
-        "n_x": int(len(x)),
-        "n_y": int(len(y)),
+        "f_statistic": float(f_statistic),
+        "p_value": float(stats.f.sf(f_statistic, 1, n_x + n_y - 2)),
+        "mean_x": mean_x,
+        "mean_y": mean_y,
+        "n_x": n_x,
+        "n_y": n_y,
     }
 
 
@@ -472,46 +567,17 @@ def _spearman_correlation(x: np.ndarray, y: np.ndarray) -> float:
 
 
 def summarize_goodness_of_fit(ena_set: ENASet) -> dict[str, object]:
-    non_zero_mask = np.linalg.norm(ena_set.line_weights, axis=1) > 0
-    if not np.any(non_zero_mask):
-        return {
-            "n_non_zero_units": 0,
-            "co_registration_correlations": {},
-            "summary": "No non-zero line weights were available to estimate co-registration fit.",
-        }
-
-    _, centroids = _least_squares_node_positions(
-        ena_set.line_weights[non_zero_mask],
-        ena_set.points[non_zero_mask],
-        len(ena_set.enadata.codes),
-    )
-    centroid_mean = centroids.mean(axis=0)
-    centered_centroids = centroids - centroid_mean
-    observed_points = ena_set.points[non_zero_mask]
-
-    correlations: dict[str, dict[str, float]] = {}
-    for dim_idx in range(observed_points.shape[1]):
-        key = f"dimension_{dim_idx + 1}"
-        observed = observed_points[:, dim_idx]
-        fitted = centered_centroids[:, dim_idx]
-        correlations[key] = {
-            "pearson": _pearson_correlation(observed, fitted),
-            "spearman": _spearman_correlation(observed, fitted),
-        }
-
-    strong_fit = all(
-        values["pearson"] > 0.9 and values["spearman"] > 0.9
-        for values in correlations.values()
-    )
-    summary = (
-        "Strong goodness of fit between the visualization and the original model."
-        if strong_fit
-        else "Co-registration fit is mixed; inspect dimension-level correlations before interpreting the visualization strongly."
-    )
+    from .pipeline import network_centroids
+    centroids = ena_set.centroids
+    if centroids is None:
+        centroids = network_centroids(ena_set.line_weights, ena_set.node_positions, ena_set.enadata)
     return {
-        "n_non_zero_units": int(np.sum(non_zero_mask)),
-        "co_registration_correlations": correlations,
-        "summary": summary,
+        "co_registration_correlations": ena_correlations(ena_set.points, centroids),
+        "pearson_confidence_interval_95": ena_correlation(ena_set.points, centroids).tolist(),
+        "n_units": len(ena_set.points),
+        "n_pairs": len(ena_set.points)*(len(ena_set.points)-1)//2,
+        "definition": "Pairwise point differences versus pairwise network-centroid differences (rENA)",
+        "ci_note": "Fisher interval reproduces the package pair-count formula; pairs share units.",
     }
 
 
@@ -601,45 +667,24 @@ def summarize_axis_interpretation(ena_set: ENASet, top_n: int = 3) -> dict[str, 
     return interpretations
 
 
-def _mean_point_and_ci(points: np.ndarray) -> dict[str, list[float] | int]:
+def _mean_point_and_ci(points: np.ndarray) -> dict[str, object]:
     from scipy import stats
 
     points = np.asarray(points, dtype=float)
-    if points.ndim != 2:
-        raise ValueError("Group points must be a two-dimensional array.")
-    if points.shape[0] == 0:
-        raise ValueError("Group points must contain at least one point.")
-    if points.shape[1] == 0:
-        raise ValueError("Group points must contain at least one ENA dimension.")
-
+    if points.ndim != 2 or not len(points) or not np.all(np.isfinite(points)):
+        raise ValueError("Group summaries require a non-empty finite points matrix.")
+    n = len(points)
     mean = points.mean(axis=0)
-    median = np.median(points, axis=0)
-    confidence_intervals: dict[str, list[float]] = {}
-    for dim_idx in range(points.shape[1]):
-        dimension_mean = float(mean[dim_idx])
-        if len(points) > 1:
-            standard_error = float(stats.sem(points[:, dim_idx]))
-            if np.isfinite(standard_error) and not math.isclose(standard_error, 0.0):
-                ci = stats.t.interval(
-                    0.95,
-                    len(points) - 1,
-                    loc=dimension_mean,
-                    scale=standard_error,
-                )
-            else:
-                ci = (dimension_mean, dimension_mean)
-        else:
-            ci = (dimension_mean, dimension_mean)
-        confidence_intervals[f"dimension_{dim_idx + 1}"] = [
-            float(ci[0]),
-            float(ci[1]),
-        ]
-
+    sd = points.std(axis=0, ddof=1) if n > 1 else np.full(points.shape[1], np.nan)
+    margin = stats.t.ppf(.975, n-1) * sd / np.sqrt(n) if n > 1 else sd
+    iqr = np.percentile(points, 75, axis=0) - np.percentile(points, 25, axis=0)
     return {
-        "n": int(len(points)),
-        "mean_point": [float(value) for value in mean],
-        "median_point": [float(value) for value in median],
-        "confidence_interval_95": confidence_intervals,
+        "n": n, "mean_point": mean.tolist(),
+        "median_point": np.median(points, axis=0).tolist(),
+        "sd": sd.tolist(), "iqr": iqr.tolist(),
+        "confidence_interval_95": {f"dimension_{i+1}": [float(mean[i]-margin[i]), float(mean[i]+margin[i])]
+                                   for i in range(points.shape[1])},
+        "outlier_interval_offsets": [[float(-1.5*v), float(1.5*v)] for v in iqr],
     }
 
 
@@ -688,10 +733,9 @@ def summarize_ena_results(
     subtracted_mean_network: np.ndarray,
     top_n_edges: int = 5,
 ) -> dict[str, object]:
-    total_variance = float(np.sum(ena_set.eigenvalues)) if ena_set.eigenvalues.size else 0.0
-    explained_variance_ratio = (
-        (ena_set.eigenvalues / total_variance).tolist() if total_variance > 0 else [0.0 for _ in ena_set.eigenvalues]
-    )
+    total_variance = float(np.var(ena_set.points_for_projection, axis=0, ddof=1).sum())
+    explained_variance_ratio = (np.var(ena_set.points, axis=0, ddof=1) / total_variance
+                                if total_variance > 0 else np.full(ena_set.points.shape[1], np.nan))
     return {
         "groups": {
             "group_column": group_column,
@@ -703,7 +747,9 @@ def summarize_ena_results(
             "edges": int(len(ena_set.edge_labels)),
             "codes": list(ena_set.enadata.codes),
             "rotation_dimensions": int(ena_set.points.shape[1]),
-            "eigenvalues": [float(value) for value in ena_set.eigenvalues],
+            "eigenvalues": ena_set.eigenvalues.tolist() if ena_set.eigenvalues.size else None,
+            "rotation_method": ena_set.rotation_method,
+            "ordered": ena_set.enadata.ordered,
             "explained_variance_ratio": [float(value) for value in explained_variance_ratio],
         },
         "points": {
@@ -1150,7 +1196,7 @@ def generate_analysis_outputs(
         save_figure(fig, path)
 
     summary_path = output_dir / "statistical_summary.json"
-    summary_path.write_text(json.dumps(analysis_summary, indent=2), encoding="utf-8")
+    summary_path.write_text(json.dumps(json_safe(analysis_summary), indent=2, allow_nan=False), encoding="utf-8")
 
     return {
         "stats_summary": analysis_summary["statistics"],
@@ -1167,154 +1213,136 @@ def generate_analysis_outputs(
 
 
 def accumulate_data(
-    data: str | Path | Sequence[Record],
-    codes: Sequence[str],
-    units: Sequence[str],
-    conversation: Sequence[str],
-    metadata: Sequence[str] | None = None,
-    model: str = "EndPoint",
-    window: str = "MovingStanzaWindow",
-    window_size_back: int | float = 1,
-    window_size_forward: int | float = 0,
-    weight_by: str | Callable[[np.ndarray], np.ndarray] = "binary",
+    data: str | Path | Sequence[Record], codes: Sequence[str], units: Sequence[str],
+    conversation: Sequence[str], metadata: Sequence[str] | None = None,
+    model: str = "EndPoint", window: str = "MovingStanzaWindow",
+    window_size_back: int | float = 1, window_size_forward: int | float = 0,
+    weight_by: str | Callable = "binary", *, mask: np.ndarray | None = None,
+    ordered: bool = False, include_self: bool = True,
 ) -> ENAData:
+    """Accumulate finite nonnegative codes in input order within each conversation.
+
+    Backward zero and one both include the current row. Conversation windows
+    aggregate once per unit/conversation. A callable transforms each edge value
+    after co-occurrence construction, as in rENA's weight.by.
+
+    Ordered windows represent prior-code -> current-code transitions; this
+    explicit convention is experimental and is not tma context-tensor parity.
+    """
+    if ordered:
+        import warnings
+        warnings.warn("Ordered accumulation uses native temporal-transition semantics; rENA/tma context-tensor parity is not established.",RuntimeWarning,stacklevel=2)
     records = _coerce_records(data)
-    code_columns = _as_list(codes)
-    unit_columns = _as_list(units)
-    conversation_columns = _as_list(conversation)
-    metadata_columns = _as_list(metadata or [])
-    model = model.strip()
-    window = window.strip()
-
-    row_codes = np.vstack([_row_code_vector(row, code_columns) for row in records])
-    if weight_by == "binary":
-        row_codes = _binary_presence(row_codes)
-    elif callable(weight_by):
-        row_codes = np.vstack([weight_by(row) for row in row_codes])
+    if not records:
+        raise ValueError("ENA accumulation requires at least one input row.")
+    codes, units, conversation = _as_list(codes), _as_list(units), _as_list(conversation)
+    metadata = _as_list(metadata or [])
+    if len(codes) < 2 or len(set(codes)) != len(codes) or not units or not conversation:
+        raise ValueError("Provide distinct codes (at least two), unit and conversation columns.")
+    for row in records:
+        missing = set(codes + units + conversation + metadata) - row.keys()
+        if missing:
+            raise ValueError(f"Missing input columns: {sorted(missing)}")
+    if model not in {"EndPoint", "AccumulatedTrajectory", "SeparateTrajectory"}:
+        raise ValueError("Unsupported ENA model.")
+    if window not in {"MovingStanzaWindow", "Conversation"}:
+        raise ValueError("Unsupported ENA window.")
+    for size in [window_size_back, window_size_forward]:
+        if not (np.isposinf(size) or (np.isfinite(size) and size >= 0 and int(size) == size)):
+            raise ValueError("Window sizes must be nonnegative integers or positive infinity.")
+    if not callable(weight_by) and weight_by not in {"binary", "count", "counts"}:
+        raise ValueError("weight_by must be 'binary', 'count' or a scalar callable.")
+    row_codes = np.array([[_coerce_code_value(r[c]) for c in codes] for r in records], float)
+    if not np.isfinite(row_codes).all() or (row_codes < 0).any():
+        raise ValueError("ENA code values must be finite and nonnegative.")
+    pairs = ([(i, j) for j in range(len(codes)) for i in range(len(codes))
+              if include_self or i != j] if ordered else
+             [(i,j) for j in range(1,len(codes)) for i in range(j)])
+    labels = [f"{codes[i]}{'->' if ordered else '__'}{codes[j]}" for i,j in pairs]
+    if mask is None:
+        edge_mask = np.ones(len(pairs))
     else:
-        raise ValueError("weight_by must be 'binary' or a callable.")
-
-    unit_keys = [_merge_key(row, unit_columns) for row in records]
-    conversation_keys = [_merge_key(row, conversation_columns) for row in records]
-    if window == "Conversation":
-        conversation_keys = [tuple(list(conv_key) + list(unit_key)) for conv_key, unit_key in zip(conversation_keys, unit_keys)]
-        window_size_back = math.inf
-        window_size_forward = 0
-    convo_key_strings = ["::".join(map(str, key)) for key in conversation_keys]
-
-    row_vectors: list[np.ndarray] = []
-    row_unit_keys: list[tuple[object, ...]] = []
-    row_conversation_keys: list[tuple[object, ...]] = []
-
-    for idx, current_codes in enumerate(row_codes):
-        current_conversation = convo_key_strings[idx]
-        if window == "Conversation":
-            indices = [
-                row_index
-                for row_index, conversation_key in enumerate(convo_key_strings)
-                if conversation_key == current_conversation
-            ]
-        else:
-            indices = []
-            back_limit = idx if math.isinf(window_size_back) else max(0, idx - (int(window_size_back) - 1))
-            forward_limit = len(records) - 1 if math.isinf(window_size_forward) else min(len(records) - 1, idx + int(window_size_forward))
-            for candidate in range(back_limit, forward_limit + 1):
-                if convo_key_strings[candidate] == current_conversation:
-                    indices.append(candidate)
-
-        stanza_codes = row_codes[indices]
-        stanza_sum = stanza_codes.sum(axis=0)
-        window_vector = _vectorize_upper_triangle(np.outer(stanza_sum, stanza_sum))
-
-        if window != "Conversation":
-            past_indices = [candidate for candidate in indices if candidate < idx]
-            if past_indices:
-                past_sum = row_codes[past_indices].sum(axis=0)
-                window_vector = window_vector - _vectorize_upper_triangle(np.outer(past_sum, past_sum))
-
-            future_indices = [candidate for candidate in indices if candidate > idx]
-            if future_indices:
-                future_sum = row_codes[future_indices].sum(axis=0)
-                window_vector = window_vector - _vectorize_upper_triangle(np.outer(future_sum, future_sum))
-
+        mask = np.asarray(mask, float)
+        edge_mask = np.array([mask[i,j] for i,j in pairs]) if mask.shape == (len(codes),len(codes)) else mask
+        if edge_mask.shape != (len(pairs),) or not np.isfinite(edge_mask).all():
+            raise ValueError("mask must be a finite code-by-code matrix or edge vector.")
+    unit_keys = [_merge_key(r, units) for r in records]
+    conv_keys = [_merge_key(r, conversation) for r in records]
+    contexts = {}
+    for i,k in enumerate(conv_keys):
+        key = (k, unit_keys[i]) if window == "Conversation" else k
+        contexts.setdefault(key, []).append(i)
+    row_vectors, row_units, row_convs, row_indices = [], [], [], []
+    def transform(matrix):
+        v = np.array([matrix[i,j] for i,j in pairs])
         if weight_by == "binary":
-            window_vector = (window_vector > 0).astype(float)
-
-        row_vectors.append(window_vector)
-        row_unit_keys.append(unit_keys[idx])
-        row_conversation_keys.append(conversation_keys[idx])
-
-    row_matrix = np.vstack(row_vectors) if row_vectors else np.empty((0, len(_vector_labels(code_columns))))
-    edge_labels = _vector_labels(code_columns)
-
-    if model == "EndPoint":
-        grouped: dict[tuple[object, ...], np.ndarray] = {}
-        grouped_meta: dict[tuple[object, ...], dict[str, object]] = {}
-        for row_idx, unit_key in enumerate(row_unit_keys):
-            grouped.setdefault(unit_key, np.zeros(row_matrix.shape[1], dtype=float))
-            grouped[unit_key] += row_matrix[row_idx]
-            grouped_meta.setdefault(
-                unit_key,
-                {column: records[row_idx].get(column) for column in metadata_columns},
-            )
-        accumulated_keys = list(grouped.keys())
-        accumulated_matrix = np.vstack([grouped[key] for key in accumulated_keys])
-        unit_metadata = [grouped_meta[key] for key in accumulated_keys]
-        unit_labels = ["::".join(map(str, key)) for key in accumulated_keys]
-        trajectory_steps = None
-    elif model in {"AccumulatedTrajectory", "SeparateTrajectory"}:
-        grouped_rows: dict[tuple[tuple[object, ...], tuple[object, ...]], np.ndarray] = {}
-        grouped_meta = {}
-        for row_idx, unit_key in enumerate(row_unit_keys):
-            combo_key = (unit_key, row_conversation_keys[row_idx])
-            grouped_rows.setdefault(combo_key, np.zeros(row_matrix.shape[1], dtype=float))
-            grouped_rows[combo_key] += row_matrix[row_idx]
-            grouped_meta.setdefault(
-                combo_key,
-                {column: records[row_idx].get(column) for column in metadata_columns},
-            )
-
-        ordered_combo_keys = list(grouped_rows.keys())
+            v = (v > 0).astype(float)
+        elif callable(weight_by):
+            v = np.array([weight_by(float(x)) for x in v],float)
+        if not np.isfinite(v).all():
+            raise ValueError("weight_by produced nonfinite values.")
+        return v
+    for indices in contexts.values():
+        if window == "Conversation":
+            summed = row_codes[indices].sum(axis=0)
+            if ordered:
+                raise ValueError("Ordered Conversation windows are ambiguous; use MovingStanzaWindow.")
+            row_vectors.append(transform(np.outer(summed,summed)))
+            row_units.append(unit_keys[indices[0]]);row_convs.append(conv_keys[indices[0]]);row_indices.append(indices[0])
+            continue
+        for local, idx in enumerate(indices):
+            start = 0 if np.isinf(window_size_back) else max(0,local-max(int(window_size_back)-1,0))
+            stop = len(indices) if np.isinf(window_size_forward) else min(len(indices),local+int(window_size_forward)+1)
+            selected = indices[start:stop]
+            if ordered:
+                past = indices[start:local]
+                mat = np.outer(row_codes[past].sum(axis=0),row_codes[idx]) if past else np.zeros((len(codes),len(codes)))
+                if window_size_forward:
+                    future = indices[local+1:stop]
+                    mat += np.outer(row_codes[idx],row_codes[future].sum(axis=0))
+            else:
+                summed = row_codes[selected].sum(axis=0)
+                mat = np.outer(summed,summed)
+                # rENA 0.3.0 subtracts a head count based on the REQUESTED
+                # forward window, including when the window is truncated at
+                # the end. Preserve that observable count-weight behavior.
+                head_count = (max(0, len(selected)-1-int(window_size_forward))
+                              if window_size_back > 1 and local > 0 and np.isfinite(window_size_forward) else 0)
+                for subset in (selected[:head_count],indices[local+1:stop]):
+                    if subset:
+                        part = row_codes[subset].sum(axis=0)
+                        mat -= np.outer(part,part)
+            row_vectors.append(transform(mat));row_units.append(unit_keys[idx]);row_convs.append(conv_keys[idx]);row_indices.append(idx)
+    # Restore input appearance order after grouping contexts.
+    order = np.argsort(row_indices,kind="stable")
+    row_vectors = np.asarray(row_vectors)[order]
+    row_units = [row_units[i] for i in order];row_convs=[row_convs[i] for i in order]
+    row_indices = [row_indices[i] for i in order]
+    grouped, group_meta = {}, {}
+    for v,u,c,idx in zip(row_vectors,row_units,row_convs,row_indices):
+        key = u if model == "EndPoint" else (u,c)
+        grouped.setdefault(key,np.zeros(len(pairs)))
+        grouped[key] += v
+        group_meta.setdefault(key,{col:records[idx][col] for col in metadata})
+    keys = list(grouped)
+    # rENA's accumulated trajectories are grouped by unit, retaining step appearance order.
+    if model == "AccumulatedTrajectory":
+        keys = [k for u in dict.fromkeys(row_units) for k in keys if k[0] == u]
+    accumulated, running = [], {}
+    for k in keys:
+        v = grouped[k].copy()
         if model == "AccumulatedTrajectory":
-            running: dict[tuple[object, ...], np.ndarray] = {}
-            accumulated_rows = []
-            for unit_key, convo_key in ordered_combo_keys:
-                running.setdefault(unit_key, np.zeros(row_matrix.shape[1], dtype=float))
-                running[unit_key] += grouped_rows[(unit_key, convo_key)]
-                accumulated_rows.append(running[unit_key].copy())
-        else:
-            accumulated_rows = [grouped_rows[key] for key in ordered_combo_keys]
-
-        accumulated_matrix = np.vstack(accumulated_rows)
-        unit_labels = [
-            "::".join(map(str, unit_key)) + "::" + "::".join(map(str, convo_key))
-            for unit_key, convo_key in ordered_combo_keys
-        ]
-        unit_metadata = [grouped_meta[key] for key in ordered_combo_keys]
-        accumulated_keys = [key[0] for key in ordered_combo_keys]
-        trajectory_steps = [key[1] for key in ordered_combo_keys]
-    else:
-        raise ValueError("model must be EndPoint, AccumulatedTrajectory, or SeparateTrajectory.")
-
-    return ENAData(
-        records=records,
-        codes=code_columns,
-        units=unit_columns,
-        conversation=conversation_columns,
-        metadata=metadata_columns,
-        model=model,
-        window=window,
-        window_size_back=window_size_back,
-        window_size_forward=window_size_forward,
-        unit_keys=accumulated_keys,
-        conversation_keys=row_conversation_keys,
-        edge_labels=edge_labels,
-        adjacency_vectors=row_matrix,
-        accumulated_vectors=accumulated_matrix,
-        unit_labels=unit_labels,
-        unit_metadata=unit_metadata,
-        trajectory_steps=trajectory_steps,
-    )
+            running.setdefault(k[0],np.zeros(len(pairs)));running[k[0]] += v;v=running[k[0]].copy()
+        accumulated.append(v * edge_mask)
+    options = dict(weight_by=weight_by, mask=None if mask is None else np.asarray(mask).copy(),
+                   include_self=include_self)
+    return ENAData(records=records,codes=codes,units=units,conversation=conversation,metadata=metadata,
+        model=model,window=window,window_size_back=window_size_back,window_size_forward=window_size_forward,
+        unit_keys=keys if model == "EndPoint" else [k[0] for k in keys],
+        conversation_keys=conv_keys,edge_labels=labels,adjacency_vectors=row_vectors,
+        accumulated_vectors=np.array(accumulated),unit_labels=["::".join(map(str,k if model == "EndPoint" else k[0]+k[1])) for k in keys],
+        unit_metadata=[group_meta[k] for k in keys],trajectory_steps=None if model == "EndPoint" else [k[1] for k in keys],
+        ordered=ordered,accumulation_options=options)
 
 
 def _least_squares_node_positions(line_weights: np.ndarray, points: np.ndarray, code_count: int) -> np.ndarray:
@@ -1331,119 +1359,28 @@ def _least_squares_node_positions(line_weights: np.ndarray, points: np.ndarray, 
     return ss_x.T, centroids
 
 
-def make_set(
-    enadata: ENAData,
-    dimensions: int = 2,
-    rotation: str = "svd",
-    group_column: str | None = None,
-    groups: tuple[object, object] | None = None,
-) -> ENASet:
-    line_weights = sphere_normalize(enadata.accumulated_vectors)
-    points_for_projection, center_vector = _center_rows(line_weights)
-
-    if rotation == "svd":
-        rotation_matrix, eigenvalues = svd_rotation(points_for_projection, dimensions=dimensions)
-    elif rotation == "mean":
-        if group_column is None or groups is None:
-            raise ValueError("group_column and groups are required for means rotation.")
-        metadata_values = [meta.get(group_column) for meta in enadata.unit_metadata]
-        group_a_mask = [value == groups[0] for value in metadata_values]
-        group_b_mask = [value == groups[1] for value in metadata_values]
-        rotation_matrix, eigenvalues = rotate_by_mean(
-            points_for_projection,
-            group_a_mask=group_a_mask,
-            group_b_mask=group_b_mask,
-            dimensions=dimensions,
-        )
-    else:
-        raise ValueError("rotation must be 'svd' or 'mean'.")
-
-    points = points_for_projection @ rotation_matrix
-    if rotation == "mean" and group_column is not None and groups is not None and points.shape[1] > 0:
-        metadata_values = [meta.get(group_column) for meta in enadata.unit_metadata]
-        group_a_mask = np.asarray([value == groups[0] for value in metadata_values], dtype=bool)
-        group_b_mask = np.asarray([value == groups[1] for value in metadata_values], dtype=bool)
-        if group_a_mask.any() and group_b_mask.any():
-            mean_a = points[group_a_mask, 0].mean()
-            mean_b = points[group_b_mask, 0].mean()
-            # Match rENA orientation where the first group's mean is typically on the negative side.
-            if mean_a > mean_b:
-                rotation_matrix[:, 0] *= -1
-                points[:, 0] *= -1
-        if points.shape[1] > 1 and group_a_mask.any() and group_b_mask.any():
-            median_a_dim2 = np.median(points[group_a_mask, 1])
-            median_b_dim2 = np.median(points[group_b_mask, 1])
-            # Match rENA handbook output where both groups' second-dimension medians are negative.
-            if median_a_dim2 > 0 or median_b_dim2 > 0:
-                rotation_matrix[:, 1] *= -1
-                points[:, 1] *= -1
-
-    non_zero_mask = np.linalg.norm(line_weights, axis=1) > 0
-    if np.any(non_zero_mask):
-        try:
-            node_positions, centroids = _least_squares_node_positions(
-                line_weights[non_zero_mask],
-                points[non_zero_mask],
-                len(enadata.codes),
-            )
-        except np.linalg.LinAlgError as exc:
-            raise ValueError(
-                _format_singular_matrix_diagnostics(
-                    enadata=enadata,
-                    line_weights=line_weights,
-                    non_zero_mask=non_zero_mask,
-                )
-            ) from exc
-        centroid_mean = centroids.mean(axis=0)
-        node_positions = node_positions - centroid_mean
-    else:
-        node_positions = np.zeros((len(enadata.codes), points.shape[1]), dtype=float)
-
-    return ENASet(
-        enadata=enadata,
-        line_weights=line_weights,
-        points_for_projection=points_for_projection,
-        rotation_matrix=rotation_matrix,
-        eigenvalues=eigenvalues,
-        points=points,
-        center_vector=center_vector,
-        node_positions=node_positions,
-    )
+def make_set(enadata: ENAData, dimensions: int = 2, rotation="svd",
+             group_column: str | None = None, groups: tuple | None = None, **options) -> ENASet:
+    from .pipeline import fit_model
+    try:
+        return fit_model(enadata, dimensions=dimensions, rotation=rotation,
+                         group_column=group_column, groups=groups, **options)
+    except np.linalg.LinAlgError as exc:
+        if enadata.ordered:
+            raise ValueError("Directed node positioning failed: rank-deficient system. Choose node_position_method='lstsq' explicitly to use a robust solver.") from exc
+        weights=sphere_normalize(enadata.accumulated_vectors)
+        raise ValueError(_format_singular_matrix_diagnostics(
+            enadata=enadata,line_weights=weights,non_zero_mask=np.linalg.norm(weights,axis=1)>0)) from exc
 
 
-def ena(
-    data: str | Path | Sequence[Record],
-    codes: Sequence[str],
-    units: Sequence[str],
-    conversation: Sequence[str],
-    metadata: Sequence[str] | None = None,
-    model: str = "EndPoint",
-    window: str = "MovingStanzaWindow",
-    window_size_back: int | float = 1,
-    window_size_forward: int | float = 0,
-    rotation: str = "svd",
-    dimensions: int = 2,
-    group_column: str | None = None,
-    groups: tuple[object, object] | None = None,
-) -> ENASet:
-    enadata = accumulate_data(
-        data=data,
-        codes=codes,
-        units=units,
-        conversation=conversation,
-        metadata=metadata,
-        model=model,
-        window=window,
-        window_size_back=window_size_back,
-        window_size_forward=window_size_forward,
-    )
-    return make_set(
-        enadata=enadata,
-        dimensions=dimensions,
-        rotation=rotation,
-        group_column=group_column,
-        groups=groups,
-    )
+def ena(data, codes, units, conversation, metadata=None, model="EndPoint",
+        window="MovingStanzaWindow", window_size_back=1, window_size_forward=0,
+        rotation="svd", dimensions=2, group_column=None, groups=None, *,
+        weight_by="binary", mask=None, ordered=False, include_self=True, **options):
+    enadata = accumulate_data(data, codes, units, conversation, metadata, model, window,
+                             window_size_back, window_size_forward, weight_by,
+                             mask=mask, ordered=ordered, include_self=include_self)
+    return make_set(enadata, dimensions, rotation, group_column, groups, **options)
 
 
 def mean_network(ena_set: ENASet, mask: Sequence[bool] | None = None) -> np.ndarray:
@@ -1503,6 +1440,14 @@ def plot_network(
     multiplier: float = 1.0,
     node_size: tuple[float, float] = (15.0, 55.0),
 ):
+    if ena_set.enadata.ordered:
+        from .visualization import ena_plot, add_network
+        import matplotlib.pyplot as plt
+        plot=ena_plot(ena_set,title or 'Directed ENA')
+        if ax is not None:
+            plt.close(plot.figure);plot.figure=ax.figure;plot.ax=ax
+        add_network(plot,network,colors=colors,multiplier=multiplier*5,thin_lines_in_front=thin_lines_in_front)
+        return plot.ax
     try:
         import matplotlib.pyplot as plt
     except ModuleNotFoundError as exc:
@@ -1594,3 +1539,33 @@ def plot_network(
     if legend_handles is not None:
         ax.legend(handles=legend_handles)
     return ax
+
+
+def fun_cohens_d(x, y):
+    """rENA's absolute pooled-sample-SD Cohen's d (including undefined values)."""
+    x=_test_vector(x,2,"Cohen's d");y=_test_vector(y,2,"Cohen's d")
+    pooled=np.sqrt(((len(x)-1)*np.var(x,ddof=1)+(len(y)-1)*np.var(y,ddof=1))/(len(x)+len(y)-2))
+    with np.errstate(divide='ignore',invalid='ignore'):
+        return float(np.divide(abs(np.mean(x)-np.mean(y)),pooled))
+
+
+def ena_group(ena_set, by, method=np.mean, names=None):
+    """Aggregate points and edge columns by metadata, group keys or a row mask."""
+    n=len(ena_set.points)
+    if isinstance(by,str):keys=[m[by] for m in ena_set.enadata.unit_metadata]
+    else:
+        values=np.asarray(by)
+        if values.dtype==bool:
+            if values.shape!=(n,):raise ValueError("Group mask length mismatch.")
+            if not values.any():raise ValueError("Group is empty.")
+            return {names or 'selected':{'n':int(values.sum()),
+                'points':np.apply_along_axis(method,0,ena_set.points[values]),
+                'line_weights':np.apply_along_axis(method,0,ena_set.line_weights[values])}}
+        keys=[tuple(k) if isinstance(k,(list,np.ndarray)) else k for k in by]
+    if len(keys)!=n:raise ValueError("One grouping value per unit is required.")
+    result={}
+    for key in dict.fromkeys(keys):
+        mask=np.array([k==key for k in keys])
+        result[key]={'n':int(mask.sum()),'points':np.apply_along_axis(method,0,ena_set.points[mask]),
+                      'line_weights':np.apply_along_axis(method,0,ena_set.line_weights[mask])}
+    return result

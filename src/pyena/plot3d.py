@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from .reporting import json_safe
 from pathlib import Path
 
 import numpy as np
@@ -21,6 +22,9 @@ def plot_network_3d(
     thickness: tuple[float, float] = (1.0, 8.0),
     node_size: float = 8.0,
 ):
+    if ena_set.enadata.ordered:
+        from .visualization import plot_ordered_network_3d
+        return plot_ordered_network_3d(ena_set,network,title=title,colors=colors)
     try:
         import plotly.graph_objects as go
     except ModuleNotFoundError as exc:
@@ -245,6 +249,9 @@ def plot_network_with_points_3d(
     ),
     node_size: float = 8.0,
 ):
+    if ena_set.enadata.ordered:
+        from .visualization import plot_ordered_network_3d
+        return plot_ordered_network_3d(ena_set,network,title=title,colors=colors,point_groups=point_groups)
     try:
         import plotly.graph_objects as go
     except ModuleNotFoundError as exc:
@@ -957,7 +964,7 @@ def generate_analysis_outputs_3d(
     save_figure_html(subtracted_individual_fig, subtracted_individual_path)
 
     summary_path = output_dir / "statistical_summary.json"
-    summary_path.write_text(json.dumps(analysis_summary, indent=2), encoding="utf-8")
+    summary_path.write_text(json.dumps(json_safe(analysis_summary), indent=2, allow_nan=False), encoding="utf-8")
 
     figure_paths = [
         path_a,
